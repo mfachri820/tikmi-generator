@@ -10,7 +10,7 @@ apps/collab        Hocuspocus server (Yjs co-editing, snapshots in packages/db)
 packages/scoring   Pure TypeScript scoring engine; weights/thresholds/cell refs come from config, never hard-coded
 packages/template  Template layout extraction, input-cell read/write, ExcelJS writer
 packages/db        Drizzle schema and Postgres client
-scripts/           extract-template, import-2026-responses, golden-test runner
+scripts/           extract-template, import-2026-responses, golden-test runner, template-roundtrip-spike
 ```
 
 ## Setup
@@ -40,7 +40,8 @@ Run a workspace's own scripts with `npm run <script> -w @ira/<name>` (e.g. `npm 
 
 Phase 0's scoring-parity risk is effectively cleared: `packages/scoring/config/2026.ts` encodes the real 2026 weights, thresholds and the final-IRA matrix (reverse-engineered from the template's formulas, identical across all 66 fixtures), and the engine reproduces the cached values in 65/66 files exactly, with the 66th being a known malformed source file rather than a logic gap.
 
-Still open before Phase 0 is fully done:
-- The **template export round-trip spike** — confirming ExcelJS preserves styles, data validation and hidden sheets when writing back into the real template — hasn't been run yet.
+The **template export round-trip spike** also passed: `scripts/template-roundtrip-spike.ts` opens a real fixture, snapshots its styles/merges/data validations/conditional formatting/defined names/column widths/row heights/freeze panes/hidden-sheet states, writes one input cell through `fillTemplate`, re-opens the output, and diffs. Run against 3 fixtures (a plain one, the drifted PT Omnipay file, and one with a real pengawas override) — **0 differences** every time; formulas and their cached results are untouched. Run it yourself with `IRA_FIXTURES_DIR="<path>" npx tsx scripts/template-roundtrip-spike.ts [optional-specific-file.xlsx]`.
+
+Both Phase 0 spikes are now cleared. Still open before moving to the UI:
 - The scoring config's `share` inputs are currently read directly from each fixture's cached `C2` cells (proving the A2/KPMR porting is correct). Computing those shares from raw form answers (the `C2` sheet's own formulas, and the field mappings from Google Form question IDs) is separate, later work for the "Generate" workflow.
 - No UI yet.
