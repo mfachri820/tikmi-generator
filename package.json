@@ -1,0 +1,25 @@
+{
+  "name": "ira-pjp",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @ira/web",
+    "build": "npm run build -w @ira/web",
+    "lint": "npm run lint -w @ira/web",
+    "test": "npm run test --workspaces --if-present",
+    "golden-test": "tsx scripts/golden-test.ts"
+  },
+  "dependencies": {
+    "@ira/db": "*",
+    "@ira/scoring": "*",
+    "@ira/template": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}
