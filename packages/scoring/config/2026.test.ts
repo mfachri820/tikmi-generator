@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { scoringConfig2026, parameterShareRefs } from "./2026.js";
+import { scoringConfig2026, parameterShareRefs } from "./2026";
 
 describe("2026 scoring config", () => {
   it("has the 35 A2 parameter rows the build plan lists", () => {

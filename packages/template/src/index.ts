@@ -1,5 +1,5 @@
-export { parseCellRef, formatCellRef, type CellRef } from "./cellRef.js";
-export { findColumnByHeader } from "./findColumn.js";
-export { extractLayout, type ExtractedLayout, type LayoutSheet, type LayoutCell } from "./layout.js";
-export { readInputCells, writeInputCells, type CellInputValue } from "./inputCells.js";
-export { fillTemplate } from "./writeWorkbook.js";
+export { parseCellRef, formatCellRef, type CellRef } from "./cellRef";
+export { findColumnByHeader } from "./findColumn";
+export { extractLayout, type ExtractedLayout, type LayoutSheet, type LayoutCell } from "./layout";
+export { readInputCells, writeInputCells, type CellInputValue } from "./inputCells";
+export { fillTemplate } from "./writeWorkbook";

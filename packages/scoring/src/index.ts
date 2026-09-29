@@ -1,21 +1,21 @@
-import { combineCategories, computeCategoryScores } from "./categoryScore.js";
-import { applyDataMismatchPenalty, finalIraFromMatrix } from "./finalIra.js";
-import { overallFromPillarAverages, pillarAverages, resolveKpmrAnswers } from "./kpmr.js";
-import { resolveParameter, type ResolvedParameter } from "./parameterScore.js";
-import { predikatFromScore } from "./predikat.js";
-import type { ScoringConfig, WorkbookScoringInput } from "./types.js";
+import { combineCategories, computeCategoryScores } from "./categoryScore";
+import { applyDataMismatchPenalty, finalIraFromMatrix } from "./finalIra";
+import { overallFromPillarAverages, pillarAverages, resolveKpmrAnswers } from "./kpmr";
+import { resolveParameter, type ResolvedParameter } from "./parameterScore";
+import { predikatFromScore } from "./predikat";
+import type { ScoringConfig, WorkbookScoringInput } from "./types";
 
-export * from "./types.js";
-export { resolveParameter, scoreFromRule } from "./parameterScore.js";
-export { computeCategoryScores, combineCategories } from "./categoryScore.js";
-export { predikatFromScore } from "./predikat.js";
+export * from "./types";
+export { resolveParameter, scoreFromRule } from "./parameterScore";
+export { computeCategoryScores, combineCategories } from "./categoryScore";
+export { predikatFromScore } from "./predikat";
 export {
   resolveKpmrAnswers,
   pillarAverages,
   overallFromPillarAverages,
   type ResolvedKpmrAnswer,
-} from "./kpmr.js";
-export { finalIraFromMatrix, applyDataMismatchPenalty } from "./finalIra.js";
+} from "./kpmr";
+export { finalIraFromMatrix, applyDataMismatchPenalty } from "./finalIra";
 
 export interface WorkbookScoringResult {
   parameters: ResolvedParameter[];

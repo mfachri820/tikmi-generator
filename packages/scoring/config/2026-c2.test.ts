@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeC2Derived } from "./2026-c2.js";
+import { computeC2Derived } from "./2026-c2";
 
 describe("computeC2Derived", () => {
   it("derives a share as numerator / group denominator", () => {

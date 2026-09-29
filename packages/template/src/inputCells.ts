@@ -1,5 +1,5 @@
 import type { Workbook } from "exceljs";
-import { parseCellRef } from "./cellRef.js";
+import { parseCellRef } from "./cellRef";
 
 export type CellInputValue = string | number | boolean | Date | null;
 

@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import { describe, expect, it } from "vitest";
-import { formatCellRef, parseCellRef } from "./cellRef.js";
-import { readInputCells, writeInputCells } from "./inputCells.js";
+import { formatCellRef, parseCellRef } from "./cellRef";
+import { readInputCells, writeInputCells } from "./inputCells";
 
 describe("cellRef", () => {
   it("round-trips a sheet name that itself contains no special characters", () => {

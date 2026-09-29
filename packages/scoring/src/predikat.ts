@@ -1,4 +1,4 @@
-import type { PredikatRule } from "./types.js";
+import type { PredikatRule } from "./types";
 
 /** Highest-scoring rule whose minScore the value clears, so rules can be given in any order. */
 export function predikatFromScore(score: number, rules: PredikatRule[]): string {

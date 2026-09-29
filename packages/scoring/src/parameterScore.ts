@@ -1,4 +1,4 @@
-import type { ParameterConfig, ParameterInput, ParameterRule, Score } from "./types.js";
+import type { ParameterConfig, ParameterInput, ParameterRule, Score } from "./types";
 
 export function scoreFromRule(share: number, rule: ParameterRule): Score {
   if (rule.kind === "maxShare") {

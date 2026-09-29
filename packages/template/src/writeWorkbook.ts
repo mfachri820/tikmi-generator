@@ -1,6 +1,6 @@
 import ExcelJS from "exceljs";
-import type { CellInputValue } from "./inputCells.js";
-import { writeInputCells } from "./inputCells.js";
+import type { CellInputValue } from "./inputCells";
+import { writeInputCells } from "./inputCells";
 
 /**
  * Opens the untouched template, writes only the given input cells, forces a

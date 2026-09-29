@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { computeWorkbookScores } from "./index.js";
-import type { ScoringConfig } from "./types.js";
+import { computeWorkbookScores } from "./index";
+import type { ScoringConfig } from "./types";
 
 /**
  * Synthetic config with two categories, one form parameter and one manual
@@ -16,6 +16,7 @@ const config: ScoringConfig = {
       category: "CatA",
       weight: 1,
       cellRef: "Sheet!O1",
+      label: "Test parameter",
       rule: {
         kind: "maxShare",
         thresholds: [
@@ -34,6 +35,7 @@ const config: ScoringConfig = {
       weight: 1,
       cellRef: "Sheet!O2",
       defaultScore: 5,
+      label: "Test manual parameter",
     },
   ],
   kpmrQuestions: [

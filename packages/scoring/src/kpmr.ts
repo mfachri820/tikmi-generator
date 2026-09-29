@@ -1,4 +1,4 @@
-import type { KpmrAnswerInput, KpmrQuestionConfig } from "./types.js";
+import type { KpmrAnswerInput, KpmrQuestionConfig } from "./types";
 
 export interface ResolvedKpmrAnswer {
   id: string;

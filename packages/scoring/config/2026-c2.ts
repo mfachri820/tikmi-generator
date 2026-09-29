@@ -1,4 +1,4 @@
-import { computeShare } from "../src/shares.js";
+import { computeShare } from "../src/shares";
 
 /**
  * The 2026 template's "C2. Form PJP LR" sheet: typed values in column C,

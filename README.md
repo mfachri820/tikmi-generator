@@ -46,6 +46,12 @@ Phase 0's scoring-parity risk is effectively cleared, and the pipeline now runs 
 
 The **template export round-trip spike** also passed: `scripts/template-roundtrip-spike.ts` opens a real fixture, snapshots its styles/merges/data validations/conditional formatting/defined names/column widths/row heights/freeze panes/hidden-sheet states, writes one input cell through `fillTemplate`, re-opens the output, and diffs. Run against 3 fixtures (a plain one, the drifted PT Omnipay file, and one with a real pengawas override) — **0 differences** every time; formulas and their cached results are untouched. Run it yourself with `IRA_FIXTURES_DIR="<path>" npx tsx scripts/template-roundtrip-spike.ts [optional-specific-file.xlsx]`.
 
-Both Phase 0 spikes are cleared. Still open before moving to the UI:
-- Mapping the live Google Form's 148 response columns into C2's cells by **question ID** (not header text, per the build plan) needs the actual form/Apps Script access, which this environment doesn't have — the golden-test pipeline above proves the C2→A2→final-score math, not the form→C2 ingest step.
-- No UI yet.
+Both Phase 0 spikes are cleared.
+
+**First UI milestone:** `apps/web/app/workbook` renders the A2 sheet (all 35 parameters grouped by category, with Bobot/Nilai PJP/Nilai Pengawas/Catatan columns) and the KPMR sheet (31 questions in 5 pillars) as an interactive grid wired straight to `@ira/scoring`. Editing a pengawas score or KPMR answer, or toggling "Perbedaan Data", recalculates every category score, predikat and the final IRA live via `computeWorkbookScores`. Visit `/workbook` after `npm run dev`. It's a scoring demo, not the real workflow yet: PJP-side values are a fixed 0%-share/all-5 demo state, not read from any workbook, since form ingest isn't wired up (see below).
+
+Getting this working surfaced one non-obvious fix: the workspace packages' relative imports originally used NodeNext-style explicit `.js` extensions (pointing at `.ts` files, needed for `tsx`/Node ESM resolution). Since these packages' `tsconfig.json` actually specifies `moduleResolution: "bundler"`, that extension isn't required — and importing them into Next.js via `transpilePackages` needs a webpack `resolve.extensionAlias` to make sense of it, which applies globally and made every `.js` import in the entire dependency graph try `.ts`/`.tsx` first, effectively hanging the build. Dropping the extensions (verified against `tsx`, Vitest and `tsc` first) fixed it cleanly with no webpack config needed.
+
+Still open:
+- Mapping the live Google Form's 148 response columns into C2's cells by **question ID** (not header text, per the build plan) needs the actual form/Apps Script access, which this environment doesn't have — the golden-test pipeline proves the C2→A2→final-score math, not the form→C2 ingest step.
+- The grid doesn't read or write real workbook data yet (no `cell_inputs`/`workbooks` wiring, no persistence) — that's the next piece once the DB is seeded with a real template version.

@@ -39,6 +39,8 @@ export interface FormParameterConfig {
   /** Template address the pengawas score is written to, e.g. "A2. PJP ALL peng!O7". */
   cellRef: string;
   rule: ParameterRule;
+  /** The template's own "Parameter" (column F) description, in Bahasa Indonesia, for display. */
+  label: string;
 }
 
 export interface ManualParameterConfig {
@@ -49,6 +51,7 @@ export interface ManualParameterConfig {
   cellRef: string;
   /** Score assumed until a pengawas provides one ("Perlu Penilaian Pengawas"). */
   defaultScore: Score;
+  label: string;
 }
 
 export type ParameterConfig = FormParameterConfig | ManualParameterConfig;

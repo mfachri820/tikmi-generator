@@ -1,4 +1,4 @@
-import type { FinalIraMatrixEntry } from "./types.js";
+import type { FinalIraMatrixEntry } from "./types";
 
 export function finalIraFromMatrix(
   inherentPredikat: string,

@@ -12,12 +12,12 @@ import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import ExcelJS from "exceljs";
 import { computeWorkbookScores, type ParameterInput, type KpmrAnswerInput } from "@ira/scoring";
-import { scoringConfig2026, parameterShareRefs } from "../packages/scoring/config/2026.js";
+import { scoringConfig2026, parameterShareRefs } from "../packages/scoring/config/2026";
 import {
   computeC2Derived,
   totalTransactionCellRef,
   dataMismatchToleranceRupiah,
-} from "../packages/scoring/config/2026-c2.js";
+} from "../packages/scoring/config/2026-c2";
 
 const A2_SHEET = "A2. PJP ALL peng";
 const KPMR_SHEET = "B. KPMR 2025";

@@ -1,4 +1,4 @@
-import type { ResolvedParameter } from "./parameterScore.js";
+import type { ResolvedParameter } from "./parameterScore";
 
 export interface CategoryScores {
   /** Score per category, computed from pjpValue (no pengawas overrides). */
