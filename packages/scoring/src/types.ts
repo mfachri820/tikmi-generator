@@ -6,21 +6,39 @@
 
 export type Score = 1 | 2 | 3 | 4 | 5;
 
-export interface ShareThreshold {
-  /** Upper bound (inclusive) of the share this score applies to. Evaluated in order. */
-  maxShare: number;
-  score: Score;
+/**
+ * Score picked by the FIRST threshold (ascending by `maxShare`) the share
+ * clears, e.g. `share <= 0.2 -> 5`. This is how most of the template's plain
+ * `IF(share<=20%,5,IF(share<=40%,4,...))` chains work. A share of exactly a
+ * boundary value takes the *better* (higher) score.
+ */
+export interface MaxShareRule {
+  kind: "maxShare";
+  thresholds: { maxShare: number; score: Score }[];
 }
+
+/**
+ * Score picked by the LAST breakpoint (ascending by `minShare`) the share
+ * clears, e.g. breakpoints 0/0.02/0.04 -> 5/4/3 means a share of exactly
+ * 0.02 takes 4, not 5. This is how the template's `LOOKUP(share, {breakpoints}, {scores})`
+ * formulas work -- the opposite boundary convention from `maxShare`.
+ */
+export interface LookupMinRule {
+  kind: "lookupMin";
+  breakpoints: { minShare: number; score: Score }[];
+}
+
+export type ParameterRule = MaxShareRule | LookupMinRule;
 
 export interface FormParameterConfig {
   kind: "form";
   id: string;
   category: string;
-  /** Weight within `category`; weights of all parameters in a category should sum to 1. */
+  /** Weight within `category`; weights of a category's parameters are not guaranteed to sum to 1 -- port them as given, not as "should be". */
   weight: number;
   /** Template address the pengawas score is written to, e.g. "A2. PJP ALL peng!O7". */
   cellRef: string;
-  thresholds: ShareThreshold[];
+  rule: ParameterRule;
 }
 
 export interface ManualParameterConfig {
@@ -57,16 +75,17 @@ export interface ScoringConfig {
   categoryWeights: Record<string, number>;
   parameters: ParameterConfig[];
   kpmrQuestions: KpmrQuestionConfig[];
+  /** Also used to find the predikat of the final IRA score itself (same 1-5 scale). */
   inherentPredikatRules: PredikatRule[];
   kpmrPredikatRules: PredikatRule[];
   finalIraMatrix: FinalIraMatrixEntry[];
-  /** Subtracted from the final IRA score when the workbook shows "Perbedaan Data". */
+  /** Subtracted from the pengawas final IRA score when the workbook shows "Perbedaan Data", floored at 1. */
   dataMismatchPenalty: number;
 }
 
 export interface ParameterInput {
   id: string;
-  /** Share (0..1) derived from C2 form values; omitted for manual parameters. */
+  /** Share/value the rule is evaluated against; omitted for manual parameters. */
   share?: number;
   /** Pengawas override; when present it wins over the form-derived score. */
   pengawasScore?: Score;

@@ -1,13 +1,12 @@
 import { combineCategories, computeCategoryScores } from "./categoryScore.js";
-import { finalIraScore } from "./finalIra.js";
+import { applyDataMismatchPenalty, finalIraFromMatrix } from "./finalIra.js";
 import { overallFromPillarAverages, pillarAverages, resolveKpmrAnswers } from "./kpmr.js";
 import { resolveParameter, type ResolvedParameter } from "./parameterScore.js";
 import { predikatFromScore } from "./predikat.js";
 import type { ScoringConfig, WorkbookScoringInput } from "./types.js";
 
 export * from "./types.js";
-export { computeShare } from "./shares.js";
-export { resolveParameter, scoreFromShare } from "./parameterScore.js";
+export { resolveParameter, scoreFromRule } from "./parameterScore.js";
 export { computeCategoryScores, combineCategories } from "./categoryScore.js";
 export { predikatFromScore } from "./predikat.js";
 export {
@@ -16,7 +15,7 @@ export {
   overallFromPillarAverages,
   type ResolvedKpmrAnswer,
 } from "./kpmr.js";
-export { finalIraScore } from "./finalIra.js";
+export { finalIraFromMatrix, applyDataMismatchPenalty } from "./finalIra.js";
 
 export interface WorkbookScoringResult {
   parameters: ResolvedParameter[];
@@ -26,7 +25,13 @@ export interface WorkbookScoringResult {
   kpmrPillarAverages: { pjp: Record<string, number>; pengawas: Record<string, number> };
   kpmrOverall: { pjp: number; pengawas: number };
   kpmrPredikat: { pjp: string; pengawas: string };
-  finalIra: { pjp: number; pengawas: number };
+  /**
+   * Three distinct values, matching the template's F70/R70/S70: `pjp` and
+   * `pengawasRaw` are plain matrix lookups; `pengawasAdjusted` is the only
+   * one the "Perbedaan Data" penalty ever applies to.
+   */
+  finalIra: { pjp: number; pengawasRaw: number; pengawasAdjusted: number };
+  finalIraPredikat: { pjp: string; pengawasRaw: string; pengawasAdjusted: string };
 }
 
 /**
@@ -70,21 +75,31 @@ export function computeWorkbookScores(
     pengawas: predikatFromScore(kpmrOverall.pengawas, config.kpmrPredikatRules),
   };
 
+  const finalIraPjp = finalIraFromMatrix(
+    inherentPredikat.pjp,
+    kpmrPredikat.pjp,
+    config.finalIraMatrix,
+  );
+  const finalIraPengawasRaw = finalIraFromMatrix(
+    inherentPredikat.pengawas,
+    kpmrPredikat.pengawas,
+    config.finalIraMatrix,
+  );
+  const finalIraPengawasAdjusted = applyDataMismatchPenalty(
+    finalIraPengawasRaw,
+    input.hasDataMismatch,
+    config.dataMismatchPenalty,
+  );
+
   const finalIra = {
-    pjp: finalIraScore(
-      inherentPredikat.pjp,
-      kpmrPredikat.pjp,
-      config.finalIraMatrix,
-      input.hasDataMismatch,
-      config.dataMismatchPenalty,
-    ),
-    pengawas: finalIraScore(
-      inherentPredikat.pengawas,
-      kpmrPredikat.pengawas,
-      config.finalIraMatrix,
-      input.hasDataMismatch,
-      config.dataMismatchPenalty,
-    ),
+    pjp: finalIraPjp,
+    pengawasRaw: finalIraPengawasRaw,
+    pengawasAdjusted: finalIraPengawasAdjusted,
+  };
+  const finalIraPredikat = {
+    pjp: predikatFromScore(finalIraPjp, config.inherentPredikatRules),
+    pengawasRaw: predikatFromScore(finalIraPengawasRaw, config.inherentPredikatRules),
+    pengawasAdjusted: predikatFromScore(finalIraPengawasAdjusted, config.inherentPredikatRules),
   };
 
   return {
@@ -96,5 +111,6 @@ export function computeWorkbookScores(
     kpmrOverall,
     kpmrPredikat,
     finalIra,
+    finalIraPredikat,
   };
 }

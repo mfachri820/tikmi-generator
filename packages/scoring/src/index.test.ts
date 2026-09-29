@@ -16,13 +16,16 @@ const config: ScoringConfig = {
       category: "CatA",
       weight: 1,
       cellRef: "Sheet!O1",
-      thresholds: [
-        { maxShare: 0.2, score: 5 },
-        { maxShare: 0.4, score: 4 },
-        { maxShare: 0.6, score: 3 },
-        { maxShare: 0.8, score: 2 },
-        { maxShare: 1, score: 1 },
-      ],
+      rule: {
+        kind: "maxShare",
+        thresholds: [
+          { maxShare: 0.2, score: 5 },
+          { maxShare: 0.4, score: 4 },
+          { maxShare: 0.6, score: 3 },
+          { maxShare: 0.8, score: 2 },
+          { maxShare: 1, score: 1 },
+        ],
+      },
     },
     {
       kind: "manual",
@@ -73,6 +76,8 @@ describe("computeWorkbookScores", () => {
     expect(result.kpmrOverall.pjp).toBe(5);
     expect(result.kpmrPredikat.pjp).toBe("Kuat");
     expect(result.finalIra.pjp).toBe(5);
+    expect(result.finalIra.pengawasRaw).toBe(5);
+    expect(result.finalIra.pengawasAdjusted).toBe(5);
   });
 
   it("lets a pengawas override diverge from the PJP-derived score", () => {
@@ -92,8 +97,8 @@ describe("computeWorkbookScores", () => {
     expect(result.inherentScore.pjp).not.toBe(result.inherentScore.pengawas);
   });
 
-  it("subtracts the data-mismatch penalty from the final IRA score", () => {
-    const withMismatch = computeWorkbookScores(config, {
+  it("subtracts the data-mismatch penalty from the pengawas final IRA only, floored at 1", () => {
+    const result = computeWorkbookScores(config, {
       parameters: [{ id: "p1", share: 0.1 }],
       kpmrAnswers: [
         { id: "k1", pjpScore: 5 },
@@ -102,7 +107,9 @@ describe("computeWorkbookScores", () => {
       hasDataMismatch: true,
     });
 
-    expect(withMismatch.finalIra.pjp).toBe(4);
+    expect(result.finalIra.pjp).toBe(5);
+    expect(result.finalIra.pengawasRaw).toBe(5);
+    expect(result.finalIra.pengawasAdjusted).toBe(4);
   });
 
   it("treats an unanswered (n/a) KPMR question as excluded from its pillar average", () => {

@@ -29,13 +29,18 @@ Run a workspace's own scripts with `npm run <script> -w @ira/<name>` (e.g. `npm 
 ## Ground rules
 
 - Never commit PJP workbooks or form data. Tests and scripts read fixtures from the path in `IRA_FIXTURES_DIR`, which is never set in this repo.
-- No 2026 numbers in code: weights, thresholds and cell addresses live in template-version config (JSON), not in `packages/scoring` or `packages/template`.
+- No 2026 numbers in `packages/scoring/src` or `packages/template/src`: the engine logic there is generic. The actual 2026 weights/thresholds/cell refs live in `packages/scoring/config/2026.ts`, reverse-engineered from the template's own formulas. That file is template structure, not PJP data, so it's fine to commit — unlike anything read from `IRA_FIXTURES_DIR`.
 - Port the logic of the template's `LET`/`XLOOKUP` formulas into TypeScript; do not add a JS formula engine (see the build plan's "Alternatives considered").
-- Phase 0 gate: for all 66 fixture files, `packages/scoring` must reproduce the cached rekap values (A2 `F60:F71`, `R60:R71`, `S60:S71`) and KPMR `H46`/`J46` to 2 decimals. `scripts/golden-test.ts` extracts the cached baseline; the engine-vs-baseline diff still needs the real 2026 scoring config (an open decision in the build plan).
+- Phase 0 gate: for all 66 fixture files, `packages/scoring` must reproduce the cached rekap values (A2 `F60:F71`, `R60:R71`, `S60:S71`) and KPMR `H46`/`J46` to 2 decimals. **Status: 65/66 pass exactly.** Run it yourself with `IRA_FIXTURES_DIR="<path to the 01. raw data penilaian PJP LR folder>" npx tsx scripts/golden-test.ts`. The one failure is the file the build plan already flags (777111112, PT Omnipay Transfer Dana): it has a genuinely malformed layout — an extra column shifted through the *entire* rekap block (not just the leaf pengawas scores) plus a skipped column inside the predikat matrix — unique to that one file, not a gap in the engine or config.
 - Every write to an input cell goes through one function that records user, old value, new value and reason in `audit_log`.
-- Locate spreadsheet columns by header text, not by letter — one 2026 file has an extra column that shifts pengawas scores from `O` to `P`. `packages/template`'s `findColumnByHeader` does this.
+- Locate spreadsheet columns by header text, not by letter — one 2026 file has an extra column that shifts pengawas scores from `O` to `P`. `packages/template`'s `findColumnByHeader` does this; `scripts/golden-test.ts` does its own header-based lookup for the same reason.
 - UI labels in Bahasa Indonesia, taken from the template; code and comments in English.
 
 ## Status
 
-Phase 0 scaffold: monorepo layout, the scoring engine's pipeline (parameter shares → category scores → inherent predikat, KPMR pillar averages → predikat, final IRA lookup), the template package's layout extraction and safe input-cell writer, the Drizzle schema for the full data model, and script stubs for template extraction, response backfill and the golden-test runner. No UI yet, no real 2026 config yet — both need the open decisions in the build plan resolved first (template version, field mappings, weights/thresholds).
+Phase 0's scoring-parity risk is effectively cleared: `packages/scoring/config/2026.ts` encodes the real 2026 weights, thresholds and the final-IRA matrix (reverse-engineered from the template's formulas, identical across all 66 fixtures), and the engine reproduces the cached values in 65/66 files exactly, with the 66th being a known malformed source file rather than a logic gap.
+
+Still open before Phase 0 is fully done:
+- The **template export round-trip spike** — confirming ExcelJS preserves styles, data validation and hidden sheets when writing back into the real template — hasn't been run yet.
+- The scoring config's `share` inputs are currently read directly from each fixture's cached `C2` cells (proving the A2/KPMR porting is correct). Computing those shares from raw form answers (the `C2` sheet's own formulas, and the field mappings from Google Form question IDs) is separate, later work for the "Generate" workflow.
+- No UI yet.

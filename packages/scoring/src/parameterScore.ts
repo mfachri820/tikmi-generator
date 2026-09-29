@@ -1,15 +1,19 @@
-import type {
-  ParameterConfig,
-  ParameterInput,
-  Score,
-  ShareThreshold,
-} from "./types.js";
+import type { ParameterConfig, ParameterInput, ParameterRule, Score } from "./types.js";
 
-export function scoreFromShare(share: number, thresholds: ShareThreshold[]): Score {
-  for (const t of thresholds) {
-    if (share <= t.maxShare) return t.score;
+export function scoreFromRule(share: number, rule: ParameterRule): Score {
+  if (rule.kind === "maxShare") {
+    for (const t of rule.thresholds) {
+      if (share <= t.maxShare) return t.score;
+    }
+    return rule.thresholds[rule.thresholds.length - 1].score;
   }
-  return thresholds[thresholds.length - 1].score;
+
+  // lookupMin: last (highest) breakpoint the share clears, ascending order.
+  let picked = rule.breakpoints[0].score;
+  for (const b of rule.breakpoints) {
+    if (share >= b.minShare) picked = b.score;
+  }
+  return picked;
 }
 
 export interface ResolvedParameter {
@@ -30,9 +34,7 @@ export function resolveParameter(
   input: ParameterInput | undefined,
 ): ResolvedParameter {
   const pjpValue: Score =
-    config.kind === "form"
-      ? scoreFromShare(input?.share ?? 0, config.thresholds)
-      : config.defaultScore;
+    config.kind === "form" ? scoreFromRule(input?.share ?? 0, config.rule) : config.defaultScore;
 
   const pengawasValue = input?.pengawasScore ?? pjpValue;
 

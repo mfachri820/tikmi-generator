@@ -24,6 +24,9 @@ dist
 # S3-compatible storage (MinIO) data, if run locally
 /minio-data
 
+# Real PJP data pulled from IRA_FIXTURES_DIR -- never commit (see ground rules)
+/golden-values.json
+
 # misc
 .DS_Store
 *.pem
