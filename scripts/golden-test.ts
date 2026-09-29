@@ -12,16 +12,17 @@ import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import ExcelJS from "exceljs";
 import { computeWorkbookScores, type ParameterInput, type KpmrAnswerInput } from "@ira/scoring";
+import { scoringConfig2026, parameterShareRefs } from "../packages/scoring/config/2026.js";
 import {
-  scoringConfig2026,
-  parameterShareRefs,
-  hasDataMismatchCellRef,
-  hasDataMismatchValue,
-} from "../packages/scoring/config/2026.js";
+  computeC2Derived,
+  totalTransactionCellRef,
+  dataMismatchToleranceRupiah,
+} from "../packages/scoring/config/2026-c2.js";
 
 const A2_SHEET = "A2. PJP ALL peng";
 const KPMR_SHEET = "B. KPMR 2025";
 const C2_SHEET = "C2. Form PJP LR";
+const VALIDASI_SHEET = "Validasi Data Transaksi";
 const TOLERANCE = 0.005; // "to 2 decimals"
 
 function numericCellValue(raw: unknown): number {
@@ -66,6 +67,31 @@ function cellRange(column: string, from: number, to: number): string[] {
   return addresses;
 }
 
+/** Reads every plain-number cell in C2's column C -- the sheet's actual typed inputs, skipping formulas and labels. */
+function readRawC2Values(c2: ExcelJS.Worksheet): Record<string, number> {
+  const raw: Record<string, number> = {};
+  for (let row = 1; row <= c2.rowCount; row++) {
+    const value = c2.getCell(`C${row}`).value;
+    if (typeof value === "number") raw[`C${row}`] = value;
+  }
+  return raw;
+}
+
+/**
+ * Replicates C2!H18's `XLOOKUP` against BI's reference sheet: finds the row
+ * whose "Sandi - Nama" matches and returns its Total Nominal (column M).
+ */
+function findBiTotalNominal(workbook: ExcelJS.Workbook, sandiNama: string): number {
+  const sheet = workbook.getWorksheet(VALIDASI_SHEET);
+  if (!sheet) throw new Error(`Sheet "${VALIDASI_SHEET}" not found`);
+  for (let row = 2; row <= sheet.rowCount; row++) {
+    if (rawCellValue(sheet.getCell(`C${row}`).value) === sandiNama) {
+      return numericCellValue(sheet.getCell(`M${row}`).value);
+    }
+  }
+  throw new Error(`No "${VALIDASI_SHEET}" row matches "${sandiNama}"`);
+}
+
 function findWorkbookFiles(dir: string): string[] {
   const files: string[] = [];
   for (const entry of readdirSync(dir)) {
@@ -108,6 +134,12 @@ async function scoreFile(filePath: string) {
   const kpmrSheet = workbook.getWorksheet(KPMR_SHEET)!;
   const pengawasColumn = findPengawasColumn(a2);
 
+  // Derive every share from C2's raw typed C-column values (never a cached D-column
+  // or H18 result), so this proves the C2 formula porting, not just A2/KPMR.
+  const rawC = readRawC2Values(c2);
+  const derivedC2 = computeC2Derived(rawC);
+  const c2Values: Record<string, number> = { ...rawC, ...derivedC2 };
+
   const parameters: ParameterInput[] = scoringConfig2026.parameters.map((p) => {
     const row = Number(p.id);
     const pengawasRaw = a2.getRow(row).getCell(pengawasColumn).value;
@@ -116,7 +148,7 @@ async function scoreFile(filePath: string) {
       return { id: p.id, pengawasScore };
     }
     const refs = parameterShareRefs[p.id] ?? [];
-    const share = refs.reduce((sum, ref) => sum + numericCellValue(c2.getCell(ref).value), 0);
+    const share = refs.reduce((sum, ref) => sum + (c2Values[ref] ?? 0), 0);
     return { id: p.id, share, pengawasScore };
   });
 
@@ -132,9 +164,11 @@ async function scoreFile(filePath: string) {
     };
   });
 
-  const mismatchCellAddress = hasDataMismatchCellRef.split("!")[1];
-  const mismatchValue = rawCellValue(c2.getCell(mismatchCellAddress).value);
-  const hasDataMismatch = mismatchValue === hasDataMismatchValue;
+  // Replicates C2!H18: IF(ABS(C18-G18)<=1000,"Sesuai","Perbedaan Data").
+  const sandiNama = rawCellValue(c2.getCell("B2").value) as string;
+  const biTotalNominal = findBiTotalNominal(workbook, sandiNama);
+  const selfReportedTotal = c2Values[totalTransactionCellRef];
+  const hasDataMismatch = Math.abs(selfReportedTotal - biTotalNominal) > dataMismatchToleranceRupiah;
 
   const result = computeWorkbookScores(scoringConfig2026, {
     parameters,
