@@ -146,7 +146,7 @@ async function main() {
   const beforeValue = before.getWorksheet(C2_SHEET)!.getCell("C6").value;
   const newValue = (typeof beforeValue === "number" ? beforeValue : 0) + 12345;
 
-  await fillTemplate(sourcePath, outPath, new Map([[inputRef, newValue]]));
+  await fillTemplate(sourcePath, outPath, new Map([[inputRef, newValue]]), new Set([inputRef]));
   console.log(`Wrote ${inputRef} = ${newValue} (was ${JSON.stringify(beforeValue)}) -> ${outPath}`);
 
   const after = new ExcelJS.Workbook();

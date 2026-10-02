@@ -124,4 +124,18 @@ describe("computeWorkbookScores", () => {
     expect(result.kpmrPillarAverages.pjp).toEqual({ Pillar1: 3 });
     expect(result.kpmrOverall.pjp).toBe(3);
   });
+
+  it("returns #N/A like the template (instead of throwing) when a score is below every predikat rule", () => {
+    // A freshly generated workbook has no KPMR answers yet: average 0, below the lowest rule (1).
+    const result = computeWorkbookScores(
+      { ...config, kpmrPredikatRules: [{ label: "Kuat", minScore: 4 }, { label: "Lemah", minScore: 1 }] },
+      { parameters: [{ id: "p1", share: 0.1 }], kpmrAnswers: [], hasDataMismatch: true },
+    );
+
+    expect(result.kpmrOverall.pjp).toBe(0);
+    expect(result.kpmrPredikat.pjp).toBe("#N/A");
+    expect(result.finalIra.pjp).toBeNaN();
+    expect(result.finalIra.pengawasAdjusted).toBeNaN();
+    expect(result.finalIraPredikat.pengawasAdjusted).toBe("#N/A");
+  });
 });

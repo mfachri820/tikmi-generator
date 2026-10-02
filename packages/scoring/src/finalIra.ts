@@ -1,5 +1,6 @@
 import type { FinalIraMatrixEntry } from "./types";
 
+/** NaN when either predikat isn't in the matrix (e.g. #N/A), like the template's INDEX/MATCH returning #N/A. */
 export function finalIraFromMatrix(
   inherentPredikat: string,
   kpmrPredikat: string,
@@ -8,12 +9,7 @@ export function finalIraFromMatrix(
   const entry = matrix.find(
     (m) => m.inherentPredikat === inherentPredikat && m.kpmrPredikat === kpmrPredikat,
   );
-  if (!entry) {
-    throw new Error(
-      `No final IRA matrix entry for inherent="${inherentPredikat}" kpmr="${kpmrPredikat}"`,
-    );
-  }
-  return entry.score;
+  return entry?.score ?? NaN;
 }
 
 /**
@@ -26,6 +22,6 @@ export function applyDataMismatchPenalty(
   hasDataMismatch: boolean,
   penalty: number,
 ): number {
-  if (!hasDataMismatch) return rawScore;
+  if (!hasDataMismatch || Number.isNaN(rawScore)) return rawScore;
   return rawScore > 1 ? rawScore - penalty : 1;
 }

@@ -6,7 +6,8 @@ services:
       POSTGRES_PASSWORD: ira
       POSTGRES_DB: ira
     ports:
-      - "5432:5432"
+      # Host 5432 is already taken by another local project's container; see README.
+      - "5434:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 

@@ -11,12 +11,17 @@
     "build": "npm run build -w @ira/web",
     "lint": "npm run lint -w @ira/web",
     "test": "npm run test --workspaces --if-present",
-    "golden-test": "tsx scripts/golden-test.ts"
+    "golden-test": "tsx scripts/golden-test.ts",
+    "seed-dev": "tsx scripts/seed-dev.ts",
+    "refresh-layout": "tsx scripts/refresh-layout.ts",
+    "import-ltdbb": "tsx scripts/import-ltdbb.ts",
+    "verify-ltdbb": "tsx scripts/verify-ltdbb.ts"
   },
   "dependencies": {
     "@ira/db": "*",
     "@ira/scoring": "*",
-    "@ira/template": "*"
+    "@ira/template": "*",
+    "@ira/ltdbb": "*"
   },
   "devDependencies": {
     "tsx": "^4.19.2",

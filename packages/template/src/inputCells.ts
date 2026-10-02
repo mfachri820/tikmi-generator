@@ -4,14 +4,20 @@ import { parseCellRef } from "./cellRef";
 export type CellInputValue = string | number | boolean | Date | null;
 
 /**
- * Writes values into input cells only. Refuses to overwrite a cell that
- * already holds a formula -- the app must never type over the parts of the
- * template that are "formulas, not typed cells" (see the build plan's Input
- * cells section).
+ * Writes values into input cells only. `inputCellRefs` is the admin-curated
+ * allow-list (see the build plan's Input cells section and `extractLayout`'s
+ * own `inputCellRefs` set) -- a ref in that list may be written even if it
+ * currently holds a formula, since some input cells (e.g. A2!O, which
+ * defaults to `=L` until a pengawas types an explicit override, same for
+ * KPMR!J defaulting to H) legitimately start as a formula and are only ever
+ * overwritten once someone provides a value. Anything NOT in the allow-list
+ * that holds a formula is refused -- the app must never type over the parts
+ * of the template that are genuinely "formulas, not typed cells".
  */
 export function writeInputCells(
   workbook: Workbook,
   values: Map<string, CellInputValue>,
+  inputCellRefs: Set<string>,
 ): void {
   for (const [ref, value] of values) {
     const { sheet, address } = parseCellRef(ref);
@@ -20,7 +26,8 @@ export function writeInputCells(
       throw new Error(`Template has no sheet named "${sheet}" (cell ${ref})`);
     }
     const cell = worksheet.getCell(address);
-    if (typeof cell.value === "object" && cell.value !== null && "formula" in cell.value) {
+    const isFormula = typeof cell.value === "object" && cell.value !== null && "formula" in cell.value;
+    if (isFormula && !inputCellRefs.has(ref)) {
       throw new Error(`Refusing to overwrite formula cell ${ref}`);
     }
     cell.value = value;

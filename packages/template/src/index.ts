@@ -1,5 +1,12 @@
 export { parseCellRef, formatCellRef, type CellRef } from "./cellRef";
 export { findColumnByHeader } from "./findColumn";
-export { extractLayout, type ExtractedLayout, type LayoutSheet, type LayoutCell } from "./layout";
+export {
+  extractLayout,
+  type ExtractedLayout,
+  type LayoutSheet,
+  type LayoutCell,
+  type LayoutCellStyle,
+  type LayoutValue,
+} from "./layout";
 export { readInputCells, writeInputCells, type CellInputValue } from "./inputCells";
-export { fillTemplate } from "./writeWorkbook";
+export { fillTemplate, fillTemplateBuffer } from "./writeWorkbook";

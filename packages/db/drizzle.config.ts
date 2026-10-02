@@ -5,6 +5,6 @@ export default defineConfig({
   out: "./migrations",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL ?? "postgres://ira:ira@localhost:5432/ira",
+    url: process.env.DATABASE_URL ?? "postgres://ira:ira@localhost:5434/ira",
   },
 });

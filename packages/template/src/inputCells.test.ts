@@ -21,14 +21,20 @@ function buildWorkbook(): ExcelJS.Workbook {
 describe("input cells", () => {
   it("reads and writes a plain value cell", () => {
     const workbook = buildWorkbook();
-    writeInputCells(workbook, new Map([["C2. Form PJP LR!C6", 2000]]));
+    writeInputCells(workbook, new Map([["C2. Form PJP LR!C6", 2000]]), new Set(["C2. Form PJP LR!C6"]));
     expect(readInputCells(workbook, ["C2. Form PJP LR!C6"]).get("C2. Form PJP LR!C6")).toBe(2000);
   });
 
-  it("refuses to overwrite a formula cell", () => {
+  it("refuses to overwrite a formula cell that isn't a known input cell", () => {
     const workbook = buildWorkbook();
     expect(() =>
-      writeInputCells(workbook, new Map([["C2. Form PJP LR!D6", 999]])),
+      writeInputCells(workbook, new Map([["C2. Form PJP LR!D6", 999]]), new Set()),
     ).toThrow(/formula/i);
+  });
+
+  it("allows overwriting a formula cell that IS a known input cell (e.g. A2!O defaulting to '=L')", () => {
+    const workbook = buildWorkbook();
+    writeInputCells(workbook, new Map([["C2. Form PJP LR!D6", 3]]), new Set(["C2. Form PJP LR!D6"]));
+    expect(readInputCells(workbook, ["C2. Form PJP LR!D6"]).get("C2. Form PJP LR!D6")).toBe(3);
   });
 });

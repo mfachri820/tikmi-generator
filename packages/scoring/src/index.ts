@@ -8,7 +8,7 @@ import type { ScoringConfig, WorkbookScoringInput } from "./types";
 export * from "./types";
 export { resolveParameter, scoreFromRule } from "./parameterScore";
 export { computeCategoryScores, combineCategories } from "./categoryScore";
-export { predikatFromScore } from "./predikat";
+export { predikatFromScore, NOT_AVAILABLE } from "./predikat";
 export {
   resolveKpmrAnswers,
   pillarAverages,

@@ -1,5 +1,6 @@
-import { WorkbookGrid } from "./workbook-grid";
+import { redirect } from "next/navigation";
 
-export default function WorkbookPage() {
-  return <WorkbookGrid />;
+/** The workbook list now lives on Beranda, with every PJP's stage and scores. */
+export default function WorkbookIndexPage() {
+  redirect("/");
 }

@@ -21,11 +21,10 @@ out/
 build
 dist
 
-# S3-compatible storage (MinIO) data, if run locally
-/minio-data
-
 # Real PJP data pulled from IRA_FIXTURES_DIR -- never commit (see ground rules)
 /golden-values.json
+# Root-level data workbooks, e.g. the LTDBB transaction file scripts/import-ltdbb.ts reads by default
+/*.xlsx
 
 # misc
 .DS_Store
