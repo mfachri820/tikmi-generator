@@ -17,7 +17,8 @@ export function createDb(connectionString = process.env.DATABASE_URL, options: C
     max: options.max ?? 10,
     idle_timeout: options.idleTimeout ?? 20,
     // Through a transaction-mode pooler (Neon/Supabase "pooled" URLs, PgBouncer) prepared statements break.
-    prepare: !/pgbouncer=true|-pooler\./.test(connectionString),
+    // Neon: "-pooler." host; Supabase: "pooler.supabase.com" on transaction-mode port 6543.
+    prepare: !/pgbouncer=true|[-.]pooler\.|:6543\//.test(connectionString),
   });
   return drizzle(client, { schema });
 }
