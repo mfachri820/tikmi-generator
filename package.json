@@ -26,5 +26,10 @@
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "0.28.2"
+    }
   }
 }
