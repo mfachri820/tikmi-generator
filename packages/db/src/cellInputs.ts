@@ -104,14 +104,13 @@ export async function loadCellValues(
   sharedCellRefs: readonly string[],
 ): Promise<Map<string, unknown>> {
   const shared = new Set(sharedCellRefs);
-  const own = await db.select().from(cellInputs).where(eq(cellInputs.workbookId, workbook.id));
+  const [own, periodValues] = await Promise.all([
+    db.select().from(cellInputs).where(eq(cellInputs.workbookId, workbook.id)),
+    db.select().from(sharedCellInputs).where(eq(sharedCellInputs.periodId, workbook.periodId)),
+  ]);
   const values = new Map<string, unknown>(
     own.filter((c) => !shared.has(c.cellRef)).map((c) => [c.cellRef, c.value]),
   );
-  const periodValues = await db
-    .select()
-    .from(sharedCellInputs)
-    .where(eq(sharedCellInputs.periodId, workbook.periodId));
   for (const c of periodValues) {
     if (shared.has(c.cellRef)) values.set(c.cellRef, c.value);
   }

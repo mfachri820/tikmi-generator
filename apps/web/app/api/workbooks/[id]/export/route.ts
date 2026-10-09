@@ -8,7 +8,8 @@ import {
   templateVersions,
   workbooks,
 } from "@ira/db";
-import { aggregateYear, getActiveLtdbbUpload, ltdbbPolicy } from "@ira/ltdbb";
+import { getActiveLtdbbUpload, ltdbbPolicy } from "@ira/ltdbb";
+import { cachedAggregateYear } from "@/lib/immutableCache";
 import { fillTemplateBuffer, type CellInputValue, type ExtractedLayout } from "@ira/template";
 import { inputCellRefs2026, sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
 import { formulaOverridesFor, valueOverridesFor } from "@ira/scoring/config/2026-sheet";
@@ -55,7 +56,7 @@ export async function POST(_req: Request, ctx: RouteContext<"/api/workbooks/[id]
   if (!ltdbb) {
     return NextResponse.json({ error: "Upload LTDBB terlebih dahulu." }, { status: 409 });
   }
-  const { rows: transactions } = await aggregateYear(db, ltdbb.id, period.dataYear);
+  const { rows: transactions } = await cachedAggregateYear(ltdbb.id, period.dataYear);
 
   const own = transactions.find((t) => t.sandi === workbook.pjpSandi);
   if (ltdbbPolicy.missingPjp === "block" && own && !own.inLtdbb) {

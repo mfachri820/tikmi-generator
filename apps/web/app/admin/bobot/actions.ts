@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { periods, weightSettings, workbooks, pjp } from "@ira/db";
-import { aggregateYear, getActiveLtdbbUpload } from "@ira/ltdbb";
+import { getActiveLtdbbUpload } from "@ira/ltdbb";
+import { cachedAggregateYear } from "@/lib/immutableCache";
 import { weightProblems, withDefaultWeights, type WeightSet } from "@ira/scoring/config/2026";
 import { can, getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -73,7 +74,7 @@ export async function previewWeights(json: string): Promise<{ error?: string; ro
 
   const current = await loadWeights(db, period.id);
   const upload = await getActiveLtdbbUpload(db);
-  const ltdbbRows = upload ? (await aggregateYear(db, upload.id, period.dataYear)).rows : [];
+  const ltdbbRows = upload ? (await cachedAggregateYear(upload.id, period.dataYear)).rows : [];
   const ltdbbContext = { upload, rowsBySandi: new Map(ltdbbRows.map((r) => [r.sandi, r])) };
   const list = await db
     .select({ id: workbooks.id, nama: pjp.nama })

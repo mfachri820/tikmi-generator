@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { cellInputs, ltdbbCodeOverrides, ltdbbMonthly, ltdbbUploads, periods, pjpValidationMeta, users, workbooks } from "@ira/db";
-import { aggregateYear, getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
+import { getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
+import { cachedAggregateYear } from "@/lib/immutableCache";
 import { dataMismatchToleranceRupiah } from "@ira/scoring/config/2026-c2";
 import { db } from "@/lib/db";
 import { can, requirePageUser } from "@/lib/auth";
@@ -131,7 +132,7 @@ export default async function LtdbbPreviewPage({ searchParams }: PageProps<"/adm
   const q = (typeof qParam === "string" ? qParam : "").trim();
   const year = Number(yearParam) || activePeriod?.dataYear || years[0];
 
-  const { rows } = await aggregateYear(db, upload.id, year);
+  const { rows } = await cachedAggregateYear(upload.id, year);
   // The search keeps each PJP's number from the full list, so "No" still points at the same row.
   const needle = q.toLowerCase();
   const numbered = rows.map((r, i) => ({ r, no: i + 1 }));

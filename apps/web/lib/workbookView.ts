@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { loadCellValues, periods, pjp as pjpTable, workbooks, type Db } from "@ira/db";
-import { aggregateYear, getActiveLtdbbUpload, type AggregateFlag, type LtdbbUpload, type PjpYearAggregate } from "@ira/ltdbb";
+import { getActiveLtdbbUpload, type AggregateFlag, type LtdbbUpload, type PjpYearAggregate } from "@ira/ltdbb";
 import {
   computeWorkbookScores,
   resolveKpmrAnswers,
@@ -13,6 +13,7 @@ import { computeC2Derived, dataMismatchToleranceRupiah } from "@ira/scoring/conf
 import { sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
 import { isUuid } from "./ids";
 import { workbookVersion } from "./workbookVersion";
+import { cachedAggregateYear } from "./immutableCache";
 import { loadWeights } from "./weights";
 import { explainParameters, type ParameterExplanation } from "./scoreExplain";
 import { computeSheetCells2026, type SheetCellValue } from "@ira/scoring/config/2026-sheet";
@@ -60,18 +61,22 @@ export async function loadWorkbookView(
   const [workbook] = await db.select().from(workbooks).where(eq(workbooks.id, workbookId)).limit(1);
   if (!workbook) return null;
 
-  const [pjpRow] = await db.select().from(pjpTable).where(eq(pjpTable.sandi, workbook.pjpSandi)).limit(1);
-  const [period] = await db.select().from(periods).where(eq(periods.id, workbook.periodId)).limit(1);
-  const activeLtdbb = ltdbbContext ? ltdbbContext.upload : await getActiveLtdbbUpload(db);
+  // Independent lookups in parallel: each one is a database round trip.
+  const [[pjpRow], [period], activeLtdbb, weights, cellByRef, version] = await Promise.all([
+    db.select().from(pjpTable).where(eq(pjpTable.sandi, workbook.pjpSandi)).limit(1),
+    db.select().from(periods).where(eq(periods.id, workbook.periodId)).limit(1),
+    ltdbbContext ? ltdbbContext.upload : getActiveLtdbbUpload(db),
+    weightsOverride ?? loadWeights(db, workbook.periodId),
+    loadCellValues(db, workbook, sharedCellRefs2026),
+    workbookVersion(db, workbook.id),
+  ]);
   const ltdbbRow = !activeLtdbb
     ? undefined
     : ltdbbContext
       ? ltdbbContext.rowsBySandi.get(workbook.pjpSandi)
-      : (await aggregateYear(db, activeLtdbb.id, period.dataYear, { sandi: workbook.pjpSandi })).rows[0];
+      : (await cachedAggregateYear(activeLtdbb.id, period.dataYear)).rows.find((r) => r.sandi === workbook.pjpSandi);
 
-  const weights = weightsOverride ?? (await loadWeights(db, workbook.periodId));
   const config = buildScoringConfig2026(weights);
-  const cellByRef = await loadCellValues(db, workbook, sharedCellRefs2026);
 
   const rawC2: Record<string, number> = {};
   for (const [ref, value] of cellByRef) {
@@ -140,7 +145,7 @@ export async function loadWorkbookView(
       pjpSandi: workbook.pjpSandi,
       pjpNama,
       status: workbook.status,
-      updatedAt: ((await workbookVersion(db, workbook.id)) ?? workbook.updatedAt).toISOString(),
+      updatedAt: (version ?? workbook.updatedAt).toISOString(),
     },
     hasDataMismatch,
     ltdbb: activeLtdbb

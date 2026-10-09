@@ -1,6 +1,7 @@
 import { asc, desc, eq } from "drizzle-orm";
 import { formSubmissions, periods, pjp as pjpTable, workbooks, type Db } from "@ira/db";
-import { aggregateYear, getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
+import { getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
+import { cachedAggregateYear } from "./immutableCache";
 import { loadWorkbookView } from "./workbookView";
 import { loadWeights } from "./weights";
 
@@ -40,12 +41,10 @@ export interface PeriodOverview {
  * pipeline the grid and the export use, with the LTDBB totals loaded once.
  */
 export async function loadPeriodOverview(db: Db): Promise<PeriodOverview> {
-  const [period] = await db.select().from(periods).where(eq(periods.status, "active")).limit(1);
-
-  const pjps = await db
-    .select({ pjp: pjpTable })
-    .from(pjpTable)
-    .orderBy(asc(pjpTable.sortOrder));
+  const [[period], pjps] = await Promise.all([
+    db.select().from(periods).where(eq(periods.status, "active")).limit(1),
+    db.select({ pjp: pjpTable }).from(pjpTable).orderBy(asc(pjpTable.sortOrder)),
+  ]);
 
   if (!period) {
     return {
@@ -65,21 +64,24 @@ export async function loadPeriodOverview(db: Db): Promise<PeriodOverview> {
     };
   }
 
-  const periodWorkbooks = await db.select().from(workbooks).where(eq(workbooks.periodId, period.id));
+  // Independent lookups in parallel: each one is a database round trip.
+  const [periodWorkbooks, submissions, upload, weights] = await Promise.all([
+    db.select().from(workbooks).where(eq(workbooks.periodId, period.id)),
+    db
+      .select({ sandi: formSubmissions.pjpSandi, submittedAt: formSubmissions.submittedAt })
+      .from(formSubmissions)
+      .where(eq(formSubmissions.periodId, period.id))
+      .orderBy(desc(formSubmissions.submittedAt)),
+    getActiveLtdbbUpload(db),
+    // One weights lookup for the whole period, not one per workbook.
+    loadWeights(db, period.id),
+  ]);
   const workbookBySandi = new Map(periodWorkbooks.map((w) => [w.pjpSandi, w]));
 
-  const submissions = await db
-    .select({ sandi: formSubmissions.pjpSandi, submittedAt: formSubmissions.submittedAt })
-    .from(formSubmissions)
-    .where(eq(formSubmissions.periodId, period.id))
-    .orderBy(desc(formSubmissions.submittedAt));
   const latestSubmission = new Map<string, Date>();
   for (const s of submissions) if (!latestSubmission.has(s.sandi)) latestSubmission.set(s.sandi, s.submittedAt);
 
-  const upload = await getActiveLtdbbUpload(db);
-  // One weights lookup for the whole period, not one per workbook.
-  const weights = await loadWeights(db, period.id);
-  const ltdbbRows = upload ? (await aggregateYear(db, upload.id, period.dataYear)).rows : [];
+  const ltdbbRows = upload ? (await cachedAggregateYear(upload.id, period.dataYear)).rows : [];
   const ltdbbContext = { upload, rowsBySandi: new Map(ltdbbRows.map((r) => [r.sandi, r])) };
 
   const views = new Map(
