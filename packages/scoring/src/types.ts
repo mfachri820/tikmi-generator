@@ -78,6 +78,12 @@ export interface ScoringConfig {
   categoryWeights: Record<string, number>;
   parameters: ParameterConfig[];
   kpmrQuestions: KpmrQuestionConfig[];
+  /**
+   * Weight of each KPMR pillar in the overall score (summing to 1). A pillar
+   * with no answers counts as 0, like the template's IFERROR(...,0) pillar
+   * rows. Omitted = the plain average of the answered pillars' averages.
+   */
+  kpmrPillarWeights?: Record<string, number>;
   /** Also used to find the predikat of the final IRA score itself (same 1-5 scale). */
   inherentPredikatRules: PredikatRule[];
   kpmrPredikatRules: PredikatRule[];

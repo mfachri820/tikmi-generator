@@ -41,6 +41,8 @@ export const exportKind = pgEnum("export_kind", [
   "rekap",
   "bi_sss",
   "sheet_post",
+  /** BI's "APU PPT dan Net Risk PTD Individu" report for one PJP. */
+  "individu_pjp",
 ]);
 
 export const templateVersions = pgTable("template_versions", {
@@ -84,6 +86,43 @@ export const users = pgTable("users", {
   initials: text("initials"),
   email: text("email").notNull().unique(),
   role: userRole("role").notNull().default("pengawas"),
+  /** scrypt hash (see passwords.ts); null = cannot sign in until an admin sets a password. */
+  passwordHash: text("password_hash"),
+  /** Deactivated users can't sign in, and their open sessions stop working at once. */
+  active: boolean("active").notNull().default(true),
+  /** Set when an admin creates the account or resets its password: the user must pick their own first. */
+  mustChangePassword: boolean("must_change_password").notNull().default(false),
+  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/**
+ * Assessment weights set on the admin "Bobot" page, per period. Every save is a
+ * new row, so the history stays; the newest row is the one in force. `weights`
+ * is a WeightSet (packages/scoring/config/2026.ts): categories, items, leaves,
+ * KPMR pillars, as fractions.
+ */
+export const weightSettings = pgTable("weight_settings", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  periodId: uuid("period_id")
+    .notNull()
+    .references(() => periods.id),
+  weights: jsonb("weights").notNull(),
+  note: text("note"),
+  createdBy: uuid("created_by").references(() => users.id),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+/** Signed-in browsers. The cookie holds a random token; only its SHA-256 is stored, so a leaked table can't sign anyone in. */
+export const sessions = pgTable("sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  tokenHash: text("token_hash").notNull().unique(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  /** Slides forward while the session is used; a session idle past it is gone. */
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 });
 
 export const pjp = pgTable("pjp", {
@@ -91,7 +130,6 @@ export const pjp = pgTable("pjp", {
   nama: text("nama").notNull(),
   status: text("status").notNull(),
   licenseType: text("license_type").notNull(),
-  dedicatedUserId: uuid("dedicated_user_id").references(() => users.id),
   /** Position in the form's 85-PJP list, which is also the row order of "Validasi Data Transaksi". */
   sortOrder: integer("sort_order").notNull(),
 });

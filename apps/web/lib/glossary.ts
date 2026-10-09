@@ -38,15 +38,13 @@ export const HELP = {
   attention: "Hal yang memengaruhi nilai atau export. Klik salah satu untuk menyaring tabel di bawah.",
   kpmrMissing:
     "Workbook ini belum punya jawaban KPMR (sheet B. KPMR 2025), jadi nilai akhir IRA belum bisa dihitung (#N/A, sama seperti templat).",
-  unassigned:
-    "Belum ada pengawas yang ditugaskan untuk PJP ini. Penugasan pengawas belum bisa diatur di aplikasi.",
   statusPjp:
     "Status izin PJP dari daftar formulir (Validasi Data Transaksi), misalnya Aktif, Dicabut, atau Multilicense. PJP yang tidak Aktif ditampilkan abu-abu.",
   formulir: "Tanggal formulir IRA terakhir yang masuk dari PJP. \"Belum masuk\" berarti belum ada kiriman.",
   inherent:
     "Nilai risiko inheren & struktural (A2 baris 64, nilai pengawas) dan predikatnya, dari Tinggi sampai Rendah.",
   kpmr:
-    "Nilai kualitas penerapan APU PPT PPPSPM (KPMR, sheet B) dan predikatnya: Strong paling baik, Unsatisfactory paling buruk.",
+    "Nilai kualitas penerapan APU PPT PPPSPM (KPMR, sheet B) dan predikatnya: Strong paling baik, Unsatisfactory paling buruk. Rata-rata tiap pilar dibobot sesuai judul pilar di sheet: Direksi 30%, KPT 25%, Proses MR 25%, SDM 10%, SPI 10%.",
   catatan: "Penanda yang memengaruhi nilai: Perbedaan Data (nilai akhir −1) dan masalah data LTDBB PJP ini.",
   ltdbbSource:
     "File transaksi LTDBB yang dipakai untuk sheet Validasi Data Transaksi dan pengecekan Perbedaan Data. Tanpa file ini export diblokir.",
@@ -65,5 +63,4 @@ export const HELP = {
   hasil:
     "Sesuai: selisih paling banyak Rp1.000. Perbedaan Data: lebih dari itu, nilai akhir dikurangi 1.",
   // Workbook page
-  highlightInputs: "Memberi garis biru pada sel yang bisa diisi atau diubah oleh pengawas.",
 } as const;

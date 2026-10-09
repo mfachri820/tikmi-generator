@@ -1,6 +1,9 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import type { Db } from "./client";
 import { auditLog, cellInputs, sharedCellInputs, workbooks, type CellInputSource } from "./schema";
+
+/** A connection or an open transaction: callers that hold a lock pass their transaction through. */
+export type DbOrTx = Db | Parameters<Parameters<Db["transaction"]>[0]>[0];
 
 export interface RecordCellInputInput {
   workbookId: string;
@@ -24,9 +27,14 @@ export interface RecordCellInputInput {
  * transaction -- the build plan's ground rule "every write to an input cell
  * goes through one function." Called by the seed script, the pengawas PATCH
  * route, and the ingest webhook; nothing else should touch either table.
+ *
+ * `updatedAt` comes from the database clock, so every write in one batch
+ * shares one time; a workbook's version (apps/web/lib/workbookVersion.ts) is
+ * the latest of these.
  */
-export async function recordCellInput(db: Db, input: RecordCellInputInput) {
+export async function recordCellInput(db: DbOrTx, input: RecordCellInputInput) {
   const { workbookId, cellRef, value, source, userId = null, reason = null, shared = false } = input;
+  const now = sql`now()`;
 
   return db.transaction(async (tx) => {
     let oldValue: unknown;
@@ -48,10 +56,10 @@ export async function recordCellInput(db: Db, input: RecordCellInputInput) {
 
       [row] = await tx
         .insert(sharedCellInputs)
-        .values({ periodId, cellRef, value, source, updatedBy: userId })
+        .values({ periodId, cellRef, value, source, updatedBy: userId, updatedAt: now })
         .onConflictDoUpdate({
           target: [sharedCellInputs.periodId, sharedCellInputs.cellRef],
-          set: { value, source, updatedBy: userId, updatedAt: new Date() },
+          set: { value, source, updatedBy: userId, updatedAt: now },
         })
         .returning();
     } else {
@@ -63,10 +71,10 @@ export async function recordCellInput(db: Db, input: RecordCellInputInput) {
 
       [row] = await tx
         .insert(cellInputs)
-        .values({ workbookId, cellRef, value, source, updatedBy: userId })
+        .values({ workbookId, cellRef, value, source, updatedBy: userId, updatedAt: now })
         .onConflictDoUpdate({
           target: [cellInputs.workbookId, cellInputs.cellRef],
-          set: { value, source, updatedBy: userId, updatedAt: new Date() },
+          set: { value, source, updatedBy: userId, updatedAt: now },
         })
         .returning();
     }

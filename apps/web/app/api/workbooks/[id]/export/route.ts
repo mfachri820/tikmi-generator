@@ -5,24 +5,24 @@ import {
   loadCellValues,
   periods,
   pjp,
-  pjpValidationMeta,
   templateVersions,
   workbooks,
 } from "@ira/db";
 import { aggregateYear, getActiveLtdbbUpload, ltdbbPolicy } from "@ira/ltdbb";
 import { fillTemplateBuffer, type CellInputValue, type ExtractedLayout } from "@ira/template";
 import { inputCellRefs2026, sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
+import { formulaOverridesFor, valueOverridesFor } from "@ira/scoring/config/2026-sheet";
+import { layoutText } from "@/lib/layoutOverrides";
+import { loadWeights } from "@/lib/weights";
 import { db } from "@/lib/db";
-import { getDevUser } from "@/lib/devUser";
+import { VALIDASI_SHEET, validasiSheetValues } from "@/lib/validasiSheet";
+import { requireApiUser } from "@/lib/auth";
 import { isUuid } from "@/lib/ids";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 const C2_SHEET = "C2. Form PJP LR";
-const VALIDASI_SHEET = "Validasi Data Transaksi";
-/** Data rows of "Validasi Data Transaksi": row 1 is the header. */
-const VALIDASI_FIRST_ROW = 2;
 
 /**
  * Generates "Excel Individu PJP": the template with every input cell set from
@@ -31,6 +31,8 @@ const VALIDASI_FIRST_ROW = 2;
  * naming the LTDBB snapshot used.
  */
 export async function POST(_req: Request, ctx: RouteContext<"/api/workbooks/[id]/export">) {
+  const { user, denied } = await requireApiUser();
+  if (denied) return denied;
   const { id } = await ctx.params;
   if (!isUuid(id)) {
     return NextResponse.json({ error: "Workbook tidak ditemukan." }, { status: 404 });
@@ -69,6 +71,8 @@ export async function POST(_req: Request, ctx: RouteContext<"/api/workbooks/[id]
   // the template was taken from leaks through. Input cells that hold the template's own
   // default formula (e.g. A2!O "=L") keep it unless a value overrides it.
   const layout = template.layoutJson as ExtractedLayout;
+  // The weights in force for this period go into the file (A2 D/E, category weights, headings, KPMR H46/J46).
+  const weights = await loadWeights(db, workbook.periodId);
   const templateFormulaCells = new Set(
     layout.sheets.flatMap((s) => s.cells.filter((c) => c.isInput && c.formula).map((c) => `${s.name}!${c.address}`)),
   );
@@ -84,49 +88,24 @@ export async function POST(_req: Request, ctx: RouteContext<"/api/workbooks/[id]
   // C2!G18 looks the PJP up in Validasi column C (=A&" - "&B), so B2 must use the same name.
   values.set(`${C2_SHEET}!B2`, `${workbook.pjpSandi} - ${row.pjp.nama}`);
 
-  const meta = new Map(
-    (await db.select().from(pjpValidationMeta).where(eq(pjpValidationMeta.dataYear, period.dataYear))).map(
-      (m) => [m.sandi, m],
-    ),
-  );
-  // Formula columns stay the template's: C (=A&" - "&B) always, and L/M (=F+H+J, =G+I+K) from template v2 on.
-  const validasiFormulaCells = new Set(
-    layout.sheets.find((s) => s.name === VALIDASI_SHEET)?.cells.filter((c) => c.formula).map((c) => c.address) ?? [],
-  );
-  transactions.forEach((t, i) => {
-    const r = VALIDASI_FIRST_ROW + i;
-    const cell = (col: string, value: CellInputValue) => {
-      if (!validasiFormulaCells.has(`${col}${r}`)) values.set(`${VALIDASI_SHEET}!${col}${r}`, value);
-    };
-    cell("A", Number(t.sandi));
-    cell("B", t.nama);
-    cell("D", meta.get(t.sandi)?.statusPjp ?? null);
-    cell("E", meta.get(t.sandi)?.keterangan ?? null);
-    cell("F", t.finJumlahInc);
-    cell("G", t.finNilaiInc);
-    cell("H", t.finJumlahOut);
-    cell("I", t.finNilaiOut);
-    cell("J", t.finJumlahDom);
-    cell("K", t.finNilaiDom);
-    cell("L", t.totalFrekuensi);
-    cell("M", t.totalNominal);
-  });
-  // Blank any template rows past the PJP list so no stale totals survive.
-  const validasiRows = layout.sheets.find((s) => s.name === VALIDASI_SHEET)?.rowCount ?? 0;
-  for (let r = VALIDASI_FIRST_ROW + transactions.length; r <= validasiRows; r++) {
-    for (const col of ["A", "B", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M"]) {
-      if (!validasiFormulaCells.has(`${col}${r}`)) values.set(`${VALIDASI_SHEET}!${col}${r}`, null);
-    }
+  // "Validasi Data Transaksi" from the active LTDBB, the same values the grid shows. Formula columns stay
+  // the template's: C (=A&" - "&B) always, and L/M (=F+H+J, =G+I+K) from template v2 on.
+  const validasiSheet = layout.sheets.find((s) => s.name === VALIDASI_SHEET);
+  const validasiFormulaCells = new Set(validasiSheet?.cells.filter((c) => c.formula).map((c) => c.address) ?? []);
+  const validasi = await validasiSheetValues(db, period.dataYear, transactions, validasiSheet?.rowCount ?? 0);
+  for (const [address, value] of validasi) {
+    if (!validasiFormulaCells.has(address)) values.set(`${VALIDASI_SHEET}!${address}`, value);
   }
 
   const file = await fillTemplateBuffer(
     Buffer.from(template.xlsxBase64, "base64"),
     values,
     new Set(inputCellRefs2026),
+    formulaOverridesFor(weights),
+    valueOverridesFor(weights, layoutText(layout)),
   );
 
   const filename = `IRA_${workbook.pjpSandi} - ${row.pjp.nama}.xlsx`.replace(/[\\/:*?"<>|]/g, "");
-  const user = await getDevUser(db);
   const [exportRow] = await db
     .insert(exportsTable)
     .values({

@@ -125,6 +125,32 @@ describe("computeWorkbookScores", () => {
     expect(result.kpmrOverall.pjp).toBe(3);
   });
 
+  it("weights the KPMR pillars when the config has pillar weights", () => {
+    const result = computeWorkbookScores(
+      { ...config, kpmrPillarWeights: { Pillar1: 0.75, Pillar2: 0.25 } },
+      {
+        parameters: [{ id: "p1", share: 0.1 }],
+        kpmrAnswers: [
+          { id: "k1", pjpScore: 4, pengawasScore: 2 },
+          { id: "k2", pjpScore: 2 },
+        ],
+        hasDataMismatch: false,
+      },
+    );
+
+    expect(result.kpmrOverall.pjp).toBeCloseTo(0.75 * 4 + 0.25 * 2); // 3.5; the plain average would be 3
+    expect(result.kpmrOverall.pengawas).toBeCloseTo(0.75 * 2 + 0.25 * 2);
+  });
+
+  it("counts an unanswered pillar as 0 in the weighted KPMR total, like the template's IFERROR(...,0)", () => {
+    const result = computeWorkbookScores(
+      { ...config, kpmrPillarWeights: { Pillar1: 0.75, Pillar2: 0.25 } },
+      { parameters: [{ id: "p1", share: 0.1 }], kpmrAnswers: [{ id: "k1", pjpScore: 4 }], hasDataMismatch: false },
+    );
+
+    expect(result.kpmrOverall.pjp).toBeCloseTo(3);
+  });
+
   it("returns #N/A like the template (instead of throwing) when a score is below every predikat rule", () => {
     // A freshly generated workbook has no KPMR answers yet: average 0, below the lowest rule (1).
     const result = computeWorkbookScores(

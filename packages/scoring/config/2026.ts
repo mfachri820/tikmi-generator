@@ -66,7 +66,7 @@ const PRESENCE_GT_1 = {
   ],
 };
 
-export const parameters: ParameterConfig[] = [
+const templateParameters: ParameterConfig[] = [
   // Risiko Inheren TPPU (40%)
   { kind: "form", id: "7", category: "TPPU", weight: 0.195, cellRef: O(7), rule: IF_CHAIN_20_40_60_80_100, label: "Persentase transaksi menggunakan layanan berisiko Tinggi menurut SRA" },
   { kind: "form", id: "8", category: "TPPU", weight: 0.105, cellRef: O(8), rule: IF_CHAIN_20_40_60_80_100, label: "Persentase transaksi menggunakan layanan berisiko Menengah menurut SRA" },
@@ -112,6 +112,24 @@ export const parameters: ParameterConfig[] = [
 ];
 
 /**
+ * Deliberate corrections to A2 leaf weights (column E), applied by the app and
+ * written into the Template Excel export. TPPT "Pengguna Jasa" (rows 29-32) is
+ * 35/10/35/10 in the template, which sums to 90%; BI's BSSS report uses
+ * 35/15/35/15. Decided 2026-10-06: follow the BSSS.
+ */
+export const leafWeightFixes: Record<string, { template: number; fixed: number }> = {
+  "30": { template: 0.1, fixed: 0.15 },
+  "32": { template: 0.1, fixed: 0.15 },
+};
+
+/** The 35 parameters as the app scores them: the template's, with `leafWeightFixes` applied. */
+export const parameters: ParameterConfig[] = templateParameters.map((p) => {
+  const fix = leafWeightFixes[p.id];
+  // `weight` is item weight × leaf weight, so scaling it by fixed/template swaps the leaf weight.
+  return fix ? { ...p, weight: (p.weight / fix.template) * fix.fixed } : p;
+});
+
+/**
  * Which 'C2. Form PJP LR' cells feed each parameter's `share` (summed).
  * Not part of `ScoringConfig` -- this is the field-mapping side, kept next
  * to the scoring rules only because both come from the same formula dump.
@@ -147,6 +165,25 @@ export const parameterShareRefs: Record<string, string[]> = {
   "57": ["D145"],
 };
 
+/**
+ * Deliberate corrections to the template's references, applied by the app and
+ * written into the export (see `a2FormulaOverrides2026` in 2026-sheet.ts):
+ * rows 11 and 27 (jalur distribusi berisiko Menengah) read C2!D20, the empty
+ * "Jalur Distribusi" heading, so they always scored 5. Their Keterangan says
+ * "Kantor PTD", which is D22. Decided 2026-10-05.
+ */
+export const parameterShareRefFixes: Record<string, { template: string[]; fixed: string[] }> = {
+  "11": { template: ["D20"], fixed: ["D22"] },
+  "27": { template: ["D20"], fixed: ["D22"] },
+};
+for (const [id, fix] of Object.entries(parameterShareRefFixes)) parameterShareRefs[id] = fix.fixed;
+
+/** The template's own references, before the fixes: what `scripts/golden-test.ts` checks the 66 real files against. */
+export const templateParameterShareRefs: Record<string, string[]> = {
+  ...parameterShareRefs,
+  ...Object.fromEntries(Object.entries(parameterShareRefFixes).map(([id, fix]) => [id, fix.template])),
+};
+
 export const hasDataMismatchCellRef = "C2. Form PJP LR!H18";
 export const hasDataMismatchValue = "Perbedaan Data";
 
@@ -163,13 +200,37 @@ function kpmrPillar(pillar: string, fromRow: number, toRow: number): KpmrQuestio
   return questions;
 }
 
+const KPMR_PILLARS = {
+  direksi: "Tugas Dan Tanggung Jawab Direksi Dan Pengawasan Aktif Dewan Komisaris",
+  kpt: "Kebijakan Dan Prosedur Tertulis",
+  prosesMr: "Proses Manajemen Risiko",
+  sdm: "Manajemen Sumber Daya Manusia",
+  spi: "Sistem Pengendalian Internal",
+} as const;
+
 export const kpmrQuestions: KpmrQuestionConfig[] = [
-  ...kpmrPillar("Tugas Dan Tanggung Jawab Direksi Dan Pengawasan Aktif Dewan Komisaris", 5, 11),
-  ...kpmrPillar("Kebijakan Dan Prosedur Tertulis", 14, 21),
-  ...kpmrPillar("Proses Manajemen Risiko", 24, 33),
-  ...kpmrPillar("Manajemen Sumber Daya Manusia", 36, 38),
-  ...kpmrPillar("Sistem Pengendalian Internal", 41, 43),
+  ...kpmrPillar(KPMR_PILLARS.direksi, 5, 11),
+  ...kpmrPillar(KPMR_PILLARS.kpt, 14, 21),
+  ...kpmrPillar(KPMR_PILLARS.prosesMr, 24, 33),
+  ...kpmrPillar(KPMR_PILLARS.sdm, 36, 38),
+  ...kpmrPillar(KPMR_PILLARS.spi, 41, 43),
 ];
+
+/**
+ * The weights in the KPMR sheet's own pillar headings (rows 4, 13, 23, 35, 40:
+ * "(30%)", "(25%)", "(25%)", "(10%)", "(10%)"). The 2026 template's H46/J46
+ * ignore them (`=AVERAGE(H12,H22,H34,H39,H44)`, identical in all 66 files);
+ * the app applies them by decision (2026-10-05), and the export rewrites
+ * H46/J46 to match (see `kpmrOverallFormulas2026` in 2026-sheet.ts).
+ * `scripts/golden-test.ts` drops them to keep checking the template's own formula.
+ */
+export const kpmrPillarWeights: Record<string, number> = {
+  [KPMR_PILLARS.direksi]: 0.3,
+  [KPMR_PILLARS.kpt]: 0.25,
+  [KPMR_PILLARS.prosesMr]: 0.25,
+  [KPMR_PILLARS.sdm]: 0.1,
+  [KPMR_PILLARS.spi]: 0.1,
+};
 
 // Both predikat scales share the same breakpoints (A2!H60:H64 / K60:K64).
 const SCALE_BREAKPOINTS = [1, 2, 3, 3.75, 4.5];
@@ -227,8 +288,112 @@ export const scoringConfig2026: ScoringConfig = {
   categoryWeights: { TPPU: 0.4, TPPT: 0.25, PPSPM: 0.05, Struktural: 0.3 },
   parameters,
   kpmrQuestions,
+  kpmrPillarWeights,
   inherentPredikatRules,
   kpmrPredikatRules,
   finalIraMatrix,
   dataMismatchPenalty: 1,
+};
+
+// ---------------------------------------------------------------------------
+// Adjustable weights (the admin "Bobot" page)
+// ---------------------------------------------------------------------------
+
+/** A2 item rows ("1. Produk dan/atau Jasa", …), each with its category, in sheet order. */
+export const a2Items: { row: number; category: string }[] = [
+  { row: 6, category: "TPPU" }, { row: 9, category: "TPPU" }, { row: 12, category: "TPPU" }, { row: 18, category: "TPPU" },
+  { row: 22, category: "TPPT" }, { row: 25, category: "TPPT" }, { row: 28, category: "TPPT" }, { row: 33, category: "TPPT" },
+  { row: 37, category: "PPSPM" }, { row: 40, category: "PPSPM" }, { row: 43, category: "PPSPM" }, { row: 47, category: "PPSPM" },
+  { row: 50, category: "Struktural" }, { row: 56, category: "Struktural" },
+];
+
+/** The item a parameter row belongs to: the nearest item row above it. */
+export function itemRowOf(parameterId: string): number {
+  const row = Number(parameterId);
+  return [...a2Items].reverse().find((i) => i.row < row)!.row;
+}
+
+/**
+ * Every weight in the assessment, as fractions (0.4 = 40%), in four groups
+ * that must each add up to 1: categories; items within each category;
+ * parameters ("leaves") within each item; KPMR pillars. Stored per period by
+ * the admin "Bobot" page; anything missing falls back to `defaultWeights2026`.
+ */
+export interface WeightSet {
+  categories: Record<string, number>;
+  /** By A2 item row ("6", "9", …). */
+  items: Record<string, number>;
+  /** By A2 parameter row ("7", "8", …): the weight within its item (column E). */
+  leaves: Record<string, number>;
+  /** By KPMR pillar name. */
+  kpmrPillars: Record<string, number>;
+}
+
+/** The template's item weights (A2 column D). */
+const TEMPLATE_ITEM_WEIGHTS: Record<string, number> = {
+  "6": 0.3, "9": 0.2, "12": 0.3, "18": 0.2,
+  "22": 0.2, "25": 0.2, "28": 0.3, "33": 0.3,
+  "37": 0.1, "40": 0.2, "43": 0.4, "47": 0.3,
+  "50": 0.8, "56": 0.2,
+};
+
+/** Today's weights: the template's, with the decided corrections (TPPT 35/15/35/15, KPMR 30/25/25/10/10). */
+export const defaultWeights2026: WeightSet = {
+  categories: { ...scoringConfig2026.categoryWeights },
+  items: { ...TEMPLATE_ITEM_WEIGHTS },
+  leaves: Object.fromEntries(parameters.map((p) => [p.id, roundWeight(p.weight / TEMPLATE_ITEM_WEIGHTS[String(itemRowOf(p.id))])])),
+  kpmrPillars: { ...kpmrPillarWeights },
+};
+
+function roundWeight(x: number) {
+  return Math.round(x * 1e6) / 1e6;
+}
+
+/** A complete weight set: `partial` on top of the defaults (a saved set may predate a new key). */
+export function withDefaultWeights(partial: Partial<WeightSet> | null | undefined): WeightSet {
+  return {
+    categories: { ...defaultWeights2026.categories, ...partial?.categories },
+    items: { ...defaultWeights2026.items, ...partial?.items },
+    leaves: { ...defaultWeights2026.leaves, ...partial?.leaves },
+    kpmrPillars: { ...defaultWeights2026.kpmrPillars, ...partial?.kpmrPillars },
+  };
+}
+
+/** The scoring config for a weight set: parameter weight = item weight × leaf weight. */
+export function buildScoringConfig2026(weights: WeightSet): ScoringConfig {
+  return {
+    ...scoringConfig2026,
+    categoryWeights: { ...weights.categories },
+    parameters: templateParameters.map((p) => ({ ...p, weight: weights.items[String(itemRowOf(p.id))] * weights.leaves[p.id] })),
+    kpmrPillarWeights: { ...weights.kpmrPillars },
+  };
+}
+
+/** One problem per group that doesn't add up to 100% (within 0.01 percentage point) or has a negative weight. */
+export function weightProblems(weights: WeightSet): { group: string; total: number }[] {
+  const problems: { group: string; total: number }[] = [];
+  const check = (group: string, values: number[]) => {
+    const total = values.reduce((s, v) => s + v, 0);
+    if (Math.abs(total - 1) > 1e-4 || values.some((v) => !(v >= 0))) problems.push({ group, total });
+  };
+  check("Kategori risiko", Object.keys(scoringConfig2026.categoryWeights).map((c) => weights.categories[c]));
+  for (const category of Object.keys(scoringConfig2026.categoryWeights)) {
+    check(`Faktor ${category}`, a2Items.filter((i) => i.category === category).map((i) => weights.items[String(i.row)]));
+  }
+  for (const item of a2Items) {
+    check(`Parameter baris ${item.row}`, templateParameters.filter((p) => itemRowOf(p.id) === item.row).map((p) => weights.leaves[p.id]));
+  }
+  check("Pilar KPMR", Object.values(KPMR_PILLARS).map((p) => weights.kpmrPillars[p]));
+  return problems;
+}
+
+/**
+ * The 2026 template exactly as it was: no KPMR pillar weights, the original
+ * TPPT leaf weights. `scripts/golden-test.ts` checks the 66 real files against
+ * this (with `templateParameterShareRefs`), since they were scored with it.
+ */
+export const templateScoringConfig2026: ScoringConfig = {
+  ...scoringConfig2026,
+  parameters: templateParameters,
+  kpmrPillarWeights: undefined,
 };

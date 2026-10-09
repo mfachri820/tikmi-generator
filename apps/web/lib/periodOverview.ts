@@ -1,7 +1,8 @@
 import { asc, desc, eq } from "drizzle-orm";
-import { formSubmissions, periods, pjp as pjpTable, users, workbooks, type Db } from "@ira/db";
+import { formSubmissions, periods, pjp as pjpTable, workbooks, type Db } from "@ira/db";
 import { aggregateYear, getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
 import { loadWorkbookView } from "./workbookView";
+import { loadWeights } from "./weights";
 
 /** Where a PJP stands this period: no workbook yet, then the workbook's own status. */
 export type Stage = "belum" | "generated" | "in_review" | "final" | "locked";
@@ -12,7 +13,6 @@ export interface PjpOverviewRow {
   /** Position in the form's 85-PJP list. */
   no: number;
   statusPjp: string;
-  pengawas: string | null;
   /** ISO timestamp of the latest form submission, if any. */
   submittedAt: string | null;
   stage: Stage;
@@ -35,7 +35,7 @@ export interface PeriodOverview {
 
 /**
  * Everything the home page shows for the active period: every PJP in the
- * form's list with its status, assigned pengawas, latest form submission,
+ * form's list with its status, latest form submission,
  * workbook stage and live scores. Scores come from `loadWorkbookView`, the same
  * pipeline the grid and the export use, with the LTDBB totals loaded once.
  */
@@ -43,22 +43,20 @@ export async function loadPeriodOverview(db: Db): Promise<PeriodOverview> {
   const [period] = await db.select().from(periods).where(eq(periods.status, "active")).limit(1);
 
   const pjps = await db
-    .select({ pjp: pjpTable, pengawas: users.name })
+    .select({ pjp: pjpTable })
     .from(pjpTable)
-    .leftJoin(users, eq(users.id, pjpTable.dedicatedUserId))
     .orderBy(asc(pjpTable.sortOrder));
 
   if (!period) {
     return {
       period: null,
       ltdbb: null,
-      rows: pjps.map(({ pjp, pengawas }) => ({
+      rows: pjps.map(({ pjp }) => ({
         sandi: pjp.sandi,
         nama: pjp.nama,
         no: pjp.sortOrder,
         statusPjp: pjp.status,
-        pengawas,
-        submittedAt: null,
+          submittedAt: null,
         stage: "belum",
         workbookId: null,
         scores: null,
@@ -79,16 +77,18 @@ export async function loadPeriodOverview(db: Db): Promise<PeriodOverview> {
   for (const s of submissions) if (!latestSubmission.has(s.sandi)) latestSubmission.set(s.sandi, s.submittedAt);
 
   const upload = await getActiveLtdbbUpload(db);
+  // One weights lookup for the whole period, not one per workbook.
+  const weights = await loadWeights(db, period.id);
   const ltdbbRows = upload ? (await aggregateYear(db, upload.id, period.dataYear)).rows : [];
   const ltdbbContext = { upload, rowsBySandi: new Map(ltdbbRows.map((r) => [r.sandi, r])) };
 
   const views = new Map(
     await Promise.all(
-      periodWorkbooks.map(async (w) => [w.pjpSandi, await loadWorkbookView(db, w.id, ltdbbContext)] as const),
+      periodWorkbooks.map(async (w) => [w.pjpSandi, await loadWorkbookView(db, w.id, ltdbbContext, weights)] as const),
     ),
   );
 
-  const rows = pjps.map(({ pjp, pengawas }): PjpOverviewRow => {
+  const rows = pjps.map(({ pjp }): PjpOverviewRow => {
     const workbook = workbookBySandi.get(pjp.sandi);
     const view = views.get(pjp.sandi);
     const s = view?.scores;
@@ -97,7 +97,6 @@ export async function loadPeriodOverview(db: Db): Promise<PeriodOverview> {
       nama: pjp.nama,
       no: pjp.sortOrder,
       statusPjp: pjp.status,
-      pengawas,
       submittedAt: latestSubmission.get(pjp.sandi)?.toISOString() ?? null,
       stage: workbook ? workbook.status : "belum",
       workbookId: workbook?.id ?? null,

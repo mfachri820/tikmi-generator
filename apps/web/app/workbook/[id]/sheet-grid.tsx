@@ -5,8 +5,10 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
   type CSSProperties,
   type KeyboardEvent,
+  type PointerEvent,
   type Ref,
 } from "react";
 import type { LayoutCell, LayoutCellStyle, LayoutSheet } from "@ira/template";
@@ -17,6 +19,7 @@ export const HEADER_HEIGHT = 20;
 export const ROW_HEADER_WIDTH = 44;
 const GRIDLINE = "1px solid #E1E1E1";
 const EXCEL_GREEN = "#217346";
+const MIN_COL_WIDTH = 16;
 /** Empty columns/rows past the used range, so the sheet doesn't end abruptly (Excel's grid never does). */
 const EXTRA_COLS = 3;
 const EXTRA_ROWS = 12;
@@ -89,7 +92,11 @@ export function buildGridModel(sheet: LayoutSheet): GridModel {
   return { cols, rows, colWidth, rowHeight, cellAt, merges, coveredBy, frozenTop, frozenHeight: top - HEADER_HEIGHT };
 }
 
+/** Template borders all drawn at one weight: Excel's medium (2px) and thick (3px) lines become 1px, so every line matches. */
+const sameWeight = (border: string | undefined) => border?.replace(/^\d+px/, "1px");
+
 function baseStyle(style: LayoutCellStyle | undefined, gridline: string): CSSProperties {
+  const border = (side: string | undefined) => sameWeight(side) ?? gridline;
   return {
     backgroundColor: style?.fill ?? "#FFFFFF",
     color: style?.color ?? "#000000",
@@ -102,10 +109,10 @@ function baseStyle(style: LayoutCellStyle | undefined, gridline: string): CSSPro
     wordBreak: style?.wrap ? "break-word" : undefined,
     paddingLeft: 3 + (style?.indent ?? 0) * 9,
     paddingRight: 3,
-    borderTop: style?.borderTop ?? gridline,
-    borderRight: style?.borderRight ?? gridline,
-    borderBottom: style?.borderBottom ?? gridline,
-    borderLeft: style?.borderLeft ?? gridline,
+    borderTop: border(style?.borderTop),
+    borderRight: border(style?.borderRight),
+    borderBottom: border(style?.borderBottom),
+    borderLeft: border(style?.borderLeft),
   };
 }
 
@@ -205,7 +212,6 @@ interface GridCellProps {
   stickyTop?: number;
   selected: boolean;
   editable: boolean;
-  highlight: boolean;
   overridden: boolean;
   spill: boolean;
   editing: EditingState | null;
@@ -220,6 +226,8 @@ interface GridCellProps {
   onPickerHighlight: (index: number) => void;
   onDraftChange: (draft: string) => void;
   onEditorKeyDown: (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  /** The cursor entered (with the cell's screen box) or left a link cell, for the document hover card. */
+  onLinkHover: (address: string | null, rect?: DOMRect) => void;
 }
 
 const GridCell = memo(function GridCell(props: GridCellProps) {
@@ -240,7 +248,8 @@ const GridCell = memo(function GridCell(props: GridCellProps) {
         : selected || editing ? 3 : props.spill ? 1 : undefined,
     outline: selected ? `2px solid ${EXCEL_GREEN}` : undefined,
     outlineOffset: selected ? -1 : undefined,
-    boxShadow: props.highlight ? "inset 0 0 0 1px rgba(47,117,181,0.6)" : undefined,
+    // Keep the fill inside the borders so a coloured cell never covers its neighbour's gridline.
+    backgroundClip: "padding-box",
   };
 
   return (
@@ -254,6 +263,8 @@ const GridCell = memo(function GridCell(props: GridCellProps) {
       }}
       onClick={() => props.onCellClick(address)}
       onDoubleClick={() => props.onActivate(address)}
+      onMouseEnter={href ? (e) => props.onLinkHover(address, e.currentTarget.getBoundingClientRect()) : undefined}
+      onMouseLeave={href ? () => props.onLinkHover(null) : undefined}
       title={props.overridden ? "Nilai pengawas berbeda dari nilai PJP" : undefined}
     >
       {editing ? (
@@ -275,7 +286,17 @@ const GridCell = memo(function GridCell(props: GridCellProps) {
           }}
         />
       ) : href ? (
-        <a href={href} target="_blank" rel="noreferrer" className="text-[#0563C1] underline">
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          // A plain click opens the document panel (via the cell's click); Ctrl/⌘/Shift/middle click opens a tab as usual.
+          onClick={(e) => {
+            if (e.ctrlKey || e.metaKey || e.shiftKey) e.stopPropagation();
+            else e.preventDefault();
+          }}
+          className="text-[#0563C1] underline"
+        >
           {text}
         </a>
       ) : (
@@ -312,7 +333,6 @@ interface SheetGridProps {
   values: Record<string, SheetCellValue>;
   editable: Set<string>;
   overridden: Set<string>;
-  highlightInputs: boolean;
   selected: string;
   editing: EditingState | null;
   wideEditorCells: Set<string>;
@@ -320,6 +340,10 @@ interface SheetGridProps {
   /** The open score list; it belongs to the selected cell. */
   picker: ScorePickerState | null;
   zoom: number;
+  /** Widths the user dragged, in px at 100% zoom, by column number; other columns keep the template's. */
+  colWidthOverrides: Record<number, number>;
+  /** A finished column drag (null = back to the template width, on double-click). */
+  onResizeColumn: (col: number, width: number | null) => void;
   scrollerRef: Ref<HTMLDivElement>;
   onGridKeyDown: (e: KeyboardEvent<HTMLDivElement>) => void;
   onSelect: (address: string) => void;
@@ -329,6 +353,9 @@ interface SheetGridProps {
   onPickerHighlight: (index: number) => void;
   onDraftChange: (draft: string) => void;
   onEditorKeyDown: (e: KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  onLinkHover: (address: string | null, rect?: DOMRect) => void;
+  /** The grid scrolled (hover cards anchored to a cell must go). */
+  onScroll?: () => void;
 }
 
 interface CellDisplay {
@@ -350,18 +377,43 @@ export function displayValue(
   const value = ref in values ? values[ref] : cell.isInput ? null : cell.value;
   const numFmt = cell.style !== undefined ? styles[cell.style].numFmt : undefined;
   const text = formatCellValue(value, numFmt);
+  // A form upload with several files is stored one link per line; the cell links to the first.
   const href =
-    cell.href ?? (typeof value === "string" && /^https?:\/\//.test(value) ? value : undefined);
+    cell.href ?? (typeof value === "string" && /^https?:\/\//.test(value) ? value.split(/\s+/)[0] : undefined);
   return { text, isNumber: typeof value === "number", isEmpty: text === "", href };
 }
 
 export function SheetGrid(props: SheetGridProps) {
   const {
-    sheet, model, styles, values, editable, overridden, highlightInputs, selected, editing,
-    wideEditorCells, scoreCells, picker, zoom, scrollerRef, onGridKeyDown, onSelect, onActivate, onCellClick,
-    onPick, onPickerHighlight, onDraftChange, onEditorKeyDown,
+    sheet, model, styles, values, editable, overridden, selected, editing,
+    wideEditorCells, scoreCells, picker, zoom, colWidthOverrides, onResizeColumn, scrollerRef, onGridKeyDown,
+    onSelect, onActivate, onCellClick, onPick, onPickerHighlight, onDraftChange, onEditorKeyDown, onLinkHover, onScroll,
   } = props;
   const gridline = sheet.showGridLines ? GRIDLINE : "1px solid transparent";
+
+  // A column drag in progress: shown live here, handed up (and saved) on release.
+  const [drag, setDrag] = useState<{ col: number; startX: number; startWidth: number; width: number } | null>(null);
+  const widthOf = (c: number) =>
+    drag?.col === c ? drag.width : (colWidthOverrides[c] ?? model.colWidth.get(c)!);
+
+  function startColumnDrag(e: PointerEvent<HTMLSpanElement>, col: number) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setDrag({ col, startX: e.clientX, startWidth: widthOf(col), width: widthOf(col) });
+  }
+  function moveColumnDrag(e: PointerEvent<HTMLSpanElement>) {
+    if (!drag) return;
+    // The table is zoomed, so a screen pixel is less (or more) than a column pixel.
+    const width = Math.max(MIN_COL_WIDTH, Math.round(drag.startWidth + (e.clientX - drag.startX) / (zoom / 100)));
+    setDrag({ ...drag, width });
+  }
+  function endColumnDrag() {
+    if (!drag) return;
+    if (drag.width !== drag.startWidth) onResizeColumn(drag.col, drag.width);
+    setDrag(null);
+  }
   const selectedPos = parseAddress(selected);
   const selectedMerge = model.merges.get(selected);
 
@@ -383,6 +435,38 @@ export function SheetGrid(props: SheetGridProps) {
         map.set(address, css);
       }
     }
+
+    // A line two cells share is drawn by both: Excel shows a border set on either side, but in a collapsed
+    // HTML table an equal-width gridline on the left/top cell wins the tie and turns the line grey.
+    const anchor = (address: string) => model.coveredBy.get(address) ?? address;
+    const writable = (address: string) => {
+      const css = map.get(address)!;
+      if (css !== blank) return css;
+      const copy = { ...blank };
+      map.set(address, copy);
+      return copy;
+    };
+    const share = (a: string, aSide: "borderRight" | "borderBottom", b: string, bSide: "borderLeft" | "borderTop") => {
+      const cssA = map.get(a);
+      const cssB = map.get(b);
+      if (!cssA || !cssB || a === b) return;
+      const lineA = cssA[aSide] as string;
+      const lineB = cssB[bSide] as string;
+      if (lineA === gridline && lineB !== gridline) writable(a)[aSide] = lineB;
+      else if (lineB === gridline && lineA !== gridline) writable(b)[bSide] = lineA;
+    };
+    for (const [ri, r] of model.rows.entries()) {
+      for (const [ci, c] of model.cols.entries()) {
+        const address = `${columnLetter(c)}${r}`;
+        if (model.coveredBy.has(address)) continue;
+        const merge = model.merges.get(address);
+        // Neighbours past the merge's last visible column / row.
+        const nextCol = model.cols.find((x, i) => i > ci && x > (merge?.lastCol ?? c));
+        const nextRow = model.rows.find((x, i) => i > ri && x > (merge?.lastRow ?? r));
+        if (nextCol !== undefined) share(address, "borderRight", anchor(`${columnLetter(nextCol)}${r}`), "borderLeft");
+        if (nextRow !== undefined) share(address, "borderBottom", anchor(`${columnLetter(c)}${nextRow}`), "borderTop");
+      }
+    }
     return map;
   }, [model, styles, gridline]);
 
@@ -392,7 +476,7 @@ export function SheetGrid(props: SheetGridProps) {
     return map;
   }, [sheet, values, styles]);
 
-  const totalWidth = ROW_HEADER_WIDTH + model.cols.reduce((sum, c) => sum + model.colWidth.get(c)!, 0);
+  const totalWidth = ROW_HEADER_WIDTH + model.cols.reduce((sum, c) => sum + widthOf(c), 0);
   const inSelectedCols = (c: number) => c >= selectedPos.col && c <= (selectedMerge?.lastCol ?? selectedPos.col);
   const inSelectedRows = (r: number) => r >= selectedPos.row && r <= (selectedMerge?.lastRow ?? selectedPos.row);
 
@@ -401,7 +485,8 @@ export function SheetGrid(props: SheetGridProps) {
       ref={scrollerRef}
       tabIndex={0}
       onKeyDown={onGridKeyDown}
-      className="min-h-0 flex-1 overflow-auto bg-[#F3F3F3] outline-none"
+      onScroll={onScroll}
+      className="min-h-0 min-w-0 flex-1 overflow-auto bg-[#F3F3F3] outline-none"
     >
       <table
         className="border-collapse bg-white"
@@ -419,7 +504,7 @@ export function SheetGrid(props: SheetGridProps) {
         <colgroup>
           <col style={{ width: ROW_HEADER_WIDTH }} />
           {model.cols.map((c) => (
-            <col key={c} style={{ width: model.colWidth.get(c) }} />
+            <col key={c} style={{ width: widthOf(c) }} />
           ))}
         </colgroup>
         <thead>
@@ -442,6 +527,23 @@ export function SheetGrid(props: SheetGridProps) {
                   }}
                 >
                   {columnLetter(c)}
+                  {/* Excel's column-edge handle: drag to resize, double-click for the template width. */}
+                  <span
+                    role="separator"
+                    aria-orientation="vertical"
+                    aria-label={`Ubah lebar kolom ${columnLetter(c)}`}
+                    title="Seret untuk mengubah lebar kolom · klik dua kali untuk lebar semula"
+                    onPointerDown={(e) => startColumnDrag(e, c)}
+                    onPointerMove={moveColumnDrag}
+                    onPointerUp={endColumnDrag}
+                    onPointerCancel={endColumnDrag}
+                    onDoubleClick={(e) => {
+                      e.stopPropagation();
+                      onResizeColumn(c, null);
+                    }}
+                    className="absolute -right-[3px] top-0 z-10 h-full w-[6px] cursor-col-resize hover:bg-[#217346]/40"
+                    style={drag?.col === c ? { backgroundColor: EXCEL_GREEN } : undefined}
+                  />
                 </th>
               );
             })}
@@ -500,7 +602,6 @@ export function SheetGrid(props: SheetGridProps) {
                       stickyTop={stickyTop}
                       selected={selected === address}
                       editable={isEditable}
-                      highlight={highlightInputs && isEditable}
                       overridden={overridden.has(ref)}
                       spill={spill}
                       editing={isEditing}
@@ -514,6 +615,7 @@ export function SheetGrid(props: SheetGridProps) {
                       onPickerHighlight={onPickerHighlight}
                       onDraftChange={onDraftChange}
                       onEditorKeyDown={onEditorKeyDown}
+                      onLinkHover={onLinkHover}
                     />
                   );
                 })}

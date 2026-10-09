@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens. The app is light-only: the workbook grid deliberately mirrors
+ * Excel, so the rest of the app matches it rather than flipping to dark.
+ *
+ * Data colors were run through the dataviz palette validator:
+ * - stage-*: one-hue ordinal ramp in the brand green (monotone, light end 2.06:1).
+ * - risk-*:  diverging, red = more risk / weaker KPMR, blue = less risk / stronger,
+ *            neutral gray midpoint; each arm passes as an ordinal ramp and the five
+ *            together clear the adjacent CVD (>= 8) and normal-vision (>= 15) floors.
+ *            Every mark carries a text label, which covers the sub-3:1 midpoint.
+ * - status-*: reserved for state (Perbedaan Data, LTDBB problems), always with an
+ *            icon and a label, never for a data series.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-geist-sans), system-ui, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand: #217346;
+  --color-brand-strong: #185c37;
+  --color-brand-soft: #e9f3ed;
+
+  --color-plane: #f6f6f3;
+  --color-surface: #ffffff;
+  /* ink-3 is the lightest text and still clears 4.5:1 on both surface and plane. */
+  --color-ink: #121211;
+  --color-ink-2: #3d3c39;
+  --color-ink-3: #6a6964;
+  --color-line: #e2e1db;
+  --color-line-strong: #d4d3cc;
+  --color-track: #ecebe6;
+
+  --color-stage-1: #7cc496;
+  --color-stage-2: #3f9d63;
+  --color-stage-3: #217346;
+  --color-stage-4: #0f4a2a;
+
+  --color-risk-1: #a8302a;
+  --color-risk-2: #e8705f;
+  --color-risk-3: #d3d1ca;
+  --color-risk-4: #4a8fe3;
+  --color-risk-5: #184f95;
+
+  --color-status-good: #0ca30c;
+  --color-status-warning: #fab219;
+  --color-status-serious: #ec835a;
+  --color-status-critical: #d03b3b;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-plane);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+@layer components {
+  /* A content card: white, hairline ring, a whisper of shadow. */
+  .card {
+    @apply rounded-xl bg-surface shadow-[0_1px_2px_rgba(18,18,17,0.04)] ring-1 ring-line;
+  }
+  .card-title {
+    @apply flex items-center text-[14.5px] font-semibold text-ink;
+  }
 }

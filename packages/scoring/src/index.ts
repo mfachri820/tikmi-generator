@@ -67,8 +67,8 @@ export function computeWorkbookScores(
     pengawas: pillarAverages(resolvedKpmr, (a) => a.pengawasScore),
   };
   const kpmrOverall = {
-    pjp: overallFromPillarAverages(kpmrPillarAverages.pjp),
-    pengawas: overallFromPillarAverages(kpmrPillarAverages.pengawas),
+    pjp: overallFromPillarAverages(kpmrPillarAverages.pjp, config.kpmrPillarWeights),
+    pengawas: overallFromPillarAverages(kpmrPillarAverages.pengawas, config.kpmrPillarWeights),
   };
   const kpmrPredikat = {
     pjp: predikatFromScore(kpmrOverall.pjp, config.kpmrPredikatRules),

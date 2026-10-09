@@ -18,14 +18,14 @@
  *    `formColumn` is the header text, not a real Apps Script item ID -- this
  *    environment has no access to the live form, same limitation the build
  *    plan and README already call out for the ingest webhook.
- *  - one fully-populated demo `workbooks` row, with every input cell from
- *    the chosen fixture written through `recordCellInput` (so `audit_log`
- *    gets real rows too), for the grid to render.
+ *  - one fully-populated demo `workbooks` row (or N with `--workbooks=N`, each
+ *    from its own PJP's fixture), with every input cell written through
+ *    `recordCellInput` (so `audit_log` gets real rows too), for the grid to render.
  *
  * Reads only from IRA_FIXTURES_DIR and the gitignored LTDBB file; never
  * commits PJP data (see ground rules).
  *
- * Usage: IRA_FIXTURES_DIR=... npx tsx scripts/seed-dev.ts [specific-fixture.xlsx]
+ * Usage: IRA_FIXTURES_DIR=... npx tsx scripts/seed-dev.ts [specific-fixture.xlsx] [--workbooks=N]
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, join } from "node:path";
@@ -35,6 +35,8 @@ import { eq } from "drizzle-orm";
 import {
   createDb,
   fieldMappings,
+  generateTemporaryPassword,
+  hashPassword,
   ltdbbCodeOverrides,
   periods,
   pjp,
@@ -47,6 +49,7 @@ import {
 import { parameterShareRefs, scoringConfig2026 } from "../packages/scoring/config/2026";
 import { inputCellRefs2026, sharedCellRefs2026 } from "../packages/scoring/config/2026-input-cells";
 import { DEFAULT_LTDBB_FILE, importLtdbbFile } from "./lib/ltdbbDefault";
+import { replaceKpmrMappings } from "./lib/kpmrMappings";
 
 const C2_SHEET = "C2. Form PJP LR";
 const A2_SHEET = "A2. PJP ALL peng";
@@ -96,7 +99,13 @@ async function main() {
     console.error(`No usable IRA_<Sandi>.xlsx fixtures found under ${fixturesDir}`);
     process.exit(1);
   }
-  const demoFilePath = process.argv[2] ?? files[0];
+  const args = process.argv.slice(2);
+  const demoFilePath = args.find((a) => !a.startsWith("--")) ?? files[0];
+  const workbookCount = Number(args.find((a) => a.startsWith("--workbooks="))?.split("=")[1] ?? 1);
+  if (!Number.isInteger(workbookCount) || workbookCount < 1) {
+    console.error("--workbooks=N needs a whole number of at least 1.");
+    process.exit(1);
+  }
 
   const demoWb = new ExcelJS.Workbook();
   await demoWb.xlsx.readFile(demoFilePath);
@@ -112,6 +121,15 @@ async function main() {
     .onConflictDoNothing({ target: users.email })
     .returning();
   const user = devUser ?? (await db.select().from(users).where(eq(users.email, DEV_USER_EMAIL)).limit(1))[0];
+  // Sign-in for the dev admin: IRA_ADMIN_PASSWORD if set, else a temporary one printed here (changed at first login).
+  if (!user.passwordHash) {
+    const password = process.env.IRA_ADMIN_PASSWORD || generateTemporaryPassword();
+    await db
+      .update(users)
+      .set({ passwordHash: await hashPassword(password), mustChangePassword: !process.env.IRA_ADMIN_PASSWORD })
+      .where(eq(users.id, user.id));
+    console.log(`Admin login: ${DEV_USER_EMAIL}${process.env.IRA_ADMIN_PASSWORD ? " (password from IRA_ADMIN_PASSWORD)" : ` / temporary password ${password}`}`);
+  }
 
   const [templateVersion] = await db
     .insert(templateVersions)
@@ -168,6 +186,8 @@ async function main() {
       })),
     );
   console.log(`Seeded ${mappingRows.length} field_mappings row(s).`);
+  const kpmrMappings = await replaceKpmrMappings(db, templateVersion.id);
+  console.log(`Seeded ${kpmrMappings.added} KPMR field_mappings row(s) (2027 form -> B. KPMR 2025 H/I).`);
 
   // pjp (in sheet order) + Status PJP / Keterangan from "Validasi Data Transaksi" (same in every fixture).
   // Its transaction columns are not seeded: those come from the LTDBB import below.
@@ -209,30 +229,6 @@ async function main() {
     .values({ namaLtdbb: "Indomarco Prismatama", kode: "777958116" })
     .onConflictDoNothing();
 
-  // One fully-populated demo workbook from the chosen fixture.
-  const c2 = demoWb.getWorksheet(C2_SHEET)!;
-  const a2 = demoWb.getWorksheet(A2_SHEET)!;
-  const kpmr = demoWb.getWorksheet(KPMR_SHEET)!;
-  const demoSandiNama = String(rawCellValue(c2.getCell("B2").value) ?? "");
-  const [demoSandi] = demoSandiNama.split(" - ");
-  if (!demoSandi) throw new Error(`Could not read "Sandi - Nama" from ${demoFilePath}'s C2!B2`);
-
-  const [demoWorkbook] = await db
-    .insert(workbooks)
-    .values({
-      pjpSandi: demoSandi.trim(),
-      periodId: period.id,
-      templateVersionId: templateVersion.id,
-      status: "in_review",
-    })
-    .returning();
-
-  const sheetByName: Record<string, ExcelJS.Worksheet> = {
-    [C2_SHEET]: c2,
-    [A2_SHEET]: a2,
-    [KPMR_SHEET]: kpmr,
-  };
-
   /** Matches the build plan's Input cells "Filled by" column. */
   function sourceFor(sheet: string, address: string): "form" | "pengawas" {
     if (sheet === C2_SHEET) return "form";
@@ -240,36 +236,64 @@ async function main() {
     return "pengawas"; // A2: L/M/N/O are all pengawas-filled
   }
 
-  let cellCount = 0;
-  for (const ref of inputCellRefs2026) {
-    const { sheet, address } = parseCellRef(ref);
-    const worksheet = sheetByName[sheet];
-    if (!worksheet) continue;
-    const cellValue = worksheet.getCell(address).value;
-    // Some "input" cells (e.g. A2!O, which defaults to a `=L` formula until a
-    // pengawas actually overrides it) still hold the template's own formula
-    // in an unedited fixture -- that's not a typed value, so leave it out of
-    // cell_inputs rather than writing its cached result as a fake override
-    // (writeInputCells would then correctly refuse to export it: a formula
-    // cell can never be overwritten).
-    if (typeof cellValue === "object" && cellValue !== null && "formula" in cellValue) continue;
-    const value = rawCellValue(cellValue);
-    if (value === null || value === undefined || value === "") continue;
+  /** One fully-populated workbook from a PJP's own fixture: every typed input cell, through `recordCellInput`. */
+  async function seedWorkbook(fixture: ExcelJS.Workbook, filePath: string, status: (typeof workbooks.$inferInsert)["status"]) {
+    const sheetByName: Record<string, ExcelJS.Worksheet | undefined> = {
+      [C2_SHEET]: fixture.getWorksheet(C2_SHEET),
+      [A2_SHEET]: fixture.getWorksheet(A2_SHEET),
+      [KPMR_SHEET]: fixture.getWorksheet(KPMR_SHEET),
+    };
+    const sandiNama = String(rawCellValue(sheetByName[C2_SHEET]?.getCell("B2").value) ?? "");
+    const [sandi] = sandiNama.split(" - ");
+    if (!sandi) throw new Error(`Could not read "Sandi - Nama" from ${filePath}'s C2!B2`);
 
-    await recordCellInput(db, {
-      workbookId: demoWorkbook.id,
-      cellRef: ref,
-      value: value instanceof Date ? value.toISOString() : value,
-      source: sourceFor(sheet, address),
-      userId: user.id,
-      reason: "dev seed from fixture",
-      // A2's Keterangan is one value per period; seeding it here gives every workbook the template's text.
-      shared: sharedCellRefs2026.includes(ref),
-    });
-    cellCount++;
+    const [workbook] = await db
+      .insert(workbooks)
+      .values({ pjpSandi: sandi.trim(), periodId: period.id, templateVersionId: templateVersion.id, status })
+      .returning();
+
+    let cellCount = 0;
+    for (const ref of inputCellRefs2026) {
+      const { sheet, address } = parseCellRef(ref);
+      const worksheet = sheetByName[sheet];
+      if (!worksheet) continue;
+      const cellValue = worksheet.getCell(address).value;
+      // Some "input" cells (e.g. A2!O, which defaults to a `=L` formula until a
+      // pengawas actually overrides it) still hold the template's own formula
+      // in an unedited fixture -- that's not a typed value, so leave it out of
+      // cell_inputs rather than writing its cached result as a fake override
+      // (writeInputCells would then correctly refuse to export it: a formula
+      // cell can never be overwritten).
+      if (typeof cellValue === "object" && cellValue !== null && "formula" in cellValue) continue;
+      const value = rawCellValue(cellValue);
+      if (value === null || value === undefined || value === "") continue;
+
+      await recordCellInput(db, {
+        workbookId: workbook.id,
+        cellRef: ref,
+        value: value instanceof Date ? value.toISOString() : value,
+        source: sourceFor(sheet, address),
+        userId: user.id,
+        reason: "dev seed from fixture",
+        // A2's Keterangan is one value per period; seeding it here gives every workbook the template's text.
+        shared: sharedCellRefs2026.includes(ref),
+      });
+      cellCount++;
+    }
+    console.log(`Seeded workbook ${workbook.id} for "${sandiNama}" (${status}) with ${cellCount} cell_inputs.`);
+    return workbook;
   }
 
-  console.log(`Seeded workbook ${demoWorkbook.id} for "${demoSandiNama}" with ${cellCount} cell_inputs.`);
+  // `--workbooks=N`: the template-source fixture first, then the next ones in sorted order, each from its own
+  // file. Statuses rotate so the home page shows every stage.
+  const STATUSES = ["in_review", "generated", "final", "in_review", "locked"] as const;
+  const seedFiles = [demoFilePath, ...files.filter((f) => f !== demoFilePath)].slice(0, workbookCount);
+  const seeded = [];
+  for (const [i, file] of seedFiles.entries()) {
+    const fixture = file === demoFilePath ? demoWb : await new ExcelJS.Workbook().xlsx.readFile(file);
+    seeded.push(await seedWorkbook(fixture, file, STATUSES[i % STATUSES.length]));
+  }
+  const demoWorkbook = seeded[0];
 
   if (existsSync(DEFAULT_LTDBB_FILE)) {
     await importLtdbbFile(db, DEFAULT_LTDBB_FILE, user.id);

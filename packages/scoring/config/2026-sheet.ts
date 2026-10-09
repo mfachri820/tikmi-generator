@@ -1,5 +1,5 @@
 import { NOT_AVAILABLE, type ResolvedKpmrAnswer, type WorkbookScoringResult } from "../src";
-import { scoringConfig2026 } from "./2026";
+import { a2Items, defaultWeights2026, parameterShareRefFixes, scoringConfig2026, type WeightSet } from "./2026";
 import { a2ParameterRows } from "./2026-input-cells";
 
 /**
@@ -42,14 +42,84 @@ export const c2TotalCells: [string, string[]][] = [
 ];
 
 /** A2 item rows (`$D6*SUMPRODUCT($E7:$E8,$L7:$L8)` etc.): each sums the parameter rows below it, up to the next item row. */
-export const a2ItemRows = [6, 9, 12, 18, 22, 25, 28, 33, 37, 40, 43, 47, 50, 56];
+export const a2ItemRows = a2Items.map((i) => i.row);
 
 /** A2 rekap rows 60-63 (E/Q = category sum, F/R = weighted by D/P, S = R). */
 export const a2CategoryRows: Record<string, number> = { TPPU: 60, TPPT: 61, PPSPM: 62, Struktural: 63 };
 
-/** KPMR pillar average rows (`IFERROR(SUM(H5:H11)/COUNTA(H5:H11),0)`), in pillar order; row 46 averages them. */
+/** KPMR pillar average rows (`IFERROR(SUM(H5:H11)/COUNTA(H5:H11),0)`), in pillar order; row 46 combines them. */
 export const kpmrPillarRows = [12, 22, 34, 39, 44];
 export const kpmrOverallRow = 46;
+
+/**
+ * Replacement formulas for KPMR H46/J46: the weighted sum the app computes,
+ * instead of the template's unweighted `AVERAGE(H12,H22,H34,H39,H44)`. The
+ * export writes them into the file and the grid's formula bar shows them, so
+ * Excel, the grid and the scores agree.
+ */
+export function kpmrOverallFormulas(weights: WeightSet): Record<string, string> {
+  const pillars = [...new Set(scoringConfig2026.kpmrQuestions.map((q) => q.pillar))];
+  return Object.fromEntries(
+    ["H", "J"].map((col) => {
+      const terms = pillars.map((pillar, i) => `${col}${kpmrPillarRows[i]}*${weights.kpmrPillars[pillar]}`);
+      return [`${KPMR}!${col}${kpmrOverallRow}`, terms.join("+")];
+    }),
+  );
+}
+
+/**
+ * Replacement formulas for the A2 rows whose cell reference the app corrects
+ * (`parameterShareRefFixes`): the template's own 20/40/60/80/100% chain, reading
+ * the corrected C2 cell.
+ */
+export const a2FormulaOverrides2026: Record<string, string> = Object.fromEntries(
+  Object.entries(parameterShareRefFixes).map(([row, fix]) => {
+    const cell = `'${C2}'!${fix.fixed[0]}`;
+    return [
+      `${A2}!L${row}`,
+      `IF(${cell}<=20%,5, IF(${cell}<=40%,4, IF(${cell}<=60%,3, IF(${cell}<=80%,2, IF(${cell}<=100%,1,"")))))`,
+    ];
+  }),
+);
+
+/** Every template formula the app replaces, for a weight set: the export writes them, the formula bar shows them. */
+export function formulaOverridesFor(weights: WeightSet): Record<string, string> {
+  return { ...kpmrOverallFormulas(weights), ...a2FormulaOverrides2026 };
+}
+
+/** Category heading cells in A2 ("Risiko Inheren TPPU (40%)") and pillar heading rows in KPMR ("… (30%)"). */
+const A2_CATEGORY_HEADINGS: Record<string, string> = { TPPU: "B5", TPPT: "B21", PPSPM: "B36", Struktural: "B49" };
+const KPMR_PILLAR_HEADING_ROWS = [4, 13, 23, 35, 40];
+const PERCENT_IN_TEXT = /\(\s*\d+(?:[.,]\d+)?\s*%\s*\)/;
+
+/**
+ * Template constants the app replaces for a weight set: A2 item weights (D),
+ * parameter weights (E), category weights (D60:D63, P60:P63), and the "(40%)"
+ * in the category and KPMR pillar headings. `textOf` gives a template cell's
+ * text; a heading is only rewritten when it has a "(…%)" to replace.
+ */
+export function valueOverridesFor(weights: WeightSet, textOf: (ref: string) => unknown): Record<string, number | string> {
+  const out: Record<string, number | string> = {};
+  for (const item of a2Items) out[`${A2}!D${item.row}`] = weights.items[String(item.row)];
+  for (const p of scoringConfig2026.parameters) out[`${A2}!E${p.id}`] = weights.leaves[p.id];
+  for (const [category, row] of Object.entries(a2CategoryRows)) {
+    out[`${A2}!D${row}`] = weights.categories[category];
+    out[`${A2}!P${row}`] = weights.categories[category];
+  }
+  const heading = (ref: string, x: number) => {
+    const text = textOf(ref);
+    if (typeof text === "string" && PERCENT_IN_TEXT.test(text)) out[ref] = text.replace(PERCENT_IN_TEXT, `(${Math.round(x * 10000) / 100}%)`);
+  };
+  for (const [category, ref] of Object.entries(A2_CATEGORY_HEADINGS)) heading(`${A2}!${ref}`, weights.categories[category]);
+  const pillars = [...new Set(scoringConfig2026.kpmrQuestions.map((q) => q.pillar))];
+  pillars.forEach((pillar, i) => {
+    for (const col of ["A", "B", "C"]) heading(`${KPMR}!${col}${KPMR_PILLAR_HEADING_ROWS[i]}`, weights.kpmrPillars[pillar]);
+  });
+  return out;
+}
+
+/** The default formulas, for callers without a weight set. */
+export const formulaOverrides2026: Record<string, string> = formulaOverridesFor(defaultWeights2026);
 
 export type SheetCellValue = string | number | null;
 
@@ -62,6 +132,8 @@ export interface SheetCellsInput {
   /** The PJP's LTDBB total nominal for the data year (active upload), or null when there's no LTDBB data at all -- shown as #N/A like the XLOOKUP. */
   biTotalNominal: number | null;
   hasDataMismatch: boolean;
+  /** Category weights in use (A2 rekap F = D × E); defaults to the config. */
+  categoryWeights?: Record<string, number>;
 }
 
 export function computeSheetCells2026(input: SheetCellsInput): Record<string, SheetCellValue> {
@@ -106,7 +178,7 @@ export function computeSheetCells2026(input: SheetCellsInput): Record<string, Sh
 
   // A2 rekap: E/Q category sums, F = D*E, R = P*Q, S = R; then inherent, KPMR and final rows.
   for (const [category, row] of Object.entries(a2CategoryRows)) {
-    const weight = scoringConfig2026.categoryWeights[category];
+    const weight = (input.categoryWeights ?? scoringConfig2026.categoryWeights)[category];
     const pjp = scores.categoryScores.pjp[category] ?? 0;
     const pengawas = scores.categoryScores.pengawas[category] ?? 0;
     out[`${A2}!E${row}`] = pjp;

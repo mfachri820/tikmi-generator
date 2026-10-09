@@ -12,7 +12,8 @@ import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import ExcelJS from "exceljs";
 import { computeWorkbookScores, type ParameterInput, type KpmrAnswerInput } from "@ira/scoring";
-import { scoringConfig2026, parameterShareRefs } from "../packages/scoring/config/2026";
+// The template's original references: the fixtures were scored with them (the app's fixes are deliberate).
+import { scoringConfig2026, templateParameterShareRefs as parameterShareRefs, templateScoringConfig2026 } from "../packages/scoring/config/2026";
 import {
   computeC2Derived,
   totalTransactionCellRef,
@@ -170,7 +171,9 @@ async function scoreFile(filePath: string) {
   const selfReportedTotal = c2Values[totalTransactionCellRef];
   const hasDataMismatch = Math.abs(selfReportedTotal - biTotalNominal) > dataMismatchToleranceRupiah;
 
-  const result = computeWorkbookScores(scoringConfig2026, {
+  // The fixtures were scored by the template's own unweighted KPMR total; the app's pillar weights
+  // (a deliberate change, see `kpmrPillarWeights`) are dropped here so this still proves the formula port.
+  const result = computeWorkbookScores(templateScoringConfig2026, {
     parameters,
     kpmrAnswers,
     hasDataMismatch,

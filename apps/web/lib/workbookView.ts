@@ -8,17 +8,21 @@ import {
   type ParameterInput,
   type WorkbookScoringResult,
 } from "@ira/scoring";
-import { parameterShareRefs, scoringConfig2026 } from "@ira/scoring/config/2026";
+import { buildScoringConfig2026, parameterShareRefs, scoringConfig2026, type WeightSet } from "@ira/scoring/config/2026";
 import { computeC2Derived, dataMismatchToleranceRupiah } from "@ira/scoring/config/2026-c2";
 import { sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
 import { isUuid } from "./ids";
+import { workbookVersion } from "./workbookVersion";
+import { loadWeights } from "./weights";
+import { explainParameters, type ParameterExplanation } from "./scoreExplain";
 import { computeSheetCells2026, type SheetCellValue } from "@ira/scoring/config/2026-sheet";
 
 const C2_SHEET = "C2. Form PJP LR";
 const C2_PREFIX = `${C2_SHEET}!C`;
 
 export interface WorkbookView {
-  workbook: { id: string; pjpSandi: string; pjpNama: string; status: string };
+  /** `updatedAt` (ISO) is the version this view shows: saves send it back to detect conflicts, polling compares it. */
+  workbook: { id: string; pjpSandi: string; pjpNama: string; status: string; updatedAt: string };
   hasDataMismatch: boolean;
   /** The LTDBB data the "Perbedaan Data" check used, or null when no LTDBB upload is active (no penalty then). */
   ltdbb: { filename: string; dataYear: number; totalNominal: number; flags: AggregateFlag[] } | null;
@@ -27,6 +31,8 @@ export interface WorkbookView {
   /** Pengawas score cells whose value differs from the PJP-derived one (a reason is expected). */
   overriddenCellRefs: string[];
   scores: WorkbookScoringResult;
+  /** Per A2 parameter: what its score is based on ("Kenapa nilainya 4?"). */
+  parameterInfo: ParameterExplanation[];
 }
 
 /**
@@ -47,6 +53,8 @@ export async function loadWorkbookView(
    * once); otherwise they are loaded for this one PJP.
    */
   ltdbbContext?: { upload: LtdbbUpload | null; rowsBySandi: Map<string, PjpYearAggregate> },
+  /** Weights to score with, when the caller has them (Beranda, the Bobot preview); else the period's saved ones. */
+  weightsOverride?: WeightSet,
 ): Promise<WorkbookView | null> {
   if (!isUuid(workbookId)) return null;
   const [workbook] = await db.select().from(workbooks).where(eq(workbooks.id, workbookId)).limit(1);
@@ -61,6 +69,8 @@ export async function loadWorkbookView(
       ? ltdbbContext.rowsBySandi.get(workbook.pjpSandi)
       : (await aggregateYear(db, activeLtdbb.id, period.dataYear, { sandi: workbook.pjpSandi })).rows[0];
 
+  const weights = weightsOverride ?? (await loadWeights(db, workbook.periodId));
+  const config = buildScoringConfig2026(weights);
   const cellByRef = await loadCellValues(db, workbook, sharedCellRefs2026);
 
   const rawC2: Record<string, number> = {};
@@ -98,7 +108,7 @@ export async function loadWorkbookView(
   const biTotal = activeLtdbb ? (ltdbbRow?.totalNominal ?? 0) : null;
   const hasDataMismatch = biTotal !== null && Math.abs(selfReportedTotal - biTotal) > dataMismatchToleranceRupiah;
 
-  const scores = computeWorkbookScores(scoringConfig2026, { parameters, kpmrAnswers, hasDataMismatch });
+  const scores = computeWorkbookScores(config, { parameters, kpmrAnswers, hasDataMismatch });
   const kpmr = resolveKpmrAnswers(scoringConfig2026.kpmrQuestions, kpmrAnswers);
   const pjpNama = pjpRow?.nama ?? workbook.pjpSandi;
 
@@ -115,6 +125,7 @@ export async function loadWorkbookView(
       sandiNama: `${workbook.pjpSandi} - ${pjpNama}`,
       biTotalNominal: biTotal,
       hasDataMismatch,
+      categoryWeights: config.categoryWeights,
     }),
   );
 
@@ -124,7 +135,13 @@ export async function loadWorkbookView(
   ];
 
   return {
-    workbook: { id: workbook.id, pjpSandi: workbook.pjpSandi, pjpNama, status: workbook.status },
+    workbook: {
+      id: workbook.id,
+      pjpSandi: workbook.pjpSandi,
+      pjpNama,
+      status: workbook.status,
+      updatedAt: ((await workbookVersion(db, workbook.id)) ?? workbook.updatedAt).toISOString(),
+    },
     hasDataMismatch,
     ltdbb: activeLtdbb
       ? {
@@ -137,5 +154,6 @@ export async function loadWorkbookView(
     cells,
     overriddenCellRefs,
     scores,
+    parameterInfo: explainParameters(config.parameters, c2Values, scores.parameters),
   };
 }

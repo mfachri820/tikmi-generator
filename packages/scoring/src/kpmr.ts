@@ -50,8 +50,15 @@ export function pillarAverages(
   return result;
 }
 
-/** KPMR overall score: the average of the 5 pillar averages. */
-export function overallFromPillarAverages(averages: Record<string, number>): number {
+/**
+ * KPMR overall score: with `weights`, the weighted sum of the pillar averages
+ * (an unanswered pillar counts as 0); without, the plain average of the
+ * answered pillars' averages.
+ */
+export function overallFromPillarAverages(averages: Record<string, number>, weights?: Record<string, number>): number {
+  if (weights) {
+    return Object.entries(weights).reduce((sum, [pillar, weight]) => sum + weight * (averages[pillar] ?? 0), 0);
+  }
   const values = Object.values(averages);
   if (values.length === 0) return 0;
   return values.reduce((sum, v) => sum + v, 0) / values.length;
