@@ -1,6 +1,26 @@
 # TIKMI Generator
 
-> In conversion from the IRA app: see [docs/tikmi-plan.md](docs/tikmi-plan.md) for the status, and [docs/tikmi-deviations.md](docs/tikmi-deviations.md) for where the app departs from the Excel templates. The Google Form connection is set up as described in [apps-script/README.md](apps-script/README.md). The IRA notes below are replaced in step 8.
+> In conversion from the IRA app: see [docs/tikmi-plan.md](docs/tikmi-plan.md) for the status, and [docs/tikmi-deviations.md](docs/tikmi-deviations.md) for where the app departs from the Excel templates. The Google Form connection is set up as described in [apps-script/README.md](apps-script/README.md). The IRA notes further down are replaced in step 8.
+
+## Run locally (slice 6a)
+
+Needs Node 20+, Docker Desktop (for Postgres), and the 2025 templates in `templates/tikmi/2025/` (not in git). Python with openpyxl is only needed to re-dump templates.
+
+```bash
+npm install
+cp .env.example .env                     # then load it into your shell, or set DATABASE_URL yourself
+docker compose up -d postgres            # Postgres on host port 5435
+npm run migrate                          # all migrations (IRA history, then the TIKMI schema)
+npx tsx scripts/seed-dev.ts              # period, weights, templates + view layouts, PJP master, Sumber BI,
+                                         # 3 dev users, and the real submissions in TIKMI_FIXTURES_DIR
+npm run dev                              # http://localhost:3000
+```
+
+Dev users (password `tikmi-dev-2025`, or `TIKMI_DEV_PASSWORD`): `admin@tikmi.local`, `koordinator@tikmi.local`, `pengawas@tikmi.local` (the pengawas is assigned to the first two PJPs loaded, so "PJP saya" and the assignment rule can be tried).
+
+What slice 6a has: the PJP list (`/pjp`: submission status vs deadline, MR/TI file state, filters, "PJP saya"); the PJP page (`/pjp/[sandi]`: Rating M C64 and F64, IT score and applicable sheets, Final blockers, per file the versions, the validation report and the "Kirim catatan ke PJP" text, and "Unggah file PSP" for MR and/or TI); the read-only MR Kertas Kerja (`/pjp/[sandi]/mr`) with every formula computed live; the activity log; user management (with the koordinator role).
+
+Without Supabase settings, uploaded files are kept in `.tikmi-files/` (gitignored); in production the app refuses that fallback.
 
 # IRA PJP Web App
 

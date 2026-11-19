@@ -18,6 +18,9 @@ import { createHash } from "node:crypto";
 import { and, desc, eq } from "drizzle-orm";
 import { createClient } from "@supabase/supabase-js";
 import { createDb, logEvent, periods, templates, weightSets, type TemplateRole } from "@tikmi/db";
+import { definitions2025 } from "@tikmi/parser";
+import { inputCellRefs } from "@tikmi/scoring";
+import { extractViewLayout } from "@tikmi/template";
 import { RISK_KEYS, readTemplate, readWeightTable, TEMPLATE_FILES, type TemplateKey, type WeightRow } from "./lib/templates2025";
 
 const PERIOD = {
@@ -33,6 +36,27 @@ async function weightsFor(bundling: 2 | 3): Promise<(WeightRow & { file: string 
   const key = bundling === 2 ? "mr_kk_b2" : "mr_kk_b3";
   const rows = await readWeightTable(await readTemplate(key));
   return rows.filter((r) => r.bundling === String(bundling)).map((r) => ({ ...r, file: TEMPLATE_FILES[key] }));
+}
+
+/**
+ * The viewer's layout of a KK template (styles, merges, fixed text; no input or formula values, so the KK's
+ * sample PJP never reaches the database). Only the KKs the app shows get one.
+ */
+async function viewLayout(role: TemplateKey, bytes: Buffer) {
+  const defs = definitions2025;
+  if (role === "mr_kk_b2" || role === "mr_kk_b3") {
+    const def = defs.mr[role === "mr_kk_b2" ? 2 : 3];
+    const S = def.sheets;
+    return extractViewLayout(bytes, [S.risiko, S.tkmr, S.permodalan, S.form, S.lamp1], inputCellRefs(def));
+  }
+  if (role === "it_kk") {
+    const it = defs.it;
+    const sheets = ["Informasi", ...it.sheets.filter((x) => !x.pipOnly).map((x) => x.name)];
+    const inputs = new Set<string>(["Informasi!D11", "Informasi!D13", "Informasi!D15", "Informasi!D17"]);
+    for (const x of it.sheets) for (const r of x.rows) for (const c of ["E", "F", "G", "I", "J"]) inputs.add(`${x.name}!${c}${r.row}`);
+    return extractViewLayout(bytes, sheets, inputs);
+  }
+  return null;
 }
 
 async function main() {
@@ -74,16 +98,17 @@ async function main() {
     const bytes = await readTemplate(role);
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     const storageKey = `templates/${PERIOD.code}/${role}.xlsx`;
+    const layoutJson = await viewLayout(role, bytes);
     const inserted = await db
       .insert(templates)
-      .values({ periodId: period.id, role: role as TemplateRole, filename: TEMPLATE_FILES[role], sha256, storageKey })
-      .onConflictDoNothing()
+      .values({ periodId: period.id, role: role as TemplateRole, filename: TEMPLATE_FILES[role], sha256, storageKey, layoutJson })
+      .onConflictDoUpdate({ target: [templates.periodId, templates.role, templates.sha256], set: { layoutJson } })
       .returning();
     if (sb) {
       const { error } = await sb.storage.from(bucket).upload(storageKey, bytes, { upsert: true, contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
       if (error) throw error;
     }
-    console.log(`Template ${role}: ${inserted.length ? "registered" : "already registered"}${sb ? ", uploaded" : " (no storage configured: not uploaded)"}`);
+    console.log(`Template ${role}: registered${layoutJson ? ", view layout extracted" : ""}${sb ? ", uploaded" : " (no storage configured: not uploaded)"} (${inserted.length})`);
   }
   process.exit(0);
 }

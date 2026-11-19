@@ -5,7 +5,7 @@
  * Without --password a temporary one is generated and printed; the user must
  * change it at first sign-in.
  *
- * Usage: npx tsx scripts/create-user.ts --email=a@b.c --name="Nama" [--role=admin|pengawas|viewer] [--password=...]
+ * Usage: npx tsx scripts/create-user.ts --email=a@b.c --name="Nama" [--role=admin|koordinator|pengawas|viewer] [--password=...]
  */
 import { eq, sql } from "drizzle-orm";
 import { createDb, generateTemporaryPassword, hashPassword, passwordProblem, users } from "@tikmi/db";
@@ -14,10 +14,10 @@ const arg = (name: string) => process.argv.find((a) => a.startsWith(`--${name}=`
 
 async function main() {
   const email = arg("email")?.trim().toLowerCase();
-  const role = (arg("role") ?? "admin") as "admin" | "pengawas" | "viewer";
+  const role = (arg("role") ?? "admin") as "admin" | "koordinator" | "pengawas" | "viewer";
   const given = arg("password");
-  if (!email || !["admin", "pengawas", "viewer"].includes(role)) {
-    console.error('Usage: npx tsx scripts/create-user.ts --email=a@b.c --name="Nama" [--role=admin|pengawas|viewer] [--password=...]');
+  if (!email || !["admin", "koordinator", "pengawas", "viewer"].includes(role)) {
+    console.error('Usage: npx tsx scripts/create-user.ts --email=a@b.c --name="Nama" [--role=admin|koordinator|pengawas|viewer] [--password=...]');
     process.exit(1);
   }
   if (given && passwordProblem(given)) {
