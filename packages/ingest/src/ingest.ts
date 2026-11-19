@@ -47,6 +47,9 @@ export interface IngestDeps {
 }
 
 export type FileKind = "mr" | "it";
+
+/** A response ID as one storage-path segment: only letters, digits, ".", "_" and "-" (keys must be valid object names and paths). */
+const keySegment = (id: string) => id.replace(/[^\w.-]+/g, "-").replace(/^-+|-+$/g, "") || "response";
 const XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 export interface RegisterInput {
@@ -115,7 +118,7 @@ export async function registerSubmission(db: Db, input: RegisterInput): Promise<
       .returning();
     const files = [];
     for (const f of input.files) {
-      const storageKey = `submissions/${period.code}/${input.responseId}/v${version}/${f.kind}-${randomUUID()}.xlsx`;
+      const storageKey = `submissions/${period.code}/${keySegment(input.responseId)}/v${version}/${f.kind}-${randomUUID()}.xlsx`;
       const [row] = await tx
         .insert(submissionFiles)
         .values({ submissionId: sub.id, kind: f.kind, originalName: f.name, driveFileId: f.driveFileId ?? null, sizeBytes: f.size, sha256: "", storageKey })
@@ -168,7 +171,7 @@ export async function registerManualUpload(db: Db, input: ManualUploadInput): Pr
       .returning();
     const files = [];
     for (const f of input.files) {
-      const storageKey = `submissions/${period.code}/${responseId.replace(":", "-")}/${f.kind}-${randomUUID()}.xlsx`;
+      const storageKey = `submissions/${period.code}/${keySegment(responseId)}/${f.kind}-${randomUUID()}.xlsx`;
       const [row] = await tx.insert(submissionFiles).values({ submissionId: sub.id, kind: f.kind, originalName: f.name, sizeBytes: f.size, sha256: "", storageKey }).returning();
       files.push({ fileId: row.id, kind: f.kind, storageKey });
     }

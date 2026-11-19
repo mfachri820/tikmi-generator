@@ -32,6 +32,11 @@ export interface MrSettings {
   officialBasis?: "template" | "validasi_pengawas" | null;
   /** Pengawas PU-PT score for corrected mode (default 3, as the template's constant). */
   puPt?: number;
+  /**
+   * The assessment's Sandi. D5 is the KK's VLOOKUP of the PJP's own D4, which can be wrong (the template ships
+   * with "Bank of America" in D4); the app knows the PJP, so D5 (and with it every BI-sourced row) uses this.
+   */
+  sandi?: string;
 }
 
 export type WarningCode =
@@ -194,6 +199,7 @@ export function computeMr(
   const deviations: Deviation[] = [];
   const warnings: MrWarning[] = [];
   const base: Record<string, Override> = {};
+  if (settings.sandi) base[rs(def, "D5")] = settings.sandi;
 
   // Bentuk lembaga: the B3 PJP template offers "Lembaga Remitansi", which the weight table lacks.
   const bentuk = input.get(rs(def, "D6"));

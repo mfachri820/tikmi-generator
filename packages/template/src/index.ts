@@ -10,3 +10,4 @@ export {
 } from "./layout";
 export { readInputCells, writeInputCells, type CellInputValue } from "./inputCells";
 export { fillTemplate, fillTemplateBuffer } from "./writeWorkbook";
+export { extractViewLayout } from "./viewLayout";
