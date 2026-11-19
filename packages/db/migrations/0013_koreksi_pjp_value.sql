@@ -1,0 +1,1 @@
+ALTER TABLE "cell_inputs" ADD COLUMN "pjp_value" jsonb;

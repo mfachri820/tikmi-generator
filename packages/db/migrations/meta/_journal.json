@@ -57,6 +57,55 @@
       "when": 1791272420985,
       "tag": "0007_drop_pjp_dedicated_user",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795564800000,
+      "tag": "0008_drop_ira_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795059760157,
+      "tag": "0009_tikmi_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795063047368,
+      "tag": "0010_official_basis_nullable",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1795064693022,
+      "tag": "0011_ingest_decisions",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1795064697578,
+      "tag": "0012_drop_applicable_sheets",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1795065307682,
+      "tag": "0013_koreksi_pjp_value",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1795069828767,
+      "tag": "0014_submission_source",
+      "breakpoints": true
     }
   ]
 }

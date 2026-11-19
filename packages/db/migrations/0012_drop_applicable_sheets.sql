@@ -1,0 +1,1 @@
+ALTER TABLE "assessment_parts" DROP COLUMN "applicable_sheets";

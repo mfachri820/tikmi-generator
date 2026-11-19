@@ -1,6 +1,17 @@
 export * from "./schema";
 export { createDb, type Db } from "./client";
-export { loadCellValues, recordCellInput, type DbOrTx, type RecordCellInputInput } from "./cellInputs";
+export {
+  AssessmentFinalError,
+  NoteRequiredError,
+  loadCellValues,
+  logEvent,
+  recordCellInput,
+  recordCellInputs,
+  type CellWrite,
+  type DbOrTx,
+  type LogEventInput,
+  type RecordCellInputInput,
+} from "./cellInputs";
 export {
   generateTemporaryPassword,
   hashPassword,
@@ -8,3 +19,4 @@ export {
   passwordProblem,
   verifyPassword,
 } from "./passwords";
+export { periodSettings, DEFAULT_PERIOD_SETTINGS, type PeriodSettings } from "./periodSettings";
