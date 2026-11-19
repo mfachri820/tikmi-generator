@@ -1,5 +1,5 @@
 {
-  "name": "@ira/scoring",
+  "name": "@tikmi/scoring",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -7,16 +7,17 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./config/2026": "./config/2026.ts",
-    "./config/2026-c2": "./config/2026-c2.ts",
-    "./config/2026-input-cells": "./config/2026-input-cells.ts",
-    "./config/2026-sheet": "./config/2026-sheet.ts"
+    "./definitions/*": "./definitions/*",
+    "./config/*": "./config/*"
   },
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@tikmi/sumber-bi": "*",
+    "@types/node": "^20",
+    "exceljs": "^4.4.0",
     "typescript": "^5",
     "vitest": "^3.0.0"
   }

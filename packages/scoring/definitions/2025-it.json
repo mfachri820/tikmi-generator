@@ -1,0 +1,4265 @@
+{
+ "kind": "it",
+ "year": 2025,
+ "templateFile": "Lampiran 2 Kertas Kerja - Penilaian Keandalan Infrastruktur TI.xlsx",
+ "templateSha256": "f7875a7edf2e0440fcddb9d7c50ffd83323736885713946a0181b229e80aab7a",
+ "pjpTemplateFile": "Nama PSP_Self Asesmen Infrastruktur TI_Posisi.xlsx",
+ "columns": {
+  "nilaiRiil": "E",
+  "self": "F",
+  "justifikasi": "G",
+  "pengawas": "I",
+  "justifikasiPengawas": "J"
+ },
+ "defaultApplicable": [
+  "General"
+ ],
+ "knownIssues": [
+  "SM PSD-Propchan: column B has no \"1.E\" label; 1.E rows taken from their question codes"
+ ],
+ "pairs": [
+  {
+   "key": "General",
+   "sm": "Standar Minimum (SM) General",
+   "tk": "Tata Kelola (TK) General",
+   "pipOnly": false
+  },
+  {
+   "key": "PSD-UE",
+   "sm": "SM PSD-UE",
+   "tk": "TK PSD-UE",
+   "pipOnly": false
+  },
+  {
+   "key": "PSD-APMK",
+   "sm": "SM PSD-APMK",
+   "tk": "TK PSD-APMK",
+   "pipOnly": false
+  },
+  {
+   "key": "PSD-Propchan",
+   "sm": "SM PSD-Propchan",
+   "tk": "TK PSD-Propchan",
+   "pipOnly": false
+  },
+  {
+   "key": "Penerusan TD",
+   "sm": "SM Penerusan TD",
+   "tk": "TK Penerusan TD",
+   "pipOnly": false
+  },
+  {
+   "key": "Penerusan Data",
+   "sm": "SM Penerusan Data",
+   "tk": "TK Penerusan Data",
+   "pipOnly": false
+  },
+  {
+   "key": "TI-SPBI",
+   "sm": "SM Inheren TI - SPBI",
+   "tk": "TK TI - SPBI",
+   "pipOnly": false
+  },
+  {
+   "key": "Infra SP",
+   "sm": "SM Infra SP",
+   "tk": "TK Infra SP",
+   "pipOnly": true
+  }
+ ],
+ "sheets": [
+  {
+   "name": "Standar Minimum (SM) General",
+   "pair": "General",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.B",
+     "componentLabel": "Efisiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.B",
+     "componentLabel": "Efisiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.B",
+     "componentLabel": "Efisiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.B",
+     "componentLabel": "Efisiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": null,
+     "na": true,
+     "note": true
+    },
+    {
+     "row": 11,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": "1.F.1",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": "1.F.3",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "Tata Kelola (TK) General",
+   "pair": "General",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.1",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.2",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.3",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.4",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.4",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": null,
+     "na": true,
+     "note": true
+    },
+    {
+     "row": 28,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.1",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.2",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.3",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.4",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.5",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.6",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.7",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.8",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.9",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.10",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.11",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.12",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.13",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.14",
+     "na": false
+    },
+    {
+     "row": 42,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.15",
+     "na": false
+    },
+    {
+     "row": 43,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.16",
+     "na": false
+    },
+    {
+     "row": 44,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.17",
+     "na": false
+    },
+    {
+     "row": 45,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.18",
+     "na": false
+    },
+    {
+     "row": 46,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.1",
+     "na": false
+    },
+    {
+     "row": 47,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.2",
+     "na": false
+    },
+    {
+     "row": 48,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.3",
+     "na": false
+    },
+    {
+     "row": 49,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.4",
+     "na": false
+    },
+    {
+     "row": 50,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.5",
+     "na": false
+    },
+    {
+     "row": 51,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.6",
+     "na": false
+    },
+    {
+     "row": 52,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.7",
+     "na": false
+    },
+    {
+     "row": 53,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.8",
+     "na": false
+    },
+    {
+     "row": 54,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.9",
+     "na": false
+    },
+    {
+     "row": 55,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.10",
+     "na": false
+    },
+    {
+     "row": 56,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.11",
+     "na": false
+    },
+    {
+     "row": 57,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.1",
+     "na": false
+    },
+    {
+     "row": 58,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.2",
+     "na": false
+    },
+    {
+     "row": 59,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.3",
+     "na": false
+    },
+    {
+     "row": 60,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.4",
+     "na": false
+    },
+    {
+     "row": 61,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.5",
+     "na": false
+    },
+    {
+     "row": 62,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.6",
+     "na": false
+    },
+    {
+     "row": 63,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.7",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM PSD-UE",
+   "pair": "PSD-UE",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.8",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.9",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.10",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.11",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.12",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.13",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.14",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.15",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.16",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.4",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.5",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": "1.D.1",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 42,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 43,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK PSD-UE",
+   "pair": "PSD-UE",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 3,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 4,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.9",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.10",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.11",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.12",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.13",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggung Jawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggung Jawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggung Jawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.7",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.8",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.9",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.10",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.11",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.12",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.13",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.14",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.15",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.16",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.17",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.18",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.19",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.20",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.21",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.22",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM PSD-APMK",
+   "pair": "PSD-APMK",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.8",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.9",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.10",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.11",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.12",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.13",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.4",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": "1.D.1",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK PSD-APMK",
+   "pair": "PSD-APMK",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.7",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.8",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.9",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.10",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.11",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.12",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.13",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.14",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.15",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.16",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.16",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.17",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM PSD-Propchan",
+   "pair": "PSD-Propchan",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.8",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.9",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.10",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.11",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.12",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.13",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.14",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.15",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.4",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.5",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": "1.D.1",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 42,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK PSD-Propchan",
+   "pair": "PSD-Propchan",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 3,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 4,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.9",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.10",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.11",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.12",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.7",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.8",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.9",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.10",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.11",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.12",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.13",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.14",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.15",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.16",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.17",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.18",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.19",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.20",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.21",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.22",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.23",
+     "na": false
+    },
+    {
+     "row": 42,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.24",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM Penerusan TD",
+   "pair": "Penerusan TD",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.4",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.5",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 24,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.12",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK Penerusan TD",
+   "pair": "Penerusan TD",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 3,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 4,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.9",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.7",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM Penerusan Data",
+   "pair": "Penerusan Data",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.4",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.5",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.6",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.7",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.8",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 27,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.12",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK Penerusan Data",
+   "pair": "Penerusan Data",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 3,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 4,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.9",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.10",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.7",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.8",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM Inheren TI - SPBI",
+   "pair": "TI-SPBI",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.10",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.11",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.12",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.13",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.14",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.15",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.16",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.17",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.18",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.19",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.20",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.21",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.D",
+     "componentLabel": "Kapabilitas Interaksi",
+     "code": "1.D.1",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.12",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.13",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "TK TI - SPBI",
+   "pair": "TI-SPBI",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": null,
+     "na": true
+    },
+    {
+     "row": 3,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.1",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.2",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.3",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.4",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.5",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.B",
+     "componentLabel": "Strategi Manajemen Risiko",
+     "code": "2.B.6",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.4",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    }
+   ],
+   "pipOnly": false
+  },
+  {
+   "name": "SM Infra SP",
+   "pair": "Infra SP",
+   "type": "SM",
+   "rows": [
+    {
+     "row": 2,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.4",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.5",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.6",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "1.A",
+     "componentLabel": "Kesesuaian Fungsional",
+     "code": "1.A.7",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.1",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.2",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.3",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.4",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.5",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.6",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.7",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.8",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.9",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.10",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "1.B",
+     "componentLabel": "Efesiensi Kinerja",
+     "code": "1.B.11",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.1",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.2",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "1.C",
+     "componentLabel": "Kompatibilitas",
+     "code": "1.C.3",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.1",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.2",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.3",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.4",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.5",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.6",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.7",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.8",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.9",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.10",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "1.E",
+     "componentLabel": "Keandalan",
+     "code": "1.E.11",
+     "na": false
+    },
+    {
+     "row": 34,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": null,
+     "na": true,
+     "note": true
+    },
+    {
+     "row": 35,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": "1.F.1",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "1.F",
+     "componentLabel": "Risiko Atas Kerja Sama dengan Pihak Ketiga",
+     "code": "1.F.3",
+     "na": false
+    }
+   ],
+   "pipOnly": true
+  },
+  {
+   "name": "TK Infra SP",
+   "pair": "Infra SP",
+   "type": "TK",
+   "rows": [
+    {
+     "row": 2,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.1",
+     "na": false
+    },
+    {
+     "row": 3,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.2",
+     "na": false
+    },
+    {
+     "row": 4,
+     "component": "2.A",
+     "componentLabel": "Konteks Organisasi",
+     "code": "2.A.3",
+     "na": false
+    },
+    {
+     "row": 5,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.1",
+     "na": false
+    },
+    {
+     "row": 6,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.2",
+     "na": false
+    },
+    {
+     "row": 7,
+     "component": "2.B",
+     "componentLabel": "Strategi Manejemen Risiko",
+     "code": "2.B.3",
+     "na": false
+    },
+    {
+     "row": 8,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.1",
+     "na": false
+    },
+    {
+     "row": 9,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.2",
+     "na": false
+    },
+    {
+     "row": 10,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.3",
+     "na": false
+    },
+    {
+     "row": 11,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.4",
+     "na": false
+    },
+    {
+     "row": 12,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.5",
+     "na": false
+    },
+    {
+     "row": 13,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.6",
+     "na": false
+    },
+    {
+     "row": 14,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.7",
+     "na": false
+    },
+    {
+     "row": 15,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.8",
+     "na": false
+    },
+    {
+     "row": 16,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.9",
+     "na": false
+    },
+    {
+     "row": 17,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.10",
+     "na": false
+    },
+    {
+     "row": 18,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.11",
+     "na": false
+    },
+    {
+     "row": 19,
+     "component": "2.C",
+     "componentLabel": "Kebijakan/Prosedur dan Panduan",
+     "code": "2.C.12",
+     "na": false
+    },
+    {
+     "row": 20,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.1",
+     "na": false
+    },
+    {
+     "row": 21,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.2",
+     "na": false
+    },
+    {
+     "row": 22,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.3",
+     "na": false
+    },
+    {
+     "row": 23,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.4",
+     "na": false
+    },
+    {
+     "row": 24,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.5",
+     "na": false
+    },
+    {
+     "row": 25,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.6",
+     "na": false
+    },
+    {
+     "row": 26,
+     "component": "2.D",
+     "componentLabel": "Peran dan Tanggungjawab",
+     "code": "2.D.7",
+     "na": false
+    },
+    {
+     "row": 27,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.1",
+     "na": false
+    },
+    {
+     "row": 28,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.2",
+     "na": false
+    },
+    {
+     "row": 29,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.3",
+     "na": false
+    },
+    {
+     "row": 30,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.4",
+     "na": false
+    },
+    {
+     "row": 31,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.5",
+     "na": false
+    },
+    {
+     "row": 32,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": "2.E.6",
+     "na": false
+    },
+    {
+     "row": 33,
+     "component": "2.E",
+     "componentLabel": "Kontrol Sistem, Akses, dan Konfigurasi",
+     "code": null,
+     "na": true,
+     "note": true
+    },
+    {
+     "row": 34,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.1",
+     "na": false
+    },
+    {
+     "row": 35,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.2",
+     "na": false
+    },
+    {
+     "row": 36,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.3",
+     "na": false
+    },
+    {
+     "row": 37,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.4",
+     "na": false
+    },
+    {
+     "row": 38,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.5",
+     "na": false
+    },
+    {
+     "row": 39,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.6",
+     "na": false
+    },
+    {
+     "row": 40,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.7",
+     "na": false
+    },
+    {
+     "row": 41,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.8",
+     "na": false
+    },
+    {
+     "row": 42,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.9",
+     "na": false
+    },
+    {
+     "row": 43,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.10",
+     "na": false
+    },
+    {
+     "row": 44,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.11",
+     "na": false
+    },
+    {
+     "row": 45,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.12",
+     "na": false
+    },
+    {
+     "row": 46,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.13",
+     "na": false
+    },
+    {
+     "row": 47,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.14",
+     "na": false
+    },
+    {
+     "row": 48,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.15",
+     "na": false
+    },
+    {
+     "row": 49,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.16",
+     "na": false
+    },
+    {
+     "row": 50,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.17",
+     "na": false
+    },
+    {
+     "row": 51,
+     "component": "2.F",
+     "componentLabel": "Kebijakan dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.F.18",
+     "na": false
+    },
+    {
+     "row": 52,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.1",
+     "na": false
+    },
+    {
+     "row": 53,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.2",
+     "na": false
+    },
+    {
+     "row": 54,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.3",
+     "na": false
+    },
+    {
+     "row": 55,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.4",
+     "na": false
+    },
+    {
+     "row": 56,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.5",
+     "na": false
+    },
+    {
+     "row": 57,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.6",
+     "na": false
+    },
+    {
+     "row": 58,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.7",
+     "na": false
+    },
+    {
+     "row": 59,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.8",
+     "na": false
+    },
+    {
+     "row": 60,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.9",
+     "na": false
+    },
+    {
+     "row": 61,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.10",
+     "na": false
+    },
+    {
+     "row": 62,
+     "component": "2.G",
+     "componentLabel": "Proses & Teknologi dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.G.11",
+     "na": false
+    },
+    {
+     "row": 63,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.1",
+     "na": false
+    },
+    {
+     "row": 64,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.2",
+     "na": false
+    },
+    {
+     "row": 65,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.3",
+     "na": false
+    },
+    {
+     "row": 66,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.4",
+     "na": false
+    },
+    {
+     "row": 67,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.5",
+     "na": false
+    },
+    {
+     "row": 68,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.6",
+     "na": false
+    },
+    {
+     "row": 69,
+     "component": "2.H",
+     "componentLabel": "Sumber Daya Manusia (SDM) dalam Pengendalian Risiko atas Kerja Sama dengan Penyelenggara Penunjang",
+     "code": "2.H.7",
+     "na": false
+    }
+   ],
+   "pipOnly": true
+  }
+ ],
+ "pjpDefaults": {
+  "TK Penerusan Data!E2": "N/A",
+  "TK Penerusan Data!F2": "N/A",
+  "TK Penerusan Data!G2": "N/A",
+  "TK Penerusan Data!E3": "N/A",
+  "TK Penerusan Data!F3": "N/A",
+  "TK Penerusan Data!G3": "N/A"
+ }
+}

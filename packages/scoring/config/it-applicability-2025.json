@@ -1,0 +1,39 @@
+{
+  "year": 2025,
+  "status": "draft: to be confirmed with the methodology owner",
+  "description": "Which IT KK sheet pairs apply to a PJP, derived from its service declarations in MR sheet 1 (R.OPS.1.a.*), matched by ID DATA code. A pair applies when any service mapped to it is YA (trimmed, case-insensitive; applicability only, scoring keeps the template's own rules). The pengawas can override per PJP, with a note.",
+  "always": ["General"],
+  "never": ["Infra SP"],
+  "notByDefault": ["PSD-UE", "PSD-APMK"],
+  "pengawasFlag": { "TI-SPBI": "spbiParticipant" },
+  "askedByBundling": {
+    "2": ["R.OPS.1.a.6","R.OPS.1.a.7","R.OPS.1.a.8","R.OPS.1.a.9","R.OPS.1.a.11","R.OPS.1.a.12","R.OPS.1.a.13","R.OPS.1.a.14","R.OPS.1.a.15","R.OPS.1.a.16","R.OPS.1.a.19","R.OPS.1.a.20","R.OPS.1.a.21","R.OPS.1.a.22","R.OPS.1.a.24","R.OPS.1.a.25","R.OPS.1.a.26"],
+    "3": ["R.OPS.1.a.7","R.OPS.1.a.8","R.OPS.1.a.9","R.OPS.1.a.22","R.OPS.1.a.24","R.OPS.1.a.26"]
+  },
+  "fallbackWhenAllBlank": {
+    "2": ["General", "Penerusan TD", "Penerusan Data"],
+    "3": ["General", "Penerusan TD"],
+    "warning": "Deklarasi layanan (R.OPS.1.a.*) belum diisi; sheet TI ditetapkan dari default bundling."
+  },
+  "unmappedYa": "askPengawas",
+  "lainnyaNoValuesForApplicability": ["", "NA", "N/A", "-", "TIDAK", "TIDAK ADA", "NIHIL"],
+  "services": {
+    "R.OPS.1.a.6":  { "label": "Penerusan perintah transfer dana, berupa Bank", "pairs": ["Penerusan TD"] },
+    "R.OPS.1.a.7":  { "label": "Penerusan perintah transfer dana, berupa Bukan Bank secara Non Digital", "pairs": ["Penerusan TD"] },
+    "R.OPS.1.a.8":  { "label": "Penerusan perintah transfer dana, berupa Bukan Bank secara Digital", "pairs": ["Penerusan TD"] },
+    "R.OPS.1.a.9":  { "label": "Penerusan perintah transfer dana Crossborder", "pairs": ["Penerusan TD"] },
+    "R.OPS.1.a.11": { "label": "Penerusan Data transaksi Pembayaran berupa Acquirer Kartu Debit", "pairs": ["Penerusan Data"], "confirm": "PSD-APMK 2.E.15 also covers acquiring FDS" },
+    "R.OPS.1.a.12": { "label": "Penerusan Data transaksi Pembayaran berupa Deferred payment, termasuk kartu kredit", "pairs": ["Penerusan Data"], "confirm": "PSD-APMK 2.E.15 also covers acquiring FDS" },
+    "R.OPS.1.a.13": { "label": "Penerusan Data transaksi Pembayaran berupa Acquirer Uang Elektronik", "pairs": ["Penerusan Data"] },
+    "R.OPS.1.a.14": { "label": "Penerusan Data Transaksi Pembayaran a.l. Payment Gateway Fasilitator", "pairs": ["Penerusan Data"] },
+    "R.OPS.1.a.15": { "label": "Penerusan Data Transaksi Pembayaran a.l. Payment Gateway Merchant Agregator dan disbursement", "pairs": ["Penerusan Data", "Penerusan TD"], "confirm": "Penerusan TD sheets cover the disbursement system" },
+    "R.OPS.1.a.16": { "label": "Penerusan Data transaksi Pembayaran berupa Dompet Elektronik", "pairs": ["Penerusan Data"] },
+    "R.OPS.1.a.19": { "label": "Penyelenggaraan Proprietary Channel berupa sejenis Internet Banking", "pairs": ["PSD-Propchan"] },
+    "R.OPS.1.a.20": { "label": "Penyelenggara Quick Response Indonesian Standar untuk Pembayaran (QRIS) Domestik", "pairs": [] },
+    "R.OPS.1.a.21": { "label": "QRIS Crossborder", "pairs": [] },
+    "R.OPS.1.a.22": { "label": "Penyedia Standar Nasional Open API Pembayaran (SNAP)", "pairs": [] },
+    "R.OPS.1.a.24": { "label": "Sub Account a.l. Virtual Account", "pairs": [] },
+    "R.OPS.1.a.25": { "label": "Account Information Services", "pairs": [] },
+    "R.OPS.1.a.26": { "label": "Lainnya - Agar Diisi", "pairs": [], "freetext": true }
+  }
+}
