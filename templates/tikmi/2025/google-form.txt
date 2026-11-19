@@ -1,0 +1,268 @@
+Dukungan pembaca layar diaktifkan.
+PJP LR - TIKMI KPw Bank Indonesia Provinsi DKI Jakarta
+
+Bagian 1 dari 4
+Penyampaian Asesmen Mandiri Manajemen Risiko dan Infrastruktur TI PJP Posisi 2025 – KPw Bank Indonesia Provinsi DKI Jakarta
+Penyedia Jasa Pembayaran (PJP) di wilayah kerja KPw Bank Indonesia Provinsi DKI Jakarta diminta menyampaikan 2 (dua) kertas kerja Asesmen Mandiri sesuai paket (bundling) aktivitas yang dimiliki, yaitu Asesmen Mandiri Manajemen Risiko (Bundling 2 atau Bundling 3) dan Asesmen Mandiri Infrastruktur TI, paling lambat 19 November 2026 pukul 23.59 WIB. Data yang digunakan adalah data periode Januari – Desember 2025. Template akan ditampilkan setelah Saudara memilih Bundling Aktivitas pada Bagian 1, dan pengunggahan file memerlukan akun Google dalam format excel. 
+
+Adapun untuk ketentuan dan juknis dapat diakses pada link berikut https://www.bi.go.id/id/publikasi/peraturan/Pages/PADG_322025.aspx
+
+Formulir ini otomatis mengumpulkan email dari semua responden.Ubah setelan
+ 
+Nama Penyelenggara PJP Pengawasan Wilker DKI Jakarta
+
+*
+1.
+PT Able Remittance
+2.
+PT Achilles Financial System
+3.
+PT Adisena Mitra Usaha
+4.
+PT Agung Remittance Global
+5.
+PT Andalusia Antar Benua
+6.
+PT Artha Prima Pratama
+7.
+PT Artha Semesta Utama
+8.
+PT Asia Pelangi Remiten
+9.
+PT Atom Teknologi Indonesia (d/h PT Silot Technology Indonesia)
+10.
+PT Baiili Remintance Indonesia
+11.
+PT Berkah Sinar Abadi
+12.
+PT Berkat Gerizim
+13.
+PT Cepat Indonesia Berkarya
+14.
+PT Dhanapatra Loka Abadi
+15.
+PT Duit Sono Sini Remittance
+16.
+PT Eka Bakti Amerta Yoga Sejahtera
+17.
+PT EMQ Indonesia Asia
+18.
+PT Fliptech Lentera Inspirasi Pertiwi
+19.
+PT GPL Remittance Indonesia
+20.
+PT Immer
+21.
+PT Indo Koala Remittance
+22.
+PT Indogo Ekspress Remittance
+23.
+PT Infra Digital Nusantara
+24.
+PT Inti Pratama Internasional
+25.
+PT Intrajasa Teknosolusi
+26.
+PT Jasa Kembar Kilat
+27.
+PT Kangaroo Ausindo
+28.
+PT Kawan Hai Hai Remittance
+29.
+PT Kiriman Dana Pandai
+30.
+PT Kredigram Pembayaran Elektronis
+31.
+PT Lumbung Berkah Abadi
+32.
+PT Madame Express Remitindo
+33.
+PT Mana Payment Indonesia
+34.
+PT MDAQ Indonesia Technologies
+35.
+PT MM Indonesia
+36.
+PT Mobile Coin Asia
+37.
+PT Moneta Pembayaran Teknologi
+38.
+PT Moneygram Payment Systems Indonesia
+39.
+PT Nandy Dana Express
+40.
+PT Nium Mitra Indonesia
+41.
+PT Omnipay Transfer Dana (d/h Hayyu Indo)
+42.
+PT Paramas Murni Jaya
+43.
+PT Payquest Network Indonesia
+44.
+PT Pegadaian
+45.
+PT Pelangi Indodata
+46.
+PT Pelita Transfer Nusantara
+47.
+PT Peniti Money Remittance
+48.
+PT Prima Express Remit
+49.
+PT Priority Valasindo Remittance
+50.
+PT Pundimas Sentral Dana
+51.
+PT Remit Express Indonesia
+52.
+PT Remitindo Dolarasia Sejahtera
+53.
+KSP Sahabat Mitra Sejati
+54.
+PT Solusi Multi Artha
+55.
+PT Sunrate Commercial Services
+56.
+PT Super Mega Express
+57.
+PT Syaftraco
+58.
+PT Teleanjar Indonesia
+59.
+PT Tolong Transfer Paman Ryan
+60.
+PT Uang Kita
+61.
+PT VIP Remittance
+62.
+PT VIT Remittance
+63.
+PT Western Union Indonesia
+64.
+PT Wintrust Indonesia
+65.
+PT Wise Payments Indonesia
+66.
+PT Zen e-Transfer Nusantara
+67.
+PT ZND Asia Utama
+68.
+Other
+Nama Penyelenggara PJP Pengawasan Wilker DKI Jakarta (Jika memilih Other)
+Nama PIC
+
+*
+Jabatan PIC
+
+*
+Nomor Telepon/WhatsApp PIC
+
+*
+Alamat Email PIC
+
+*
+Bundling Aktivitas
+
+*
+Bundling 2 – PSP Penerusan Transaksi
+Bundling 3 – PSP Penerusan Transaksi Remitansi
+Setelah bagian 1
+Bagian 2 dari 4
+ Bundling 2 – PSP Penerusan Transaksi
+Silakan unduh kedua template berikut, isi, lalu unggah pada pertanyaan di bawah:
+
+Template Asesmen Mandiri Manajemen Risiko – Bundling 2: https://bit.ly/Self-Asessment-PSP-Bundak-2
+Template Asesmen Mandiri Infrastruktur TI: https://bit.ly/Self-Asessment-PSP-Infrastruktur-TI
+Petunjuk pengisian:
+
+a. Pengisian hanya dilakukan pada kolom berwarna hijau muda. Jangan menambah, menghapus, atau memindahkan baris, kolom, maupun sheet, serta jangan mengubah rumus.
+
+b. Pada template Manajemen Risiko, isi identitas pelapor pada sheet "1 - Asesmen Risiko": Nama PSP (D4, pilih dari dropdown), Bentuk Lembaga (D6), Bundling Aktivitas (D7 = 2), Kategori PSP (D8), Posisi Penilaian (D9 = 1 Januari - 31 Desember), dan tahun laporan 2025 (E9).
+
+c. Seluruh data keuangan menggunakan data keuangan audited terakhir (apabila telah tersedia). Seluruh data kinerja transaksi menggunakan data posisi laporan terakhir, kecuali diminta lain.
+
+d. Apabila Saudara tidak menyelenggarakan aktivitas/layanan sesuai pertanyaan, isi "NA" dan berikan penjelasan pada kolom yang disediakan.
+
+e. Pada template Infrastruktur TI, isi sheet "Informasi" (Nama PJP, alamat, nama PIC, dan kontak PIC), lalu isi setiap sheet penilaian sesuai kolom Panduan Pengisian.
+
+f. Simpan file dalam format .xlsx (bukan PDF/gambar). Ganti "Nama_PSP" pada nama file dengan nama perusahaan dan "Posisi" dengan posisi penilaian.
+
+Upload Asesmen Mandiri Manajemen Risiko – Bundling 2
+
+*
+Template: https://bit.ly/Self-Asessment-PSP-Bundak-2 (Format .xlsx)
+Contoh nama file: PT_ABC_LSB_Bundling_2_Self_Asesmen_M_Des2025.xlsx
+
+Upload Asesmen Mandiri Infrastruktur TI
+
+*
+Template: https://bit.ly/Self-Asessment-PSP-Infrastruktur-TI (Format .xlsx)
+Contoh nama file: PT_ABC_Self_Asesmen_Infrastruktur_TI_Des2025.xlsx
+
+Konfirmasi Kesesuaian File
+
+*
+Saya telah memastikan bahwa file yang diunggah adalah template Asesmen Mandiri Manajemen Risiko – Bundling 2 dan template Asesmen Mandiri Infrastruktur TI yang telah diisi, diunggah pada kolom yang sesuai, dalam format .xlsx, serta sesuai dengan Nama PJP yang dipilih pada Bagian 1.
+Setelah bagian 2
+Bagian 3 dari 4
+Bundling 3 – PSP Penerusan Transaksi Remitansi
+Silakan unduh kedua template berikut, isi, lalu unggah pada pertanyaan di bawah:
+
+Template Asesmen Mandiri Manajemen Risiko – Bundling 3: https://bit.ly/Self-Asessment-PSP-Bundak-3
+Template Asesmen Mandiri Infrastruktur TI: https://bit.ly/Self-Asessment-PSP-Infrastruktur-TI
+Petunjuk pengisian:
+
+a. Pengisian hanya dilakukan pada kolom berwarna hijau muda. Jangan menambah, menghapus, atau memindahkan baris, kolom, maupun sheet, serta jangan mengubah rumus.
+
+b. Pada template Manajemen Risiko, isi identitas pelapor pada sheet "1 - Asesmen Risiko": Nama PSP (D4, pilih dari dropdown), Bentuk Lembaga (D6), Bundling Aktivitas (D7 = 3), Kategori PSP (D8), Posisi Penilaian (D9 = 1 Januari - 31 Desember), dan tahun laporan 2025 (E9).
+
+c. Seluruh data keuangan menggunakan data keuangan audited terakhir (apabila telah tersedia). Seluruh data kinerja transaksi menggunakan data posisi laporan terakhir, kecuali diminta lain.
+
+d. Apabila Saudara tidak menyelenggarakan aktivitas/layanan sesuai pertanyaan, isi "NA" dan berikan penjelasan pada kolom yang disediakan. 
+
+e. Pada template Infrastruktur TI, isi sheet "Informasi" (Nama PJP, alamat, nama PIC, dan kontak PIC), lalu isi setiap sheet penilaian sesuai kolom Panduan Pengisian.
+
+f. Simpan file dalam format .xlsx (bukan PDF/gambar). Ganti "Nama_PSP" pada nama file dengan nama perusahaan dan "Posisi" dengan posisi penilaian.
+
+Upload Asesmen Mandiri Manajemen Risiko – Bundling 3
+
+*
+Template: https://bit.ly/Self-Asessment-PSP-Bundak-3 (Format .xlsx)
+Contoh nama file: PT_ABC_LSB_Bundling_3_Self_Asesmen_M_Des2025.xlsx
+
+Upload Asesmen Mandiri Infrastruktur TI
+
+*
+Template: https://bit.ly/Self-Asessment-PSP-Infrastruktur-TI (Format .xlsx)
+Contoh nama file: PT_ABC_Self_Asesmen_Infrastruktur_TI_Des2025.xlsx
+
+Konfirmasi Kesesuaian File
+
+*
+Saya telah memastikan bahwa file yang diunggah adalah template Asesmen Mandiri Manajemen Risiko – Bundling 3 dan template Asesmen Mandiri Infrastruktur TI yang telah diisi, diunggah pada kolom yang sesuai, dalam format .xlsx, serta sesuai dengan Nama PJP yang dipilih pada Bagian 1.
+Setelah bagian 3
+Bagian 4 dari 4
+PERNYATAAN DAN PENYAMPAIAN DATA DAN INFORMASI
+Terima kasih telah mengisi dan menyampaikan "Asesmen Mandiri Manajemen Risiko dan Infrastruktur TI" (Jangan lupa klik Kirim pada tombol di bawah)
+
+Batas waktu penyampaian: 19 November 2026 pukul 23.59 WIB
+
+Jawaban dapat diubah setelah dikirim; data yang disampaikan valid merupakan data terakhir yang disampaikan kepada Bank Indonesia. Data yang disampaikan dapat diverifikasi dengan laporan berkala dan pemeriksaan Bank Indonesia.
+
+Note:
+
+Perusahaan Saudara jangan lupa klik tombol "Kirim" di bagian bawah.
+Silakan cek inbox email untuk memastikan formulir telah terkirim ke Bank Indonesia.
+Untuk informasi lebih lanjut, Saudara dapat menghubungi PIC Pengawas masing-masing.
+Terima Kasih On Behalf Kantor Perwakilan Bank Indonesia Provinsi DKI Jakarta
+c.q. Kelompok Pengawasan Sistem Pembayaran
+
+Pernyataan Penyampaian Data dan Informasi
+*
+Sehubungan dengan penyampaian Asesmen Mandiri Manajemen Risiko dan Infrastruktur TI, dengan ini saya, yang bertindak untuk dan atas nama Perusahaan, menyatakan bahwa data dan informasi yang disampaikan adalah lengkap dan benar.
+
+Apabila data/informasi yang diisi tidak lengkap dan tidak akurat, maka laporan yang disampaikan akan dianggap salah dan tidak disampaikan.
+
+Dalam hal terdapat perubahan, saya, yang bertindak untuk dan atas nama Perusahaan, akan melakukan pengkinian data dan informasi tersebut.
+
+Saya menyatakan bahwa data dan informasi yang disampaikan adalah lengkap, benar, dan dapat dipertanggungjawabkan.
