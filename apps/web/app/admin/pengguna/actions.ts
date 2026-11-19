@@ -13,7 +13,7 @@ export type UserActionState = {
   temporaryPassword?: { email: string; password: string };
 };
 
-const ROLES: Role[] = ["admin", "pengawas", "viewer"];
+const ROLES: Role[] = ["admin", "koordinator", "pengawas", "viewer"];
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Active admins other than `userId`: the last one can't be demoted or deactivated, or nobody could manage users. */

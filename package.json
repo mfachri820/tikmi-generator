@@ -19,7 +19,8 @@
     "gen-definitions": "tsx scripts/gen-definitions.ts",
     "parity:cases": "tsx scripts/parity/generate-cases.ts",
     "parity:excel": "pwsh -NoProfile -File scripts/parity/excel-recalc.ps1",
-    "it-rekap-diff": "tsx scripts/it-rekap-diff.ts"
+    "it-rekap-diff": "tsx scripts/it-rekap-diff.ts",
+    "migrate": "npm run migrate -w @tikmi/db"
   },
   "dependencies": {
     "@tikmi/db": "*",

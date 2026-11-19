@@ -12,7 +12,8 @@ import {
   type Ref,
 } from "react";
 import type { LayoutCell, LayoutCellStyle, LayoutSheet } from "@tikmi/template";
-import type { SheetCellValue } from "@tikmi/scoring/config/2026-sheet";
+/** A value the grid shows for a cell: typed input or computed result. */
+export type SheetCellValue = string | number | boolean | null;
 import { columnLetter, formatCellValue, parseAddress } from "@/lib/cellFormat";
 
 export const HEADER_HEIGHT = 20;

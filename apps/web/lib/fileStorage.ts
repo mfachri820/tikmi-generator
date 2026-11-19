@@ -11,9 +11,9 @@ import type { FileStore } from "@tikmi/ingest";
  * Script go straight to the bucket with one-time signed URLs, so they never
  * pass through a Vercel function and its 4.5 MB request limit.
  *
- * Without SUPABASE_URL / SUPABASE_SECRET_KEY (local development) files are kept
- * under .tikmi-files/ in the repo instead; that fallback refuses to run in
- * production, where the filesystem is not persistent.
+ * Without SUPABASE_URL / SUPABASE_SECRET_KEY (local development, also `next start`
+ * on a laptop) files are kept under .tikmi-files/ in the repo instead; that
+ * fallback refuses to run on Vercel, whose filesystem is not persistent.
  */
 export const BUCKET = process.env.TIKMI_STORAGE_BUCKET ?? "tikmi-files";
 const MAX_FILE_BYTES = 50 * 1024 * 1024;
@@ -56,7 +56,7 @@ function ensureBucket(storage: SupabaseClient["storage"]): Promise<void> {
 const LOCAL_DIR = resolve(process.cwd(), process.env.TIKMI_LOCAL_FILES ?? "../../.tikmi-files");
 
 function localPath(key: string) {
-  if (process.env.NODE_ENV === "production") throw new Error("File storage is not configured (SUPABASE_URL / SUPABASE_SECRET_KEY)");
+  if (process.env.VERCEL) throw new Error("File storage is not configured (SUPABASE_URL / SUPABASE_SECRET_KEY)");
   if (!isStorageKey(key)) throw new Error(`Invalid storage key ${key}`);
   return resolve(LOCAL_DIR, key);
 }

@@ -18,15 +18,24 @@ const COOKIE = "tikmi_session";
 const IDLE_MS = 7 * 24 * 60 * 60 * 1000;
 const SLIDE_AFTER_MS = 60 * 60 * 1000;
 
-export type Role = "admin" | "pengawas" | "viewer";
+export type Role = "admin" | "koordinator" | "pengawas" | "viewer";
 export type CurrentUser = { id: string; name: string; email: string; role: Role; mustChangePassword: boolean };
 
-/** Who may do what. Every role sees every PJP; viewers can't change anything. */
+/**
+ * Who may do what. Everyone signed in sees every PJP. A pengawas works only on the PJPs assigned to them
+ * (assessment's pengawas); the koordinator and the admin work on all of them. Only the koordinator sets
+ * Final; the koordinator or the admin reopens a Final assessment (with a reason).
+ */
 export const can = {
-  edit: (u: CurrentUser) => u.role === "admin" || u.role === "pengawas",
+  edit: (u: CurrentUser) => u.role === "admin" || u.role === "koordinator" || u.role === "pengawas",
+  /** Act on one PJP's assessment (scores, koreksi, manual upload). */
+  workOn: (u: CurrentUser, assignedPengawasId: string | null) =>
+    u.role === "admin" || u.role === "koordinator" || (u.role === "pengawas" && assignedPengawasId === u.id),
+  finalize: (u: CurrentUser) => u.role === "koordinator",
+  reopen: (u: CurrentUser) => u.role === "koordinator" || u.role === "admin",
   manageUsers: (u: CurrentUser) => u.role === "admin",
-  viewActivity: (u: CurrentUser) => u.role === "admin",
-  manageWeights: (u: CurrentUser) => u.role === "admin",
+  viewActivity: (u: CurrentUser) => u.role === "admin" || u.role === "koordinator",
+  manageSettings: (u: CurrentUser) => u.role === "admin",
 };
 
 const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");

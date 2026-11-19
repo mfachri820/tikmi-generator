@@ -5,15 +5,13 @@ import { ROLE_LABELS } from "@/lib/roles";
 
 type Role = keyof typeof ROLE_LABELS;
 
-const NAV: { href: string; label: string; adminOnly?: boolean }[] = [
-  { href: "/", label: "Beranda" },
-  { href: "/admin/ltdbb", label: "Data LTDBB" },
-  { href: "/admin/bobot", label: "Bobot", adminOnly: true },
-  { href: "/admin/pengguna", label: "Pengguna", adminOnly: true },
-  { href: "/admin/aktivitas", label: "Aktivitas", adminOnly: true },
+const NAV: { href: string; label: string; roles?: Role[] }[] = [
+  { href: "/pjp", label: "PJP" },
+  { href: "/admin/aktivitas", label: "Aktivitas", roles: ["admin", "koordinator"] },
+  { href: "/admin/pengguna", label: "Pengguna", roles: ["admin"] },
 ];
 
-/** The shared top bar for every page outside the workbook grid (which keeps its own Excel-style bar). */
+/** The shared top bar of every page. */
 export function AppHeader({
   active,
   user,
@@ -31,7 +29,7 @@ export function AppHeader({
   return (
     <header className="sticky top-0 z-30 border-b border-line bg-surface/90 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-6 px-4 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="IRA PJP — Bank Indonesia, ke Beranda">
+        <Link href="/pjp" className="flex shrink-0 items-center gap-3" aria-label="TIKMI Generator, Bank Indonesia: ke daftar PJP">
           {/* Full wordmark from sm up; just the round mark on phones, where the nav needs the room. */}
           <Image src="/bi-mark.webp" alt="Bank Indonesia" width={30} height={30} priority unoptimized className="sm:hidden" />
           <Image
@@ -45,13 +43,13 @@ export function AppHeader({
           />
           <span className="hidden h-7 w-px bg-line-strong sm:block" />
           <span className="leading-tight">
-            <span className="block text-[14px] font-semibold tracking-tight text-ink">IRA PJP</span>
-            <span className="hidden text-[11px] text-ink-3 sm:block">Individual Risk Assessment</span>
+            <span className="block text-[14px] font-semibold tracking-tight text-ink">TIKMI Generator</span>
+            <span className="hidden text-[11px] text-ink-3 sm:block">Manajemen Risiko &amp; Infrastruktur TI</span>
           </span>
         </Link>
 
         <nav className="flex h-full items-stretch gap-1 overflow-x-auto text-[13px]">
-          {NAV.filter((item) => !item.adminOnly || user.role === "admin").map((item) => {
+          {NAV.filter((item) => !item.roles || item.roles.includes(user.role)).map((item) => {
             const isActive = item.href === active;
             return (
               <Link

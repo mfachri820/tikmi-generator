@@ -18,8 +18,8 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), system-ui, "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, Consolas, "Cascadia Mono", monospace;
 
   --color-brand: #217346;
   --color-brand-strong: #185c37;

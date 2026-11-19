@@ -1,92 +1,87 @@
 import Link from "next/link";
-import { and, asc, desc, eq, isNull, sql, type SQL } from "drizzle-orm";
-import { auditLog, pjp, users, workbooks } from "@tikmi/db";
+import { and, desc, eq, sql, type SQL } from "drizzle-orm";
+import { assessments, auditEvent, auditLog, pjp, users, type AuditEvent } from "@tikmi/db";
 import { AppHeader } from "@/components/app-header";
 import { PAGE_SIZE, Pagination } from "@/components/pagination";
 import { can, requirePageUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 
-/** Filter value for changes with no signed-in user: the PJP's form (ingest) or a script. */
-const SYSTEM = "__system__";
+export const dynamic = "force-dynamic";
+
+const EVENT_LABEL: Record<AuditEvent, string> = {
+  cell: "Isian",
+  koreksi: "Koreksi",
+  ingest: "Penyampaian",
+  version: "Versi file",
+  status: "Status",
+  finalize: "Final",
+  reopen: "Dibuka kembali",
+  assign: "Penugasan",
+  setting: "Pengaturan",
+  weights: "Bobot",
+  sumber_bi: "Sumber BI",
+  pjp_master: "Data PJP",
+  bundling: "Bundling",
+  applicability: "Sheet TI berlaku",
+  perbaikan_override: "Terima Perlu Perbaikan",
+  export: "Export",
+};
 
 const fmtTime = (d: Date) =>
   d.toLocaleString("id-ID", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Asia/Jakarta" });
 
-/** A stored cell value as a short readable string. */
 function show(value: unknown): string {
-  if (value === null || value === undefined || value === "") return "kosong";
+  if (value === null || value === undefined || value === "") return "–";
   const text = typeof value === "string" ? value : JSON.stringify(value);
   const flat = text.replace(/\s+/g, " ");
-  return flat.length > 80 ? `${flat.slice(0, 80)}…` : flat;
+  return flat.length > 90 ? `${flat.slice(0, 90)}…` : flat;
 }
 
-/** Who made a change; changes without a user came from the form or a script. */
-function actor(name: string | null, reason: string | null): string {
-  if (name) return name;
-  if (reason?.startsWith("form ingest")) return "Formulir PJP (otomatis)";
-  return "Sistem";
-}
-
-/** Admin: every recorded cell change, newest first, filterable by user and PJP. */
+/** Every recorded change and event, newest first, filterable by kind and PJP. */
 export default async function ActivityPage({ searchParams }: PageProps<"/admin/aktivitas">) {
   const me = await requirePageUser("/admin/aktivitas", can.viewActivity);
-  const { user: userParam, pjp: pjpParam, page: pageParam } = await searchParams;
-  const userFilter = typeof userParam === "string" ? userParam : "";
+  const { event: eventParam, pjp: pjpParam, page: pageParam } = await searchParams;
+  const eventFilter = typeof eventParam === "string" && (auditEvent.enumValues as string[]).includes(eventParam) ? (eventParam as AuditEvent) : "";
   const pjpFilter = typeof pjpParam === "string" ? pjpParam : "";
 
   const conditions: SQL[] = [];
-  if (userFilter === SYSTEM) conditions.push(isNull(auditLog.userId));
-  else if (userFilter) conditions.push(eq(auditLog.userId, userFilter));
-  if (pjpFilter) conditions.push(eq(workbooks.pjpSandi, pjpFilter));
+  if (eventFilter) conditions.push(eq(auditLog.event, eventFilter));
+  if (pjpFilter) conditions.push(eq(assessments.pjpSandi, pjpFilter));
   const where = conditions.length ? and(...conditions) : undefined;
 
   const [{ total }] = await db
     .select({ total: sql<number>`count(*)::int` })
     .from(auditLog)
-    .innerJoin(workbooks, eq(workbooks.id, auditLog.workbookId))
+    .leftJoin(assessments, eq(assessments.id, auditLog.assessmentId))
     .where(where);
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
   const page = Math.min(Math.max(Number(pageParam) || 1, 1), pageCount);
-
   const rows = await db
     .select({
       id: auditLog.id,
       at: auditLog.at,
+      event: auditLog.event,
       cellRef: auditLog.cellRef,
       oldValue: auditLog.oldValue,
       newValue: auditLog.newValue,
       reason: auditLog.reason,
       userName: users.name,
-      workbookId: workbooks.id,
-      pjpNama: pjp.nama,
-      sandi: pjp.sandi,
+      sandi: assessments.pjpSandi,
+      nama: pjp.nama,
     })
     .from(auditLog)
-    .innerJoin(workbooks, eq(workbooks.id, auditLog.workbookId))
-    .innerJoin(pjp, eq(pjp.sandi, workbooks.pjpSandi))
     .leftJoin(users, eq(users.id, auditLog.userId))
+    .leftJoin(assessments, eq(assessments.id, auditLog.assessmentId))
+    .leftJoin(pjp, eq(pjp.sandi, assessments.pjpSandi))
     .where(where)
     .orderBy(desc(auditLog.at))
     .limit(PAGE_SIZE)
     .offset((page - 1) * PAGE_SIZE);
 
-  const userOptions = await db.select({ id: users.id, name: users.name }).from(users).orderBy(asc(users.name));
-  const pjpOptions = await db
-    .selectDistinct({ sandi: pjp.sandi, nama: pjp.nama })
-    .from(workbooks)
-    .innerJoin(pjp, eq(pjp.sandi, workbooks.pjpSandi))
-    .orderBy(asc(pjp.nama));
-
-  const hrefFor = (p: number) => {
-    const q = new URLSearchParams();
-    if (userFilter) q.set("user", userFilter);
-    if (pjpFilter) q.set("pjp", pjpFilter);
-    if (p > 1) q.set("page", String(p));
-    const s = q.toString();
-    return `/admin/aktivitas${s ? `?${s}` : ""}`;
+  const href = (p: number) => {
+    const q = new URLSearchParams({ ...(eventFilter && { event: eventFilter }), ...(pjpFilter && { pjp: pjpFilter }), page: String(p) });
+    return `/admin/aktivitas?${q}`;
   };
-  const select =
-    "h-10 rounded-lg border border-line-strong bg-surface px-3 text-[14px] text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 
   return (
     <div className="min-h-screen">
@@ -94,95 +89,52 @@ export default async function ActivityPage({ searchParams }: PageProps<"/admin/a
       <main className="mx-auto max-w-7xl space-y-6 px-4 py-9 sm:px-8">
         <div>
           <h1 className="text-[28px] font-semibold tracking-tight">Aktivitas</h1>
-          <p className="mt-1.5 text-[14.5px] text-ink-2">Setiap perubahan isi sel workbook: siapa, kapan, nilai lama dan baru.</p>
+          <p className="mt-1.5 text-[14.5px] text-ink-2">Semua perubahan dan kejadian: penyampaian, versi file, isian, koreksi, keputusan pengawas.</p>
         </div>
-
-        <section className="card">
-          {/* A plain GET form: filters live in the URL, so a filtered view can be bookmarked or shared. */}
-          <form className="flex flex-wrap items-end gap-2.5 px-6 pb-5 pt-6" action="/admin/aktivitas">
-            <label>
-              <span className="block text-[12.5px] text-ink-2">Pengguna</span>
-              <select name="user" defaultValue={userFilter} className={`mt-1 ${select}`}>
-                <option value="">Semua pengguna</option>
-                <option value={SYSTEM}>Formulir PJP / sistem</option>
-                {userOptions.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span className="block text-[12.5px] text-ink-2">PJP</span>
-              <select name="pjp" defaultValue={pjpFilter} className={`mt-1 ${select}`}>
-                <option value="">Semua PJP</option>
-                {pjpOptions.map((p) => (
-                  <option key={p.sandi} value={p.sandi}>
-                    {p.nama}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button type="submit" className="h-10 rounded-lg bg-brand px-4 text-[14px] font-medium text-white hover:bg-brand-strong">
-              Terapkan
-            </button>
-            {(userFilter || pjpFilter) && (
-              <Link href="/admin/aktivitas" className="h-10 px-2 text-[13.5px] font-medium leading-10 text-brand hover:underline">
-                Reset filter
-              </Link>
-            )}
-          </form>
-
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[860px] border-t border-line text-left text-[14px]">
-              <thead className="bg-plane text-[12.5px] text-ink-2">
-                <tr>
-                  <th className="py-3 pl-6 pr-3 font-medium">Waktu (WIB)</th>
-                  <th className="px-3 py-3 font-medium">Pengguna</th>
-                  <th className="px-3 py-3 font-medium">PJP</th>
-                  <th className="px-3 py-3 font-medium">Sel</th>
-                  <th className="px-3 py-3 pr-6 font-medium">Perubahan</th>
+        <form className="flex flex-wrap gap-2 text-[13.5px]" action="/admin/aktivitas">
+          <select name="event" defaultValue={eventFilter} className="rounded-lg border border-line-strong bg-surface px-2 py-1.5">
+            <option value="">Semua jenis</option>
+            {auditEvent.enumValues.map((e) => (
+              <option key={e} value={e}>
+                {EVENT_LABEL[e]}
+              </option>
+            ))}
+          </select>
+          <input name="pjp" defaultValue={pjpFilter} placeholder="Sandi PJP" className="w-40 rounded-lg border border-line-strong bg-surface px-3 py-1.5" />
+          <button className="rounded-lg bg-ink px-3 py-1.5 font-medium text-white">Terapkan</button>
+        </form>
+        <div className="card overflow-x-auto">
+          <table className="w-full text-[13px]">
+            <thead className="border-b border-line bg-plane text-left text-[12px] uppercase tracking-wide text-ink-3">
+              <tr>
+                <th className="px-3 py-2">Waktu</th>
+                <th className="px-3 py-2">Jenis</th>
+                <th className="px-3 py-2">PJP</th>
+                <th className="px-3 py-2">Sel</th>
+                <th className="px-3 py-2">Sebelum → sesudah</th>
+                <th className="px-3 py-2">Oleh / alasan</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {rows.map((r) => (
+                <tr key={r.id}>
+                  <td className="whitespace-nowrap px-3 py-2">{fmtTime(r.at)}</td>
+                  <td className="px-3 py-2">{EVENT_LABEL[r.event]}</td>
+                  <td className="px-3 py-2">{r.sandi ? <Link href={`/pjp/${r.sandi}`} className="hover:underline">{r.nama ?? r.sandi}</Link> : "–"}</td>
+                  <td className="px-3 py-2 font-mono text-[12px]">{r.cellRef ?? "–"}</td>
+                  <td className="px-3 py-2">
+                    {show(r.oldValue)} → {show(r.newValue)}
+                  </td>
+                  <td className="px-3 py-2">
+                    {r.userName ?? <span className="text-ink-3">Sistem / formulir</span>}
+                    {r.reason && <div className="text-[12px] text-ink-3">{r.reason}</div>}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {rows.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-14 text-center text-ink-3">
-                      Belum ada aktivitas{userFilter || pjpFilter ? " untuk filter ini" : ""}.
-                    </td>
-                  </tr>
-                )}
-                {rows.map((r) => {
-                  const i = r.cellRef.lastIndexOf("!");
-                  const sheet = r.cellRef.slice(0, i);
-                  const address = r.cellRef.slice(i + 1);
-                  return (
-                    <tr key={r.id} className="border-t border-line align-top odd:bg-surface even:bg-plane">
-                      <td className="whitespace-nowrap py-3 pl-6 pr-3 tabular-nums text-ink-2">{fmtTime(r.at)}</td>
-                      <td className="px-3 py-3">{actor(r.userName, r.reason)}</td>
-                      <td className="px-3 py-3">
-                        <span className="font-medium">{r.pjpNama}</span>
-                        <span className="block font-mono text-[12px] text-ink-3">{r.sandi}</span>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3">
-                        <Link href={`/workbook/${r.workbookId}?sheet=${encodeURIComponent(sheet)}`} className="font-mono text-brand hover:underline">
-                          {address}
-                        </Link>
-                        <span className="block text-[12px] text-ink-3">{sheet}</span>
-                      </td>
-                      <td className="px-3 py-3 pr-6">
-                        <span className="text-ink-3 line-through decoration-ink-3/50">{show(r.oldValue)}</span>
-                        <span className="mx-1.5 text-ink-3">→</span>
-                        <span className="font-medium">{show(r.newValue)}</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          <Pagination page={page} total={total} hrefFor={hrefFor} />
-        </section>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Pagination page={page} total={total} hrefFor={href} />
       </main>
     </div>
   );
