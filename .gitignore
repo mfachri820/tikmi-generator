@@ -25,6 +25,11 @@ dist
 /golden-values.json
 # Root-level data workbooks, e.g. the LTDBB transaction file scripts/import-ltdbb.ts reads by default
 /*.xlsx
+# TIKMI templates embed a filled PJP sample (KK) and BI data for every PJP (Sumber BI sheets).
+# Kept out of git until it is decided which parts may be committed (docs/tikmi-plan.md, open questions).
+/templates/tikmi/**/*.xlsx
+/templates/tikmi/**/_dump/
+/templates/tikmi/**/_parity/
 
 # misc
 .DS_Store
@@ -45,3 +50,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local development file store (apps/web/lib/fileStorage.ts without Supabase)
+/.tikmi-files/

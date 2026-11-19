@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
-import { periods, templateVersions } from "@ira/db";
-import { a2Items, defaultWeights2026, itemRowOf, scoringConfig2026, type WeightSet } from "@ira/scoring/config/2026";
-import type { ExtractedLayout } from "@ira/template";
+import { periods, templateVersions } from "@tikmi/db";
+import { a2Items, defaultWeights2026, itemRowOf, scoringConfig2026, type WeightSet } from "@tikmi/scoring/config/2026";
+import type { ExtractedLayout } from "@tikmi/template";
 import { AppHeader } from "@/components/app-header";
 import { can, requirePageUser } from "@/lib/auth";
 import { db } from "@/lib/db";

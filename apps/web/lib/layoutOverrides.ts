@@ -1,6 +1,6 @@
-import type { WeightSet } from "@ira/scoring/config/2026";
-import { formulaOverridesFor, valueOverridesFor } from "@ira/scoring/config/2026-sheet";
-import type { ExtractedLayout } from "@ira/template";
+import type { WeightSet } from "@tikmi/scoring/config/2026";
+import { formulaOverridesFor, valueOverridesFor } from "@tikmi/scoring/config/2026-sheet";
+import type { ExtractedLayout } from "@tikmi/template";
 
 /** A template cell's own value, for rewriting the "(40%)" in headings. */
 export function layoutText(layout: ExtractedLayout): (ref: string) => unknown {

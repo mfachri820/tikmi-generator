@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
-import type { AggregateFlag } from "@ira/ltdbb";
+import type { AggregateFlag } from "@tikmi/ltdbb";
 import type { PeriodOverview, PjpOverviewRow, Stage } from "@/lib/periodOverview";
 import { FLAG_HELP, HELP } from "@/lib/glossary";
 import { InfoTip } from "@/components/info-tip";

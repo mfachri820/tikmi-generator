@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auditLog, users } from "@ira/db";
+import { auditLog, users } from "@tikmi/db";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { isUuid } from "@/lib/ids";

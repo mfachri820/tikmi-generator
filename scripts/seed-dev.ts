@@ -30,7 +30,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { basename, join } from "node:path";
 import ExcelJS from "exceljs";
-import { extractLayout, parseCellRef } from "@ira/template";
+import { extractLayout, parseCellRef } from "@tikmi/template";
 import { eq } from "drizzle-orm";
 import {
   createDb,
@@ -45,7 +45,7 @@ import {
   templateVersions,
   users,
   workbooks,
-} from "@ira/db";
+} from "@tikmi/db";
 import { parameterShareRefs, scoringConfig2026 } from "../packages/scoring/config/2026";
 import { inputCellRefs2026, sharedCellRefs2026 } from "../packages/scoring/config/2026-input-cells";
 import { DEFAULT_LTDBB_FILE, importLtdbbFile } from "./lib/ltdbbDefault";

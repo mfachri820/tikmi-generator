@@ -12,7 +12,7 @@
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import ExcelJS from "exceljs";
-import { fillTemplate } from "@ira/template";
+import { fillTemplate } from "@tikmi/template";
 
 const A2_SHEET = "A2. PJP ALL peng";
 const C2_SHEET = "C2. Form PJP LR";

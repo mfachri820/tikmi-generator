@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
-import { templateVersions } from "@ira/db";
-import type { ExtractedLayout } from "@ira/template";
-import { aggregateYear } from "@ira/ltdbb";
+import { templateVersions } from "@tikmi/db";
+import type { ExtractedLayout } from "@tikmi/template";
+import { aggregateYear } from "@tikmi/ltdbb";
 import { db } from "@/lib/db";
 
 /**

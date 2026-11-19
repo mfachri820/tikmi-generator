@@ -1,6 +1,6 @@
 import { desc, eq } from "drizzle-orm";
-import { users, weightSettings, type Db } from "@ira/db";
-import { withDefaultWeights, type WeightSet } from "@ira/scoring/config/2026";
+import { users, weightSettings, type Db } from "@tikmi/db";
+import { withDefaultWeights, type WeightSet } from "@tikmi/scoring/config/2026";
 
 /** The weights in force for a period: the newest save on the "Bobot" page, else the defaults. */
 export async function loadWeights(db: Db, periodId: string): Promise<WeightSet> {

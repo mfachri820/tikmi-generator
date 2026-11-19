@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { and, eq, gt, lt } from "drizzle-orm";
-import { sessions, users } from "@ira/db";
+import { sessions, users } from "@tikmi/db";
 import { db } from "@/lib/db";
 
 /**
@@ -13,7 +13,7 @@ import { db } from "@/lib/db";
  * (sign-out, deactivation, password change) and a leaked table signs no one in.
  */
 
-const COOKIE = "ira_session";
+const COOKIE = "tikmi_session";
 /** A session idle this long expires; each use within it slides it forward (at most once an hour). */
 const IDLE_MS = 7 * 24 * 60 * 60 * 1000;
 const SLIDE_AFTER_MS = 60 * 60 * 1000;

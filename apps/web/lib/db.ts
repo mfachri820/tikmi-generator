@@ -1,4 +1,4 @@
-import { createDb, type Db } from "@ira/db";
+import { createDb, type Db } from "@tikmi/db";
 
 /**
  * One connection pool per server process. In development Next re-runs this
@@ -6,7 +6,7 @@ import { createDb, type Db } from "@ira/db";
  * reload opened a new pool and the old ones kept their connections until
  * Postgres ran out ("too many clients already").
  */
-const globalForDb = globalThis as unknown as { iraDb?: Db };
+const globalForDb = globalThis as unknown as { tikmiDb?: Db };
 
-export const db: Db = globalForDb.iraDb ?? createDb(undefined, { max: 5 });
-globalForDb.iraDb = db;
+export const db: Db = globalForDb.tikmiDb ?? createDb(undefined, { max: 5 });
+globalForDb.tikmiDb = db;

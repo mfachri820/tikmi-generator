@@ -1,5 +1,5 @@
-import type { ParameterConfig, ParameterRule } from "@ira/scoring";
-import { parameterShareRefs } from "@ira/scoring/config/2026";
+import type { ParameterConfig, ParameterRule } from "@tikmi/scoring";
+import { parameterShareRefs } from "@tikmi/scoring/config/2026";
 
 /**
  * "Kenapa nilainya 4?" for each A2 parameter: the C2 values its formula reads,

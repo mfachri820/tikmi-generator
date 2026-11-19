@@ -1,5 +1,5 @@
 {
-  "name": "@ira/web",
+  "name": "@tikmi/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,10 +12,14 @@
     "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "@ira/scoring": "*",
-    "@ira/template": "*",
-    "@ira/db": "*",
-    "@ira/ltdbb": "*"
+    "@tikmi/scoring": "*",
+    "@tikmi/template": "*",
+    "@tikmi/db": "*",
+    "@tikmi/pjp-master": "*",
+    "@tikmi/sumber-bi": "*",
+    "@supabase/supabase-js": "^2.117.3",
+    "@tikmi/ingest": "*",
+    "@tikmi/parser": "*"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

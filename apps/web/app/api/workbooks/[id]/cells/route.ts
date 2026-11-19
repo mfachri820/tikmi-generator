@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { cellInputs, recordCellInput, sharedCellInputs, users, workbooks } from "@ira/db";
+import { cellInputs, recordCellInput, sharedCellInputs, users, workbooks } from "@tikmi/db";
 import { and, eq, inArray } from "drizzle-orm";
 import {
   pengawasEditableCellRefs2026,
   scoreCellRefs2026,
   sharedCellRefs2026,
   textCellRefs2026,
-} from "@ira/scoring/config/2026-input-cells";
+} from "@tikmi/scoring/config/2026-input-cells";
 import { db } from "@/lib/db";
 import { can, requireApiUser } from "@/lib/auth";
 import { isUuid } from "@/lib/ids";

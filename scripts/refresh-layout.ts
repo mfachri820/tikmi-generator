@@ -9,8 +9,8 @@
  */
 import ExcelJS from "exceljs";
 import { eq } from "drizzle-orm";
-import { createDb, templateVersions } from "@ira/db";
-import { extractLayout } from "@ira/template";
+import { createDb, templateVersions } from "@tikmi/db";
+import { extractLayout } from "@tikmi/template";
 import { inputCellRefs2026 } from "../packages/scoring/config/2026-input-cells";
 
 async function main() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useMemo, useState, useTransition } from "react";
-import type { WeightSet } from "@ira/scoring/config/2026";
+import type { WeightSet } from "@tikmi/scoring/config/2026";
 import { previewWeights, saveWeights, type ImpactRow, type SaveState } from "./actions";
 
 export interface WeightStructure {

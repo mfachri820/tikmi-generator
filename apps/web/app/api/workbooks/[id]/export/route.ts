@@ -7,12 +7,12 @@ import {
   pjp,
   templateVersions,
   workbooks,
-} from "@ira/db";
-import { getActiveLtdbbUpload, ltdbbPolicy } from "@ira/ltdbb";
+} from "@tikmi/db";
+import { getActiveLtdbbUpload, ltdbbPolicy } from "@tikmi/ltdbb";
 import { cachedAggregateYear } from "@/lib/immutableCache";
-import { fillTemplateBuffer, type CellInputValue, type ExtractedLayout } from "@ira/template";
-import { inputCellRefs2026, sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
-import { formulaOverridesFor, valueOverridesFor } from "@ira/scoring/config/2026-sheet";
+import { fillTemplateBuffer, type CellInputValue, type ExtractedLayout } from "@tikmi/template";
+import { inputCellRefs2026, sharedCellRefs2026 } from "@tikmi/scoring/config/2026-input-cells";
+import { formulaOverridesFor, valueOverridesFor } from "@tikmi/scoring/config/2026-sheet";
 import { layoutText } from "@/lib/layoutOverrides";
 import { loadWeights } from "@/lib/weights";
 import { db } from "@/lib/db";

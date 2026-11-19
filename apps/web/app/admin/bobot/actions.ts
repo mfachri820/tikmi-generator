@@ -2,10 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
-import { periods, weightSettings, workbooks, pjp } from "@ira/db";
-import { getActiveLtdbbUpload } from "@ira/ltdbb";
+import { periods, weightSettings, workbooks, pjp } from "@tikmi/db";
+import { getActiveLtdbbUpload } from "@tikmi/ltdbb";
 import { cachedAggregateYear } from "@/lib/immutableCache";
-import { weightProblems, withDefaultWeights, type WeightSet } from "@ira/scoring/config/2026";
+import { weightProblems, withDefaultWeights, type WeightSet } from "@tikmi/scoring/config/2026";
 import { can, getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { loadWeights } from "@/lib/weights";

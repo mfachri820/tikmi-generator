@@ -1,6 +1,6 @@
 import { asc, desc, eq } from "drizzle-orm";
-import { formSubmissions, periods, pjp as pjpTable, workbooks, type Db } from "@ira/db";
-import { getActiveLtdbbUpload, type AggregateFlag } from "@ira/ltdbb";
+import { formSubmissions, periods, pjp as pjpTable, workbooks, type Db } from "@tikmi/db";
+import { getActiveLtdbbUpload, type AggregateFlag } from "@tikmi/ltdbb";
 import { cachedAggregateYear } from "./immutableCache";
 import { loadWorkbookView } from "./workbookView";
 import { loadWeights } from "./weights";

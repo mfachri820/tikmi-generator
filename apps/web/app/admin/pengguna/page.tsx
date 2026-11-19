@@ -1,5 +1,5 @@
 import { asc, desc } from "drizzle-orm";
-import { users } from "@ira/db";
+import { users } from "@tikmi/db";
 import { AppHeader } from "@/components/app-header";
 import { can, requirePageUser } from "@/lib/auth";
 import { db } from "@/lib/db";

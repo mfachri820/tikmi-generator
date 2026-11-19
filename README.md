@@ -1,3 +1,7 @@
+# TIKMI Generator
+
+> In conversion from the IRA app: see [docs/tikmi-plan.md](docs/tikmi-plan.md) for the status, and [docs/tikmi-deviations.md](docs/tikmi-deviations.md) for where the app departs from the Excel templates. The Google Form connection is set up as described in [apps-script/README.md](apps-script/README.md). The IRA notes below are replaced in step 8.
+
 # IRA PJP Web App
 
 Build plan: `../IRA PJP Web App — Build Plan.md`. This repo implements it in roadmap order, starting at Phase 0.
@@ -22,8 +26,8 @@ scripts/           seed-dev, import-ltdbb, verify-ltdbb, golden-test, refresh-la
 npm install
 docker compose up -d postgres              # local Postgres for development (host port 5434, see below)
 cp .env.example .env                       # fill in DATABASE_URL, IRA_FIXTURES_DIR, FORM_INGEST_SECRET
-npm run generate -w @ira/db                # generate a migration from packages/db/src/schema.ts (first run only, or after a schema change)
-npm run migrate -w @ira/db                 # apply migrations
+npm run generate -w @tikmi/db                # generate a migration from packages/db/src/schema.ts (first run only, or after a schema change)
+npm run migrate -w @tikmi/db                 # apply migrations
 npm run seed-dev                           # template (from a real fixture), period, 85 PJP, field_mappings, a demo workbook, then the default LTDBB import
 npm run verify-ltdbb                       # optional: check the LTDBB import against the template's own 2025 Validasi sheet
 npm run dev                                # apps/web on http://localhost:3000, then open /workbook
@@ -31,7 +35,7 @@ npm run dev                                # apps/web on http://localhost:3000, 
 
 `docker-compose.yml`'s Postgres is mapped to host port **5434**, not the default 5432 -- a dev machine used for this project already has another project's Postgres container bound to 5432. `DATABASE_URL` and `drizzle.config.ts`'s fallback both already point at 5434.
 
-Run a workspace's own scripts with `npm run <script> -w @ira/<name>` (e.g. `npm run test -w @ira/scoring`).
+Run a workspace's own scripts with `npm run <script> -w @tikmi/<name>` (e.g. `npm run test -w @tikmi/scoring`).
 
 `apps/web` runs Next.js with `--webpack`: Turbopack's native binary (`@next/swc-win32-x64-msvc`) fails to load on at least one Windows dev machine used for this project ("not a valid Win32 application" despite a correctly sized download). If that's fixed upstream or on your machine, drop the flag.
 
@@ -61,7 +65,7 @@ Both Phase 0 spikes are cleared.
 
 Getting this working surfaced one non-obvious fix: the workspace packages' relative imports originally used NodeNext-style explicit `.js` extensions (pointing at `.ts` files, needed for `tsx`/Node ESM resolution). Since these packages' `tsconfig.json` actually specifies `moduleResolution: "bundler"`, that extension isn't required — and importing them into Next.js via `transpilePackages` needs a webpack `resolve.extensionAlias` to make sense of it, which applies globally and made every `.js` import in the entire dependency graph try `.ts`/`.tsx` first, effectively hanging the build. Dropping the extensions (verified against `tsx`, Vitest and `tsc` first) fixed it cleanly with no webpack config needed.
 
-**Real persistence, export and ingest:** the grid is no longer a demo. `scripts/seed-dev.ts` creates one `template_versions` row (layout extracted from a real, non-malformed fixture, whose bytes are also stored as that version's template — this repo has no separate blank "Excel Template Filled" yet, which is safe because export rewrites every input cell and the Validasi sheet), `pjp` rows (in sheet order) and `pjp_validation_meta` from that fixture's own "Validasi Data Transaksi" sheet, a handful of real `field_mappings` verified against `Raw_Data_IRA`'s actual headers, and one fully-populated demo `workbooks` row. `/workbook` lists seeded workbooks; `/workbook/[id]` reads and edits one for real via `GET`/`PATCH /api/workbooks/[id]` and `/cells`, computing scores server-side with the same `@ira/scoring` pipeline `golden-test.ts` already proved. Every write — seed, pengawas edit, or ingest — goes through `packages/db/src/cellInputs.ts`'s `recordCellInput`, the one function that upserts `cell_inputs` and logs `audit_log` in a transaction (ground rule). `POST /api/workbooks/[id]/export` is the first real caller of `fillTemplate` outside the round-trip spike, and `POST /api/ingest` is a real, HMAC-signed (`FORM_INGEST_SECRET`) webhook endpoint, tested against synthetic payloads. All of this was exercised against the real 2026 fixtures and a real local Postgres, not just unit tests.
+**Real persistence, export and ingest:** the grid is no longer a demo. `scripts/seed-dev.ts` creates one `template_versions` row (layout extracted from a real, non-malformed fixture, whose bytes are also stored as that version's template — this repo has no separate blank "Excel Template Filled" yet, which is safe because export rewrites every input cell and the Validasi sheet), `pjp` rows (in sheet order) and `pjp_validation_meta` from that fixture's own "Validasi Data Transaksi" sheet, a handful of real `field_mappings` verified against `Raw_Data_IRA`'s actual headers, and one fully-populated demo `workbooks` row. `/workbook` lists seeded workbooks; `/workbook/[id]` reads and edits one for real via `GET`/`PATCH /api/workbooks/[id]` and `/cells`, computing scores server-side with the same `@tikmi/scoring` pipeline `golden-test.ts` already proved. Every write — seed, pengawas edit, or ingest — goes through `packages/db/src/cellInputs.ts`'s `recordCellInput`, the one function that upserts `cell_inputs` and logs `audit_log` in a transaction (ground rule). `POST /api/workbooks/[id]/export` is the first real caller of `fillTemplate` outside the round-trip spike, and `POST /api/ingest` is a real, HMAC-signed (`FORM_INGEST_SECRET`) webhook endpoint, tested against synthetic payloads. All of this was exercised against the real 2026 fixtures and a real local Postgres, not just unit tests.
 
 Building this surfaced one real bug, now fixed: `writeInputCells` refused to write a literal pengawas override into `A2!O`-column cells, because those cells default to a formula (`=L`) until a pengawas actually overrides them — so an untouched fixture's O-column is a formula, and the original "refuse to overwrite any formula cell" guard rejected a completely legitimate override. `writeInputCells`/`fillTemplate` now take the input-cell allow-list explicitly and only refuse a formula write when the cell *isn't* a known input cell — preserving the original protection (never type over a genuinely formula-only cell like `C2` column `D`) while allowing the formula-by-default cells (`A2!O`, `KPMR!J`) to be overridden, as the build plan's Input cells table always intended.
 

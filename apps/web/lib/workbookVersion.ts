@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import type { Db } from "@ira/db";
+import type { Db } from "@tikmi/db";
 
 /**
  * A workbook's version: when anything in it last changed -- the workbook row,

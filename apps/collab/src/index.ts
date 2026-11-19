@@ -1,6 +1,6 @@
 import { Database } from "@hocuspocus/extension-database";
 import { Server } from "@hocuspocus/server";
-import { createDb, yjsSnapshots } from "@ira/db";
+import { createDb, yjsSnapshots } from "@tikmi/db";
 import { desc, eq } from "drizzle-orm";
 
 /** Document name convention: "workbook:<workbooks.id>". */

@@ -6,7 +6,7 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import ExcelJS from "exceljs";
-import { extractLayout } from "@ira/template";
+import { extractLayout } from "@tikmi/template";
 
 async function main() {
   const [, , templatePath, inputCellsPath, outPath] = process.argv;

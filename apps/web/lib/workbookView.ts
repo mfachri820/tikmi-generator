@@ -1,22 +1,22 @@
 import { eq } from "drizzle-orm";
-import { loadCellValues, periods, pjp as pjpTable, workbooks, type Db } from "@ira/db";
-import { getActiveLtdbbUpload, type AggregateFlag, type LtdbbUpload, type PjpYearAggregate } from "@ira/ltdbb";
+import { loadCellValues, periods, pjp as pjpTable, workbooks, type Db } from "@tikmi/db";
+import { getActiveLtdbbUpload, type AggregateFlag, type LtdbbUpload, type PjpYearAggregate } from "@tikmi/ltdbb";
 import {
   computeWorkbookScores,
   resolveKpmrAnswers,
   type KpmrAnswerInput,
   type ParameterInput,
   type WorkbookScoringResult,
-} from "@ira/scoring";
-import { buildScoringConfig2026, parameterShareRefs, scoringConfig2026, type WeightSet } from "@ira/scoring/config/2026";
-import { computeC2Derived, dataMismatchToleranceRupiah } from "@ira/scoring/config/2026-c2";
-import { sharedCellRefs2026 } from "@ira/scoring/config/2026-input-cells";
+} from "@tikmi/scoring";
+import { buildScoringConfig2026, parameterShareRefs, scoringConfig2026, type WeightSet } from "@tikmi/scoring/config/2026";
+import { computeC2Derived, dataMismatchToleranceRupiah } from "@tikmi/scoring/config/2026-c2";
+import { sharedCellRefs2026 } from "@tikmi/scoring/config/2026-input-cells";
 import { isUuid } from "./ids";
 import { workbookVersion } from "./workbookVersion";
 import { cachedAggregateYear } from "./immutableCache";
 import { loadWeights } from "./weights";
 import { explainParameters, type ParameterExplanation } from "./scoreExplain";
-import { computeSheetCells2026, type SheetCellValue } from "@ira/scoring/config/2026-sheet";
+import { computeSheetCells2026, type SheetCellValue } from "@tikmi/scoring/config/2026-sheet";
 
 const C2_SHEET = "C2. Form PJP LR";
 const C2_PREFIX = `${C2_SHEET}!C`;

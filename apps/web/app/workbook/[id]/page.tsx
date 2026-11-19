@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
-import { periods, workbooks } from "@ira/db";
-import { getActiveLtdbbUpload } from "@ira/ltdbb";
+import { periods, workbooks } from "@tikmi/db";
+import { getActiveLtdbbUpload } from "@tikmi/ltdbb";
 import {
   pengawasEditableCellRefs2026,
   scoreCellRefs2026,
   sharedCellRefs2026,
   textCellRefs2026,
-} from "@ira/scoring/config/2026-input-cells";
+} from "@tikmi/scoring/config/2026-input-cells";
 import { applyLayoutOverrides } from "@/lib/layoutOverrides";
 import { loadWeights } from "@/lib/weights";
 import { db } from "@/lib/db";

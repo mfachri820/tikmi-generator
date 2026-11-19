@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { and, eq, ne, sql } from "drizzle-orm";
-import { generateTemporaryPassword, hashPassword, users } from "@ira/db";
+import { generateTemporaryPassword, hashPassword, users } from "@tikmi/db";
 import { db } from "@/lib/db";
 import { can, endOtherSessions, getCurrentUser, type Role } from "@/lib/auth";
 

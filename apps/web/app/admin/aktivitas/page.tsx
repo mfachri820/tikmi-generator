@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { and, asc, desc, eq, isNull, sql, type SQL } from "drizzle-orm";
-import { auditLog, pjp, users, workbooks } from "@ira/db";
+import { auditLog, pjp, users, workbooks } from "@tikmi/db";
 import { AppHeader } from "@/components/app-header";
 import { PAGE_SIZE, Pagination } from "@/components/pagination";
 import { can, requirePageUser } from "@/lib/auth";

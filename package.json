@@ -1,5 +1,5 @@
 {
-  "name": "ira-pjp",
+  "name": "tikmi-generator",
   "version": "0.0.1",
   "private": true,
   "workspaces": [
@@ -7,25 +7,33 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "npm run dev -w @ira/web",
-    "build": "npm run build -w @ira/web",
-    "lint": "npm run lint -w @ira/web",
+    "dev": "npm run dev -w @tikmi/web",
+    "build": "npm run build -w @tikmi/web",
+    "lint": "npm run lint -w @tikmi/web",
     "test": "npm run test --workspaces --if-present",
-    "golden-test": "tsx scripts/golden-test.ts",
+    "dump-templates": "python scripts/dump-template.py",
     "seed-dev": "tsx scripts/seed-dev.ts",
+    "seed-pjp": "tsx scripts/seed-pjp.ts",
+    "seed-sumber-bi": "tsx scripts/seed-sumber-bi.ts",
     "refresh-layout": "tsx scripts/refresh-layout.ts",
-    "import-ltdbb": "tsx scripts/import-ltdbb.ts",
-    "verify-ltdbb": "tsx scripts/verify-ltdbb.ts"
+    "gen-definitions": "tsx scripts/gen-definitions.ts",
+    "parity:cases": "tsx scripts/parity/generate-cases.ts",
+    "parity:excel": "pwsh -NoProfile -File scripts/parity/excel-recalc.ps1",
+    "it-rekap-diff": "tsx scripts/it-rekap-diff.ts"
   },
   "dependencies": {
-    "@ira/db": "*",
-    "@ira/scoring": "*",
-    "@ira/template": "*",
-    "@ira/ltdbb": "*"
+    "@tikmi/db": "*",
+    "@tikmi/pjp-master": "*",
+    "@tikmi/scoring": "*",
+    "@tikmi/sumber-bi": "*",
+    "@tikmi/template": "*",
+    "@tikmi/ingest": "*",
+    "@tikmi/parser": "*"
   },
   "devDependencies": {
     "tsx": "^4.19.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@supabase/supabase-js": "^2.117.3"
   },
   "overrides": {
     "@esbuild-kit/core-utils": {

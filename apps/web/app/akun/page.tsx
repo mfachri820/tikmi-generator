@@ -1,4 +1,4 @@
-import { MIN_PASSWORD_LENGTH } from "@ira/db";
+import { MIN_PASSWORD_LENGTH } from "@tikmi/db";
 import { AppHeader } from "@/components/app-header";
 import { requirePageUser } from "@/lib/auth";
 import { ROLE_LABELS } from "@/lib/roles";

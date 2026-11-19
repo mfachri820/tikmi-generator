@@ -1,4 +1,4 @@
-import type { AggregateFlag } from "@ira/ltdbb";
+import type { AggregateFlag } from "@tikmi/ltdbb";
 
 /**
  * Plain-language explanations behind the "i" icons, in one place so every

@@ -11,8 +11,8 @@ import {
   type PointerEvent,
   type Ref,
 } from "react";
-import type { LayoutCell, LayoutCellStyle, LayoutSheet } from "@ira/template";
-import type { SheetCellValue } from "@ira/scoring/config/2026-sheet";
+import type { LayoutCell, LayoutCellStyle, LayoutSheet } from "@tikmi/template";
+import type { SheetCellValue } from "@tikmi/scoring/config/2026-sheet";
 import { columnLetter, formatCellValue, parseAddress } from "@/lib/cellFormat";
 
 export const HEADER_HEIGHT = 20;

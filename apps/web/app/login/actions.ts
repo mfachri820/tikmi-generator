@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { eq, sql } from "drizzle-orm";
-import { hashPassword, users, verifyPassword } from "@ira/db";
+import { hashPassword, users, verifyPassword } from "@tikmi/db";
 import { db } from "@/lib/db";
 import { endSession, safeNext, startSession } from "@/lib/auth";
 

@@ -8,7 +8,7 @@
  * Usage: npx tsx scripts/create-user.ts --email=a@b.c --name="Nama" [--role=admin|pengawas|viewer] [--password=...]
  */
 import { eq, sql } from "drizzle-orm";
-import { createDb, generateTemporaryPassword, hashPassword, passwordProblem, users } from "@ira/db";
+import { createDb, generateTemporaryPassword, hashPassword, passwordProblem, users } from "@tikmi/db";
 
 const arg = (name: string) => process.argv.find((a) => a.startsWith(`--${name}=`))?.split("=").slice(1).join("=");
 
